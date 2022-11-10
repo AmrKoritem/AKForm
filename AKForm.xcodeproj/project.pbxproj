@@ -63,8 +63,8 @@
 		1D79C058291D91E100FBEF78 = {
 			isa = PBXGroup;
 			children = (
-				1D79C064291D91E200FBEF78 /* AKForm */,
-				1D79C070291D91E300FBEF78 /* AKFormTests */,
+				1D79C064291D91E200FBEF78 /* Sources */,
+				1D79C070291D91E300FBEF78 /* Tests */,
 				1D79C063291D91E200FBEF78 /* Products */,
 				3360FDDF4A0A922D7B803E49 /* Pods */,
 				DEAB668E0B9DD660F6D576EA /* Frameworks */,
@@ -80,19 +80,35 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D79C064291D91E200FBEF78 /* AKForm */ = {
+		1D79C064291D91E200FBEF78 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1DA33232291D966D008EA18E /* AKForm */,
 				1D79C065291D91E200FBEF78 /* AKForm.h */,
 				1D79C066291D91E200FBEF78 /* AKForm.docc */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		1D79C070291D91E300FBEF78 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1DA33233291D968E008EA18E /* AKFormTests */,
+				1D79C071291D91E300FBEF78 /* AKFormTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		1DA33232291D966D008EA18E /* AKForm */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = AKForm;
 			sourceTree = "<group>";
 		};
-		1D79C070291D91E300FBEF78 /* AKFormTests */ = {
+		1DA33233291D968E008EA18E /* AKFormTests */ = {
 			isa = PBXGroup;
 			children = (
-				1D79C071291D91E300FBEF78 /* AKFormTests.swift */,
 			);
 			path = AKFormTests;
 			sourceTree = "<group>";
@@ -105,7 +121,6 @@
 				47CB629C80C0FAB3357A8CE0 /* Pods-AKForm-AKFormTests.debug.xcconfig */,
 				8B705DDDC3F46C560C3E4007 /* Pods-AKForm-AKFormTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
