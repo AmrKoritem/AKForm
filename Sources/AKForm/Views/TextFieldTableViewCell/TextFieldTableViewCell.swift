@@ -54,9 +54,9 @@ class TextFieldTableViewCell: UITableViewCell {
         textField.text = ""
     }
 
-    func clearField(_ placeholder: String = "") {
+    func clearField(_ placeholderStyle: PlaceholderStyle) {
         textFieldView.stroked(with: 0, color: .clear)
-        textField.attributedPlaceholder = NSAttributedString.defaultPlaceholder(placeholder)
+        textField.attributedPlaceholder = placeholderStyle.attributedText
     }
 
     @objc

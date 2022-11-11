@@ -66,9 +66,7 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
             case .missing:
                 cell.showError(message: field.emptyErrorMessage ?? "Please enter your data")
             default:
-                let placeholder = field.textFieldStyle.placeholderStyle.text
-                let attributedPlaceholder = field.textFieldStyle.placeholderStyle.attributedText
-                cell.clearField(placeholder ?? attributedPlaceholder?.string ?? "")
+                cell.clearField(field.textFieldStyle.placeholderStyle)
             }
             return cell
         default:
