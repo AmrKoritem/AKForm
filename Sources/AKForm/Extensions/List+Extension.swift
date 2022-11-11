@@ -9,7 +9,7 @@ import UIKit
 
 extension UITableView {
     func registerNib<T: UITableViewCell>(_ tableViewCell: T.Type) {
-        register(UINib(nibName: T.nibName, bundle: .main), forCellReuseIdentifier: T.reuseIdentifier)
+        register(UINib(nibName: T.nibName, bundle: Bundle(for: T.self)), forCellReuseIdentifier: T.reuseIdentifier)
     }
 }
 
