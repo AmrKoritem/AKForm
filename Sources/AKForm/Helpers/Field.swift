@@ -19,6 +19,30 @@ public struct Field {
     var invalidErrorMessage: String?
     var textFieldEditingHandler: TextFieldEditingChangedHandler?
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
+
+    public init(
+        id: Int,
+        count: FieldCount,
+        type: FieldType,
+        contentType: FieldContentType,
+        labelStyle: LabelStyle,
+        textFieldStyle: TextFieldStyle,
+        emptyErrorMessage: String? = nil,
+        invalidErrorMessage: String? = nil,
+        textFieldEditingHandler: TextFieldEditingChangedHandler? = nil,
+        textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler? = nil
+    ) {
+        self.id = id
+        self.count = count
+        self.type = type
+        self.contentType = contentType
+        self.labelStyle = labelStyle
+        self.textFieldStyle = textFieldStyle
+        self.emptyErrorMessage = emptyErrorMessage
+        self.invalidErrorMessage = invalidErrorMessage
+        self.textFieldEditingHandler = textFieldEditingHandler
+        self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
+    }
 }
 
 public extension UITextField {
