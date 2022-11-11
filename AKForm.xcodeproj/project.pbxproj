@@ -11,6 +11,15 @@
 		1D79C06D291D91E300FBEF78 /* AKForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D79C062291D91E200FBEF78 /* AKForm.framework */; };
 		1D79C072291D91E300FBEF78 /* AKFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D79C071291D91E300FBEF78 /* AKFormTests.swift */; };
 		1D79C073291D91E300FBEF78 /* AKForm.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D79C065291D91E200FBEF78 /* AKForm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1DA3323C291D99E7008EA18E /* FormDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33235291D99E7008EA18E /* FormDelegate.swift */; };
+		1DA3323D291D99E8008EA18E /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33236291D99E7008EA18E /* Validation.swift */; };
+		1DA3323F291D99E8008EA18E /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33239291D99E7008EA18E /* FormViewController.swift */; };
+		1DA33241291D99E8008EA18E /* List+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3323B291D99E7008EA18E /* List+Extension.swift */; };
+		1DA33245291D9A0A008EA18E /* TextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DA33243291D9A0A008EA18E /* TextFieldTableViewCell.xib */; };
+		1DA33246291D9A0A008EA18E /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33244291D9A0A008EA18E /* TextFieldTableViewCell.swift */; };
+		1DA33248291D9A51008EA18E /* AKForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33247291D9A51008EA18E /* AKForm.swift */; };
+		1DA3324A291D9E5F008EA18E /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33249291D9E5F008EA18E /* Field.swift */; };
+		1DA3324C291ECCA6008EA18E /* UI+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA3324B291ECCA6008EA18E /* UI+Extension.swift */; };
 		30E198D7D85F92BBA793BC0C /* Pods_AKForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113495FC36A3DE6CF80DBF0C /* Pods_AKForm.framework */; };
 		4F8444BE610AE9147275603C /* Pods_AKForm_AKFormTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1693CA11E1DDE18DDE1E5076 /* Pods_AKForm_AKFormTests.framework */; };
 /* End PBXBuildFile section */
@@ -33,6 +42,15 @@
 		1D79C066291D91E200FBEF78 /* AKForm.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = AKForm.docc; sourceTree = "<group>"; };
 		1D79C06C291D91E300FBEF78 /* AKFormTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AKFormTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D79C071291D91E300FBEF78 /* AKFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKFormTests.swift; sourceTree = "<group>"; };
+		1DA33235291D99E7008EA18E /* FormDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDelegate.swift; sourceTree = "<group>"; };
+		1DA33236291D99E7008EA18E /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		1DA33239291D99E7008EA18E /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		1DA3323B291D99E7008EA18E /* List+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "List+Extension.swift"; sourceTree = "<group>"; };
+		1DA33243291D9A0A008EA18E /* TextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableViewCell.xib; sourceTree = "<group>"; };
+		1DA33244291D9A0A008EA18E /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		1DA33247291D9A51008EA18E /* AKForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKForm.swift; sourceTree = "<group>"; };
+		1DA33249291D9E5F008EA18E /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		1DA3324B291ECCA6008EA18E /* UI+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UI+Extension.swift"; sourceTree = "<group>"; };
 		47CB629C80C0FAB3357A8CE0 /* Pods-AKForm-AKFormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm-AKFormTests.debug.xcconfig"; path = "Target Support Files/Pods-AKForm-AKFormTests/Pods-AKForm-AKFormTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B705DDDC3F46C560C3E4007 /* Pods-AKForm-AKFormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm-AKFormTests.release.xcconfig"; path = "Target Support Files/Pods-AKForm-AKFormTests/Pods-AKForm-AKFormTests.release.xcconfig"; sourceTree = "<group>"; };
 		B351017E434CDECD41C3987C /* Pods-AKForm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm.debug.xcconfig"; path = "Target Support Files/Pods-AKForm/Pods-AKForm.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +120,10 @@
 		1DA33232291D966D008EA18E /* AKForm */ = {
 			isa = PBXGroup;
 			children = (
+				1DA33247291D9A51008EA18E /* AKForm.swift */,
+				1DA33234291D99E7008EA18E /* Helpers */,
+				1DA3324E291ED184008EA18E /* Views */,
+				1DA3324D291ED14D008EA18E /* Extensions */,
 			);
 			path = AKForm;
 			sourceTree = "<group>";
@@ -111,6 +133,43 @@
 			children = (
 			);
 			path = AKFormTests;
+			sourceTree = "<group>";
+		};
+		1DA33234291D99E7008EA18E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1DA33249291D9E5F008EA18E /* Field.swift */,
+				1DA33235291D99E7008EA18E /* FormDelegate.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1DA33242291D9A0A008EA18E /* TextFieldTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				1DA33244291D9A0A008EA18E /* TextFieldTableViewCell.swift */,
+				1DA33243291D9A0A008EA18E /* TextFieldTableViewCell.xib */,
+			);
+			path = TextFieldTableViewCell;
+			sourceTree = "<group>";
+		};
+		1DA3324D291ED14D008EA18E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1DA33236291D99E7008EA18E /* Validation.swift */,
+				1DA3324B291ECCA6008EA18E /* UI+Extension.swift */,
+				1DA3323B291D99E7008EA18E /* List+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1DA3324E291ED184008EA18E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1DA33239291D99E7008EA18E /* FormViewController.swift */,
+				1DA33242291D9A0A008EA18E /* TextFieldTableViewCell */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		3360FDDF4A0A922D7B803E49 /* Pods */ = {
@@ -227,6 +286,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DA33245291D9A0A008EA18E /* TextFieldTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +351,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DA3323C291D99E7008EA18E /* FormDelegate.swift in Sources */,
+				1DA33246291D9A0A008EA18E /* TextFieldTableViewCell.swift in Sources */,
+				1DA3324C291ECCA6008EA18E /* UI+Extension.swift in Sources */,
+				1DA3323D291D99E8008EA18E /* Validation.swift in Sources */,
+				1DA3324A291D9E5F008EA18E /* Field.swift in Sources */,
+				1DA3323F291D99E8008EA18E /* FormViewController.swift in Sources */,
 				1D79C067291D91E200FBEF78 /* AKForm.docc in Sources */,
+				1DA33241291D99E8008EA18E /* List+Extension.swift in Sources */,
+				1DA33248291D9A51008EA18E /* AKForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +566,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 47CB629C80C0FAB3357A8CE0 /* Pods-AKForm-AKFormTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S84559HK9V;
@@ -515,6 +584,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8B705DDDC3F46C560C3E4007 /* Pods-AKForm-AKFormTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S84559HK9V;

@@ -13,6 +13,7 @@ s.source = { :git => "https://github.com/AmrKoritem/AKForm.git",
 
 s.framework = "UIKit"
 s.source_files = "Sources/AKForm/**/*.{swift}"
+s.resources = "Sources/AKForm/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
 s.swift_version = "5.0"
 s.ios.deployment_target = '13.0'
 s.tvos.deployment_target = '13.0'
