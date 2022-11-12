@@ -14,7 +14,8 @@ public class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
-
+    @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
+    
     var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
 
