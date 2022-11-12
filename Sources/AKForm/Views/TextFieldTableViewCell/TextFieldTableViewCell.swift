@@ -37,13 +37,11 @@ public class TextFieldTableViewCell: UITableViewCell {
         textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
-        fieldLabel.text = field.labelStyle.text
-        fieldLabel.attributedText = field.labelStyle.attributedText
+        fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
         textField.setStyle(with: field.textFieldStyle)
         textField.setTypingAttributes(with: field.contentType)
-        textField.placeholder = field.textFieldStyle.placeholderStyle.text
-        textField.attributedPlaceholder = field.textFieldStyle.placeholderStyle.attributedText
+        textFieldView.stroked(with: 1, color: .lightGray)
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
@@ -56,13 +54,12 @@ public class TextFieldTableViewCell: UITableViewCell {
     }
 
     func clearField(_ placeholderStyle: PlaceholderStyle) {
-        textFieldView.stroked(with: 0, color: .clear)
+        textFieldView.stroked(with: 1, color: .lightGray)
         textField.attributedPlaceholder = placeholderStyle.attributedText
     }
 
     @objc
     func textFieldChange(_ textField: UITextField) {
-        textField.textColor = .white
         textFieldEditingHandler(textField.text)
     }
 
