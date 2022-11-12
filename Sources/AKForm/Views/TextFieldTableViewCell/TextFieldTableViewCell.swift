@@ -10,7 +10,7 @@ import UIKit
 public typealias TextFieldEditingChangedHandler = (String?) -> Void
 public typealias TextFieldEditingDidEnddHandler = (String?) -> Void
 
-class TextFieldTableViewCell: UITableViewCell {
+public class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
@@ -23,7 +23,7 @@ class TextFieldTableViewCell: UITableViewCell {
         textField.removeTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
     }
 
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         guard textField != nil else { return }
         textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
