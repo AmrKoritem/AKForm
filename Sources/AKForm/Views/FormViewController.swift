@@ -36,7 +36,7 @@ open class FormViewController: UIViewController, FormDataSource {
         removeKeyboardObservers()
     }
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         configureForm()
         addKeyboardObservers()
