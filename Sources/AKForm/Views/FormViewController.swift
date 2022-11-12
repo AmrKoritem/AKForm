@@ -38,6 +38,8 @@ open class FormViewController: UIViewController, FormDataSource {
 
     public func setFormUI() {
         form = UITableView()
+        form?.allowsSelection = false
+        form?.separatorStyle = .none
         guard let form = form else { return }
         view.addSubview(form)
         form.translatesAutoresizingMaskIntoConstraints = false

@@ -10,11 +10,12 @@ import UIKit
 public typealias TextFieldEditingChangedHandler = (String?) -> Void
 public typealias TextFieldEditingDidEnddHandler = (String?) -> Void
 
-class TextFieldTableViewCell: UITableViewCell {
+public class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
-
+    @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
+    
     var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
 
@@ -23,7 +24,7 @@ class TextFieldTableViewCell: UITableViewCell {
         textField.removeTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
     }
 
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         guard textField != nil else { return }
         textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
@@ -36,13 +37,11 @@ class TextFieldTableViewCell: UITableViewCell {
         textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
-        fieldLabel.text = field.labelStyle.text
-        fieldLabel.attributedText = field.labelStyle.attributedText
+        fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
         textField.setStyle(with: field.textFieldStyle)
         textField.setTypingAttributes(with: field.contentType)
-        textField.placeholder = field.textFieldStyle.placeholderStyle.text
-        textField.attributedPlaceholder = field.textFieldStyle.placeholderStyle.attributedText
+        textFieldView.stroked(with: 1, color: .lightGray)
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
@@ -55,13 +54,12 @@ class TextFieldTableViewCell: UITableViewCell {
     }
 
     func clearField(_ placeholderStyle: PlaceholderStyle) {
-        textFieldView.stroked(with: 0, color: .clear)
+        textFieldView.stroked(with: 1, color: .lightGray)
         textField.attributedPlaceholder = placeholderStyle.attributedText
     }
 
     @objc
     func textFieldChange(_ textField: UITextField) {
-        textField.textColor = .white
         textFieldEditingHandler(textField.text)
     }
 

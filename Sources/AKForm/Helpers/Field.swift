@@ -51,7 +51,8 @@ public extension UITextField {
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
         placeholder = textFieldStyle.placeholderStyle.text
-        attributedPlaceholder = textFieldStyle.placeholderStyle.attributedText
+        guard let attributedText = textFieldStyle.placeholderStyle.attributedText else { return }
+        attributedPlaceholder = attributedText
     }
 
     func setTypingAttributes(with contentType: FieldContentType) {
@@ -60,6 +61,17 @@ public extension UITextField {
         autocorrectionType = contentType.autocorrectionType
         textContentType = contentType.contentType
         isSecureTextEntry = contentType.isSecureTextEntry
+    }
+}
+
+public extension UILabel {
+    func setStyle(with labelStyle: LabelStyle) {
+        textColor = labelStyle.textColor
+        font = labelStyle.font
+        textAlignment = labelStyle.textAlignment
+        text = labelStyle.text
+        guard let attributedText = labelStyle.attributedText else { return }
+        self.attributedText = attributedText
     }
 }
 
