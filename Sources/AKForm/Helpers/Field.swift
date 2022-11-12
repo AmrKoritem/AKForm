@@ -98,6 +98,9 @@ public enum FieldContentType {
     case password
     case image
     case price
+    case phone
+    case address
+    case url
     case other
 
     /// Validation equivalent regex.
@@ -109,6 +112,8 @@ public enum FieldContentType {
             return .email
         case .password:
             return .password
+        case .url:
+            return .url
         default:
             return .none
         }
@@ -123,6 +128,10 @@ public extension FieldContentType {
             return .emailAddress
         case .price:
             return .decimalPad
+        case .phone:
+            return .phonePad
+        case .url:
+            return .URL
         default:
             return .default
         }
@@ -159,6 +168,10 @@ public extension FieldContentType {
             return .emailAddress
         case .password:
             return .password
+        case .address:
+            return .fullStreetAddress
+        case .url:
+            return .URL
         default:
             return nil
         }
