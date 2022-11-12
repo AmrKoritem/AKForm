@@ -52,19 +52,19 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
             cell.configure(
                 field: field,
                 textFieldText: data ?? "",
-                textFieldEditingHandler: field.textFieldEditingHandler ?? { [weak self] text in
+                textFieldEditingHandler: field.textFieldObserverHandlers?.editingHandler ?? { [weak self] text in
                     guard let text = text else { return }
                     self?.dataSource?.dataMap[field.id] = text
                 },
-                textFieldEditingDidEndHandler: field.textFieldEditingDidEndHandler ?? { _ in
+                textFieldEditingDidEndHandler: field.textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             )
             switch data?.getValidationStatus(for: field.contentType.validationRegex) {
             case .invalid:
-                cell.showError(message: field.invalidErrorMessage ?? "Please enter a valid entry")
+                cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
             case .missing:
-                cell.showError(message: field.emptyErrorMessage ?? "Please enter your data")
+                cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
             default:
                 cell.clearField(field.textFieldStyle.placeholderStyle)
             }

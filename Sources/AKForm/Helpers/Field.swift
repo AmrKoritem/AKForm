@@ -15,10 +15,8 @@ public struct Field {
     var contentType: FieldContentType
     var labelStyle: LabelStyle
     var textFieldStyle: TextFieldStyle
-    var emptyErrorMessage: String?
-    var invalidErrorMessage: String?
-    var textFieldEditingHandler: TextFieldEditingChangedHandler?
-    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
+    var errorMessages: FieldErrorMessages?
+    var textFieldObserverHandlers: TextFieldObserverHandlers?
 
     public init(
         id: Int,
@@ -27,10 +25,8 @@ public struct Field {
         contentType: FieldContentType,
         labelStyle: LabelStyle,
         textFieldStyle: TextFieldStyle,
-        emptyErrorMessage: String? = nil,
-        invalidErrorMessage: String? = nil,
-        textFieldEditingHandler: TextFieldEditingChangedHandler? = nil,
-        textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler? = nil
+        errorMessages: FieldErrorMessages? = nil,
+        textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
         self.id = id
         self.count = count
@@ -38,10 +34,8 @@ public struct Field {
         self.contentType = contentType
         self.labelStyle = labelStyle
         self.textFieldStyle = textFieldStyle
-        self.emptyErrorMessage = emptyErrorMessage
-        self.invalidErrorMessage = invalidErrorMessage
-        self.textFieldEditingHandler = textFieldEditingHandler
-        self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
+        self.errorMessages = errorMessages
+        self.textFieldObserverHandlers = textFieldObserverHandlers
     }
 }
 
@@ -239,5 +233,28 @@ public struct TextFieldStyle {
         self.font = font
         self.textAlignment = textAlignment
         self.placeholderStyle = placeholderStyle
+    }
+}
+
+public struct FieldErrorMessages {
+    var empty: String
+    var invalid: String
+
+    public init(empty: String, invalid: String) {
+        self.empty = empty
+        self.invalid = invalid
+    }
+}
+
+public struct TextFieldObserverHandlers {
+    var editingHandler: TextFieldEditingChangedHandler
+    var editingDidEndHandler: TextFieldEditingDidEnddHandler
+    
+    public init(
+        editingHandler: @escaping TextFieldEditingChangedHandler,
+        editingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
+    ) {
+        self.editingHandler = editingHandler
+        self.editingDidEndHandler = editingDidEndHandler
     }
 }
