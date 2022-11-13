@@ -22,7 +22,6 @@ public class SheetField: Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
-        textFieldStyle: FieldStyle,
         sheetTextFieldStyle: FieldStyle,
         sheetTextFieldObserverHandlers: TextFieldObserverHandlers? = nil,
         optionStyle: OptionStyle = OptionStyle(),
