@@ -17,7 +17,12 @@ let package = Package(
     targets: [
         .target(
             name: "AKForm",
-            dependencies: []),
+            dependencies: [],
+            resources: [
+                .copy("Views/TextFieldTableViewCell/TextFieldTableViewCell.xib"),
+                .copy("Views/ButtonFieldTableViewCell/ButtonFieldTableViewCell.xib"),
+                .copy("Views/OptionTableViewCell/OptionTableViewCell.xib")
+            ]),
         .testTarget(
             name: "AKFormTests",
             dependencies: ["AKForm"]),
