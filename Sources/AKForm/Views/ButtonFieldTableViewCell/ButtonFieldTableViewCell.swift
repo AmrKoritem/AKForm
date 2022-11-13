@@ -24,7 +24,8 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func configure(
         field: Field,
-        fieldText: String?
+        fieldText: String?,
+        buttonActionHandler: @escaping () -> Void
     ) {
         labelStyle = field.labelStyle
         fieldStyle = field.fieldStyle
@@ -40,6 +41,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
             )
         }
         clearFieldUI()
+        self.buttonActionHandler = buttonActionHandler
     }
 
     func setFieldBorder() {

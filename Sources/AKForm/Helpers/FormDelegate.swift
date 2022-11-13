@@ -30,6 +30,8 @@ public extension UITableView {
             switch field.type {
             case .text:
                 registerNib(TextFieldTableViewCell.self)
+            case .sheet:
+                registerNib(ButtonFieldTableViewCell.self)
             default:
                 break
             }
@@ -60,6 +62,19 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 },
                 textFieldEditingDidEndHandler: textField?.textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
                     tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            )
+        case .sheet:
+            cell ?= tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
+            let fieldCell = cell as? ButtonFieldTableViewCell
+            let sheetField = field as? SheetField
+            fieldCell?.configure(
+                field: field,
+                fieldText: data ?? "",
+                buttonActionHandler: {
+                    let vc = SheetViewController()
+                    vc.sheetField = sheetField
+                    UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
         default:
