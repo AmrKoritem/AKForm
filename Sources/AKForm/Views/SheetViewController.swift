@@ -8,19 +8,35 @@
 import UIKit
 
 class SheetViewController: UIViewController {
-    var sheetField: SheetField?
-    var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
-    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
+    var sheetField: SheetField? {
+        didSet {
+            textFieldEditingHandler = sheetField?.sheetTextFieldObserverHandlers?.editingHandler
+            textFieldEditingDidEndHandler = sheetField?.sheetTextFieldObserverHandlers?.editingDidEndHandler
+        }
+    }
+    var textFieldEditingHandler: TextFieldEditingChangedHandler?
+    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
+    var optionSelectionHandler: (String) -> Void = { _ in }
+
+    var filteredOptions: [String] {
+        sheetField?.options.filter { $0.contains(searchField?.text ?? "") } ?? []
+    }
+
+    private var sheet: UITableView?
+    private var searchField: UITextField?
+    private var topConstraint: NSLayoutConstraint?
 
     private lazy var header: UIView = {
         let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 64)))
         let textField = UITextField()
+        searchField = textField
         if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
             // TODO: - set border style
             textField.placeholder = sheetField?.placeholder
             textField.setStyle(with: sheetTextFieldStyle)
             textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
+            textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
         }
         wrapper.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -34,13 +50,17 @@ class SheetViewController: UIViewController {
         return wrapper
     }()
 
-    private var sheet: UITableView?
+    deinit {
+        removeKeyboardObservers()
+        searchField?.removeTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
+        searchField?.removeTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
+        searchField?.removeTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureForm()
         addKeyboardObservers()
-        hideKeyboardWhenTappedAround()
     }
 
     func configureForm() {
@@ -57,10 +77,15 @@ class SheetViewController: UIViewController {
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
         sheet.translatesAutoresizingMaskIntoConstraints = false
+        let topConstraint = sheet.topAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.topAnchor,
+            constant: view.frame.size.height * 0.35
+        )
+        self.topConstraint = topConstraint
         NSLayoutConstraint.activate([
             sheet.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             sheet.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            sheet.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            topConstraint,
             sheet.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
     }
@@ -78,7 +103,7 @@ class SheetViewController: UIViewController {
             object: nil)
     }
 
-    public func removeKeyboardObservers() {
+    func removeKeyboardObservers() {
         NotificationCenter.default.removeObserver(
             self,
             name: UIResponder.keyboardDidShowNotification,
@@ -89,51 +114,55 @@ class SheetViewController: UIViewController {
             object: nil)
     }
 
-    open func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-
     @objc
-    public func keyboardDidShow(_ notification: Notification) {
+    func keyboardDidShow(_ notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
+        topConstraint?.constant -= keyboardSize.height
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
     }
 
     @objc
-    public func keyboardDidHide(_ notification: Notification) {
+    func keyboardDidHide(_ notification: Notification) {
+        topConstraint?.constant = 0
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
     @objc
-    public func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
-    @objc
     func textFieldChange(_ textField: UITextField) {
-        textFieldEditingHandler(textField.text)
+        textFieldEditingHandler?(textField.text)
+        sheet?.reloadData()
     }
 
     @objc
     func textFieldChangeDidEnd(_ textField: UITextField) {
-        textFieldEditingDidEndHandler(textField.text)
+        textFieldEditingDidEndHandler?(textField.text)
+    }
+
+    @objc
+    func returnKeyPressed(_ textField: UITextField) {
+        view.endEditing(true)
     }
 }
 
 extension SheetViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        sheetField?.options.count ?? 0
+        filteredOptions.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let option = sheetField?.options[safe: indexPath.row]
+        let option = filteredOptions[safe: indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: OptionTableViewCell.reuseIdentifier)
         guard let fieldCell = cell as? OptionTableViewCell,
               let optionStyle = sheetField?.optionStyle else { return UITableViewCell() }
         fieldCell.configure(with: option, and: optionStyle)
         return fieldCell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
+        dismiss(animated: true)
+        guard let option = filteredOptions[safe: indexPath.row] else { return }
+        optionSelectionHandler(option)
     }
 }

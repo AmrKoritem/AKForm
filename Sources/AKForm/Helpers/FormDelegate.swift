@@ -74,6 +74,11 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 buttonActionHandler: {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
+                    vc.modalPresentationStyle = .overCurrentContext
+                    vc.optionSelectionHandler = { [weak self] text in
+                        self?.dataSource?.dataMap[field.id] = text
+                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                    }
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
