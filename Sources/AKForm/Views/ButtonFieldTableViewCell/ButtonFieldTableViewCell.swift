@@ -16,6 +16,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     var labelStyle: LabelStyle?
     var fieldStyle: FieldStyle?
     var placeholder: String?
+    var buttonText: String?
 
     private var buttonActionHandler: () -> Void = {}
 
@@ -30,24 +31,30 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     ) {
         labelStyle = field.labelStyle
         fieldStyle = field.fieldStyle
+        placeholder = field.placeholder
+        buttonText = fieldText
         fieldLabel.setStyle(with: field.labelStyle)
         clearFieldUI()
-        if let fieldText = fieldText {
-            button.setTitle(fieldText, for: .normal)
-        } else {
-            button.setAttributedTitle(
-                NSAttributedString(
-                    string: field.placeholder,
-                    attributes: field.fieldStyle.placeholderAttributes),
-                for: .normal
-            )
-        }
         self.buttonActionHandler = buttonActionHandler
     }
 
     func setFieldBorder() {
         guard let borderStyle = fieldStyle?.borderStyle else { return }
         button.setBorder(with: borderStyle)
+    }
+
+    func setPlaceholder() {
+        if let fieldText = buttonText {
+            button.setTitle(fieldText, for: .normal)
+        } else {
+            let attributes = fieldStyle?.placeholderAttributes ?? [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            button.setAttributedTitle(
+                NSAttributedString(
+                    string: placeholder ?? "",
+                    attributes: attributes),
+                for: .normal
+            )
+        }
     }
 
     func showError(message: String, shouldClearText: Bool) {
@@ -61,6 +68,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     func clearFieldUI() {
         errorLabel.isHidden = true
         setFieldBorder()
+        setPlaceholder()
         guard let fieldStyle = fieldStyle else { return }
         button.setStyle(with: fieldStyle)
     }
