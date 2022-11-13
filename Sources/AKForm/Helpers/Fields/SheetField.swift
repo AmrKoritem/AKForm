@@ -5,10 +5,12 @@
 //  Created by Amr Koritem on 13/11/2022.
 //
 
-import Foundation
+import UIKit
 
 /// SheetField properties wrapper.
 public class SheetField: Field {
+    var sheetBackgroundColor: UIColor
+    var sheetBorderStyle: FieldBorderStyle
     var sheetTextFieldStyle: FieldStyle
     var sheetTextFieldObserverHandlers: TextFieldObserverHandlers?
     var optionStyle: OptionStyle
@@ -22,11 +24,15 @@ public class SheetField: Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
+        sheetBackgroundColor: UIColor = .white,
+        sheetBorderStyle: FieldBorderStyle,
         sheetTextFieldStyle: FieldStyle,
         sheetTextFieldObserverHandlers: TextFieldObserverHandlers? = nil,
         optionStyle: OptionStyle = OptionStyle(),
         options: [String]
     ) {
+        self.sheetBackgroundColor = sheetBackgroundColor
+        self.sheetBorderStyle = sheetBorderStyle
         self.sheetTextFieldStyle = sheetTextFieldStyle
         self.sheetTextFieldObserverHandlers = sheetTextFieldObserverHandlers
         self.optionStyle = optionStyle

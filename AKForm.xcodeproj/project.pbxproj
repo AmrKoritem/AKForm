@@ -39,6 +39,7 @@
 		1DABB0E029210F970051B551 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0DF29210F970051B551 /* UIApplication+Extension.swift */; };
 		1DABB0E429215C890051B551 /* OptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E229215C890051B551 /* OptionTableViewCell.swift */; };
 		1DABB0E529215C890051B551 /* OptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DABB0E329215C890051B551 /* OptionTableViewCell.xib */; };
+		1DABB0E729217AA60051B551 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E629217AA60051B551 /* UIView+Extension.swift */; };
 		30E198D7D85F92BBA793BC0C /* Pods_AKForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113495FC36A3DE6CF80DBF0C /* Pods_AKForm.framework */; };
 		4F8444BE610AE9147275603C /* Pods_AKForm_AKFormTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1693CA11E1DDE18DDE1E5076 /* Pods_AKForm_AKFormTests.framework */; };
 /* End PBXBuildFile section */
@@ -89,6 +90,7 @@
 		1DABB0DF29210F970051B551 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		1DABB0E229215C890051B551 /* OptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionTableViewCell.swift; sourceTree = "<group>"; };
 		1DABB0E329215C890051B551 /* OptionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OptionTableViewCell.xib; sourceTree = "<group>"; };
+		1DABB0E629217AA60051B551 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		47CB629C80C0FAB3357A8CE0 /* Pods-AKForm-AKFormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm-AKFormTests.debug.xcconfig"; path = "Target Support Files/Pods-AKForm-AKFormTests/Pods-AKForm-AKFormTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B705DDDC3F46C560C3E4007 /* Pods-AKForm-AKFormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm-AKFormTests.release.xcconfig"; path = "Target Support Files/Pods-AKForm-AKFormTests/Pods-AKForm-AKFormTests.release.xcconfig"; sourceTree = "<group>"; };
 		B351017E434CDECD41C3987C /* Pods-AKForm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm.debug.xcconfig"; path = "Target Support Files/Pods-AKForm/Pods-AKForm.debug.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				1DA33236291D99E7008EA18E /* Validation.swift */,
 				1DA3324B291ECCA6008EA18E /* UI+Extension.swift */,
 				1DA3323B291D99E7008EA18E /* List+Extension.swift */,
+				1DABB0E629217AA60051B551 /* UIView+Extension.swift */,
 				1DABB0BA2920AD980051B551 /* UITextField+Extension.swift */,
 				1DABB0BC2920AF910051B551 /* UILabel+Extension.swift */,
 				1DABB0DB292106E40051B551 /* UIButton+Extension.swift */,
@@ -454,6 +457,7 @@
 				1DABB0D12920C5130051B551 /* FieldBorderStyle.swift in Sources */,
 				1DABB0C02920B0AC0051B551 /* LabelStyle.swift in Sources */,
 				1DA3323D291D99E8008EA18E /* Validation.swift in Sources */,
+				1DABB0E729217AA60051B551 /* UIView+Extension.swift in Sources */,
 				1DA3324A291D9E5F008EA18E /* Field.swift in Sources */,
 				1DABB0DE29210C290051B551 /* SheetViewController.swift in Sources */,
 				1DABB0D32920D01B0051B551 /* OptionStyle.swift in Sources */,

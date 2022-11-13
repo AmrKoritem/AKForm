@@ -19,7 +19,7 @@ class SheetViewController: UIViewController {
     var optionSelectionHandler: (String) -> Void = { _ in }
 
     var filteredOptions: [String] {
-        sheetField?.options.filter { $0.contains(searchField?.text ?? "") } ?? []
+        sheetField?.options ?? []
     }
 
     private var sheet: UITableView?
@@ -31,9 +31,11 @@ class SheetViewController: UIViewController {
         let textField = UITextField()
         searchField = textField
         if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
-            // TODO: - set border style
             textField.placeholder = sheetField?.placeholder
             textField.setStyle(with: sheetTextFieldStyle)
+            textField.stroked(
+                with: sheetField?.sheetTextFieldStyle.borderStyle?.borderWidth ?? 1,
+                color: sheetField?.sheetTextFieldStyle.borderStyle?.borderColor ?? .lightGray)
             textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
@@ -59,21 +61,25 @@ class SheetViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureForm()
+        configureSheet()
         addKeyboardObservers()
+        guard let sheetField = sheetField else { return }
+        view.backgroundColor = sheetField.sheetBackgroundColor
+        view.setBorder(with: sheetField.sheetBorderStyle)
     }
 
-    func configureForm() {
-        setFormUI()
+    func configureSheet() {
+        setSheetUI()
         sheet?.dataSource = self
         sheet?.delegate = self
         sheet?.registerNib(OptionTableViewCell.self)
     }
 
-    func setFormUI() {
+    func setSheetUI() {
         sheet = UITableView()
         sheet?.tableHeaderView = header
         sheet?.separatorStyle = .none
+        sheet?.backgroundColor = .clear
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
         sheet.translatesAutoresizingMaskIntoConstraints = false
