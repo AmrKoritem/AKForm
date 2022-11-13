@@ -18,6 +18,7 @@ extension UIView {
 
     func setBorder(with borderStyle: FieldBorderStyle) {
         stroked(with: borderStyle.borderWidth, color: borderStyle.borderColor)
+        clipsToBounds = true
         layer.cornerRadius = borderStyle.cornerRadius
     }
 }

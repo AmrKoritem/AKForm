@@ -65,8 +65,8 @@ class SheetViewController: UIViewController {
         super.viewDidLoad()
         configureSheet()
         addKeyboardObservers()
+        view.backgroundColor = .clear
         guard let sheetField = sheetField else { return }
-        view.backgroundColor = sheetField.sheetBackgroundColor
         view.setBorder(with: sheetField.sheetBorderStyle)
     }
 
@@ -81,7 +81,7 @@ class SheetViewController: UIViewController {
         sheet = UITableView()
         sheet?.tableHeaderView = header
         sheet?.separatorStyle = .none
-        sheet?.backgroundColor = .clear
+        sheet?.backgroundColor = sheetField?.sheetBackgroundColor
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
         sheet.translatesAutoresizingMaskIntoConstraints = false

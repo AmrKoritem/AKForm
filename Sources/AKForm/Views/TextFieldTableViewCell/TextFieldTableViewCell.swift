@@ -53,12 +53,14 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     }
 
     func setFieldBorder() {
-        textFieldView.stroked(
-            with: fieldStyle?.borderStyle?.borderWidth ?? 1,
-            color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
-        )
-        guard let borderStyle = fieldStyle?.borderStyle else { return }
-        textFieldView.layer.cornerRadius = borderStyle.cornerRadius
+        guard let borderStyle = fieldStyle?.borderStyle else {
+            textFieldView.stroked(
+                with: fieldStyle?.borderStyle?.borderWidth ?? 1,
+                color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
+            )
+            return
+        }
+        textFieldView.setBorder(with: borderStyle)
     }
 
     func showError(message: String, shouldClearText: Bool) {

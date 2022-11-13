@@ -45,12 +45,14 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setFieldBorder() {
-        button.stroked(
-            with: fieldStyle?.borderStyle?.borderWidth ?? 1,
-            color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
-        )
-        guard let borderStyle = fieldStyle?.borderStyle else { return }
-        button.layer.cornerRadius = borderStyle.cornerRadius
+        guard let borderStyle = fieldStyle?.borderStyle else {
+            button.stroked(
+                with: fieldStyle?.borderStyle?.borderWidth ?? 1,
+                color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
+            )
+            return
+        }
+        button.setBorder(with: borderStyle)
     }
 
     func showError(message: String, shouldClearText: Bool) {
