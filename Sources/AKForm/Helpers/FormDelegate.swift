@@ -43,12 +43,14 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableViewCell() }
+        var cell = UITableViewCell()
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return cell }
+        let data = dataSource?.dataMap[field.id] as? String
         switch field.type {
         case .text:
-            let data = dataSource?.dataMap[field.id] as? String
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
-            guard let cell = cell as? TextFieldTableViewCell else { return UITableViewCell() }
+            cell ?= tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
+            guard let cell = cell as? TextFieldTableViewCell,
+                  let field = field as? TextField else { return cell }
             cell.configure(
                 field: field,
                 textFieldText: data ?? "",
@@ -60,18 +62,19 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             )
-            switch data?.getValidationStatus(for: field.contentType.validationRegex) {
-            case .invalid:
-                cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
-            case .missing:
-                cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
-            default:
-                cell.clearField(field.textFieldStyle.placeholderStyle)
-            }
-            return cell
         default:
-            return UITableViewCell()
+            break
         }
+        guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
+        switch data?.getValidationStatus(for: field.contentType.validationRegex) {
+        case .invalid:
+            cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
+        case .missing:
+            cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
+        default:
+            cell.clearField(field.placeholderStyle)
+        }
+        return cell
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -89,4 +92,11 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         dataSource?.footer(for: section)?.frame.height ?? 0
     }
+}
+
+precedencegroup OptionalAssignment { associativity: right }
+infix operator ?= : OptionalAssignment
+func ?= <T: Any> ( left: inout T, right: T?) {
+    guard let right = right else { return }
+    left = right
 }

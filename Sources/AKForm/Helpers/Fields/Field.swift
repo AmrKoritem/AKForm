@@ -7,38 +7,6 @@
 
 import UIKit
 
-/// Field properties wrapper.
-public struct Field {
-    var id: Int
-    var count: FieldCount
-    var type: FieldType
-    var contentType: FieldContentType
-    var labelStyle: LabelStyle
-    var textFieldStyle: TextFieldStyle
-    var errorMessages: FieldErrorMessages?
-    var textFieldObserverHandlers: TextFieldObserverHandlers?
-
-    public init(
-        id: Int,
-        count: FieldCount = .uni,
-        type: FieldType,
-        contentType: FieldContentType,
-        labelStyle: LabelStyle,
-        textFieldStyle: TextFieldStyle,
-        errorMessages: FieldErrorMessages? = nil,
-        textFieldObserverHandlers: TextFieldObserverHandlers? = nil
-    ) {
-        self.id = id
-        self.count = count
-        self.type = type
-        self.contentType = contentType
-        self.labelStyle = labelStyle
-        self.textFieldStyle = textFieldStyle
-        self.errorMessages = errorMessages
-        self.textFieldObserverHandlers = textFieldObserverHandlers
-    }
-}
-
 /// Supported field count.
 public enum FieldCount: Int {
     case uni = 1
@@ -55,15 +23,31 @@ public enum FieldType {
     case picker
 }
 
-public struct TextFieldObserverHandlers {
-    var editingHandler: TextFieldEditingChangedHandler
-    var editingDidEndHandler: TextFieldEditingDidEnddHandler
-    
-    public init(
-        editingHandler: @escaping TextFieldEditingChangedHandler,
-        editingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
+/// Field properties wrapper.
+public class Field {
+    var id: Int
+    var count: FieldCount
+    var type: FieldType
+    var contentType: FieldContentType
+    var labelStyle: LabelStyle
+    var placeholderStyle: PlaceholderStyle
+    var errorMessages: FieldErrorMessages?
+
+    init(
+        id: Int,
+        count: FieldCount = .uni,
+        type: FieldType,
+        contentType: FieldContentType,
+        labelStyle: LabelStyle,
+        placeholderStyle: PlaceholderStyle,
+        errorMessages: FieldErrorMessages? = nil
     ) {
-        self.editingHandler = editingHandler
-        self.editingDidEndHandler = editingDidEndHandler
+        self.id = id
+        self.count = count
+        self.type = type
+        self.contentType = contentType
+        self.labelStyle = labelStyle
+        self.placeholderStyle = placeholderStyle
+        self.errorMessages = errorMessages
     }
 }

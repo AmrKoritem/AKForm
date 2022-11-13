@@ -12,17 +12,20 @@ public struct TextFieldStyle {
     var textColor: UIColor
     var font: UIFont
     var textAlignment: NSTextAlignment
-    var placeholderStyle: PlaceholderStyle
+    var background: UIColor
+    var borderStyle: FieldBorderStyle?
 
     public init(
         textColor: UIColor,
         font: UIFont,
         textAlignment: NSTextAlignment = .natural,
-        placeholderStyle: PlaceholderStyle
+        background: UIColor,
+        borderStyle: FieldBorderStyle? = nil
     ) {
         self.textColor = textColor
         self.font = font
         self.textAlignment = textAlignment
-        self.placeholderStyle = placeholderStyle
+        self.background = background
+        self.borderStyle = borderStyle
     }
 }

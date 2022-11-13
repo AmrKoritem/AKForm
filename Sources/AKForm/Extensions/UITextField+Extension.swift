@@ -9,12 +9,13 @@ import UIKit
 
 public extension UITextField {
     /// Set text field attributes using a `TextFieldStyle` object.
-    func setStyle(with textFieldStyle: TextFieldStyle) {
+    func setStyle(with textFieldStyle: TextFieldStyle, and placeholderStyle: PlaceholderStyle) {
         textColor = textFieldStyle.textColor
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
-        placeholder = textFieldStyle.placeholderStyle.text
-        guard let attributedText = textFieldStyle.placeholderStyle.attributedText else { return }
+        background = textFieldStyle.background
+        placeholder = placeholderStyle.text
+        guard let attributedText = placeholderStyle.attributedText else { return }
         attributedPlaceholder = attributedText
     }
 

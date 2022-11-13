@@ -15,7 +15,10 @@ public class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
-    
+
+    var labelStyle: LabelStyle?
+    var textFieldStyle: TextFieldStyle?
+    var placeholderStyle: PlaceholderStyle?
     var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
 
@@ -32,30 +35,30 @@ public class TextFieldTableViewCell: UITableViewCell {
     }
 
     func configure(
-        field: Field,
+        field: TextField,
         textFieldText: String?,
         textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
+        labelStyle = field.labelStyle
         fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
-        textField.setStyle(with: field.textFieldStyle)
+        textFieldStyle = field.textFieldStyle
+        placeholderStyle = field.placeholderStyle
+        textField.setStyle(with: field.textFieldStyle, and: field.placeholderStyle)
         textField.setTypingAttributes(with: field.contentType)
-        textFieldView.stroked(with: 1, color: .lightGray)
+        setFieldBorder()
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
 
-    func showError(message: String, clearText: Bool = false) {
-        textFieldView.stroked(with: 1, color: .red)
-        textField.attributedPlaceholder = NSAttributedString.errorPlaceholder(message)
-        guard clearText else { return }
-        textField.text = ""
-    }
-
-    func clearField(_ placeholderStyle: PlaceholderStyle) {
-        textFieldView.stroked(with: 1, color: .lightGray)
-        textField.attributedPlaceholder = placeholderStyle.attributedText
+    func setFieldBorder() {
+        textFieldView.stroked(
+            with: textFieldStyle?.borderStyle?.borderWidth ?? 1,
+            color: textFieldStyle?.borderStyle?.borderColor ?? .lightGray
+        )
+        guard let borderStyle = textFieldStyle?.borderStyle else { return }
+        textFieldView.layer.cornerRadius = borderStyle.cornerRadius
     }
 
     @objc
@@ -66,5 +69,19 @@ public class TextFieldTableViewCell: UITableViewCell {
     @objc
     func textFieldChangeDidEnd(_ textField: UITextField) {
         textFieldEditingDidEndHandler(textField.text)
+    }
+}
+
+extension TextFieldTableViewCell: FieldTableViewCellProtocol {
+    func showError(message: String, shouldClearText: Bool) {
+        textFieldView.stroked(with: textFieldStyle?.borderStyle?.borderWidth ?? 1, color: .red)
+        textField.attributedPlaceholder = NSAttributedString.errorPlaceholder(message)
+        guard shouldClearText else { return }
+        textField.text = ""
+    }
+
+    func clearField(_ placeholderStyle: PlaceholderStyle) {
+        setFieldBorder()
+        textField.attributedPlaceholder = placeholderStyle.attributedText
     }
 }
