@@ -13,7 +13,7 @@ public extension UITextField {
         textColor = textFieldStyle.textColor
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
-        background = textFieldStyle.background
+        backgroundColor = textFieldStyle.backgroundColor
         placeholder = placeholderStyle.text
         guard let attributedText = placeholderStyle.attributedText else { return }
         attributedPlaceholder = attributedText

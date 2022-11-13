@@ -9,7 +9,7 @@ import UIKit
 
 protocol FieldTableViewCellProtocol: UITableViewCell {
     func showError(message: String, shouldClearText: Bool)
-    func clearField(_ placeholderStyle: PlaceholderStyle)
+    func clearFieldUI()
 }
 
 extension FieldTableViewCellProtocol {

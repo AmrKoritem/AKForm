@@ -14,6 +14,7 @@ public class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
 
     var labelStyle: LabelStyle?
@@ -45,9 +46,8 @@ public class TextFieldTableViewCell: UITableViewCell {
         textField.text = textFieldText
         textFieldStyle = field.textFieldStyle
         placeholderStyle = field.placeholderStyle
-        textField.setStyle(with: field.textFieldStyle, and: field.placeholderStyle)
+        clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
-        setFieldBorder()
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
@@ -74,14 +74,18 @@ public class TextFieldTableViewCell: UITableViewCell {
 
 extension TextFieldTableViewCell: FieldTableViewCellProtocol {
     func showError(message: String, shouldClearText: Bool) {
-        textFieldView.stroked(with: textFieldStyle?.borderStyle?.borderWidth ?? 1, color: .red)
-        textField.attributedPlaceholder = NSAttributedString.errorPlaceholder(message)
+        textFieldView.stroked(with: textFieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
+        errorLabel.text = message
+        errorLabel.isHidden = false
         guard shouldClearText else { return }
         textField.text = ""
     }
 
-    func clearField(_ placeholderStyle: PlaceholderStyle) {
+    func clearFieldUI() {
+        textField.attributedPlaceholder = nil
+        errorLabel.isHidden = true
         setFieldBorder()
-        textField.attributedPlaceholder = placeholderStyle.attributedText
+        guard let textFieldStyle = textFieldStyle, let placeholderStyle = placeholderStyle else { return }
+        textField.setStyle(with: textFieldStyle, and: placeholderStyle)
     }
 }

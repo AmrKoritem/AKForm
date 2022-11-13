@@ -66,13 +66,13 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
             break
         }
         guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
-        switch data?.getValidationStatus(for: field.contentType.validationRegex) {
+        switch data?.getValidationStatus(for: field.contentType.validationRegex) ?? .valid {
         case .invalid:
             cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
         case .missing:
             cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
         default:
-            cell.clearField(field.placeholderStyle)
+            cell.clearFieldUI()
         }
         return cell
     }
