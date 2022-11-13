@@ -28,6 +28,9 @@ class SheetViewController: UIViewController {
     private var searchField: UITextField?
     private var topConstraint: NSLayoutConstraint?
 
+    private var topSheetConstraintConstant: CGFloat {
+        view.frame.size.height * 0.65
+    }
     private lazy var header: UIView = {
         let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 64)))
         let textField = UITextField()
@@ -87,7 +90,7 @@ class SheetViewController: UIViewController {
         sheet.translatesAutoresizingMaskIntoConstraints = false
         let topConstraint = sheet.topAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.topAnchor,
-            constant: view.frame.size.height * 0.35
+            constant: topSheetConstraintConstant
         )
         self.topConstraint = topConstraint
         NSLayoutConstraint.activate([
@@ -126,13 +129,15 @@ class SheetViewController: UIViewController {
     func keyboardDidShow(_ notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
-        topConstraint?.constant -= keyboardSize.height
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        guard keyboardSize.height > view.frame.size.height - topSheetConstraintConstant else { return }
+        let sheetHeaderHeight = sheet?.tableHeaderView?.frame.size.height ?? 0
+        topConstraint?.constant = view.frame.size.height - keyboardSize.height - sheetHeaderHeight
     }
 
     @objc
     func keyboardDidHide(_ notification: Notification) {
-        topConstraint?.constant = 0
+        topConstraint?.constant = topSheetConstraintConstant
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
