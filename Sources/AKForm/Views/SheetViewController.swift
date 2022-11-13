@@ -19,7 +19,9 @@ class SheetViewController: UIViewController {
     var optionSelectionHandler: (String) -> Void = { _ in }
 
     var filteredOptions: [String] {
-        sheetField?.options ?? []
+        let options = sheetField?.options ?? []
+        guard let keyword = searchField?.text else { return options }
+        return options.filter { $0.contains(keyword) }
     }
 
     private var sheet: UITableView?
