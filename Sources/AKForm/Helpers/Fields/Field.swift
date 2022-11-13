@@ -30,7 +30,8 @@ public class Field {
     var type: FieldType
     var contentType: FieldContentType
     var labelStyle: LabelStyle
-    var placeholderStyle: PlaceholderStyle
+    var fieldStyle: FieldStyle
+    var placeholder: String
     var errorMessages: FieldErrorMessages?
 
     init(
@@ -39,7 +40,8 @@ public class Field {
         type: FieldType,
         contentType: FieldContentType,
         labelStyle: LabelStyle,
-        placeholderStyle: PlaceholderStyle,
+        fieldStyle: FieldStyle,
+        placeholder: String,
         errorMessages: FieldErrorMessages? = nil
     ) {
         self.id = id
@@ -47,7 +49,8 @@ public class Field {
         self.type = type
         self.contentType = contentType
         self.labelStyle = labelStyle
-        self.placeholderStyle = placeholderStyle
+        self.fieldStyle = fieldStyle
+        self.placeholder = placeholder
         self.errorMessages = errorMessages
     }
 }

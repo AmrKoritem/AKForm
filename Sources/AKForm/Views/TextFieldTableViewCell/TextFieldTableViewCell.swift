@@ -10,7 +10,7 @@ import UIKit
 public typealias TextFieldEditingChangedHandler = (String?) -> Void
 public typealias TextFieldEditingDidEnddHandler = (String?) -> Void
 
-public class TextFieldTableViewCell: UITableViewCell {
+public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
@@ -18,10 +18,10 @@ public class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
 
     var labelStyle: LabelStyle?
-    var textFieldStyle: TextFieldStyle?
-    var placeholderStyle: PlaceholderStyle?
-    var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
-    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
+    var fieldStyle: FieldStyle?
+
+    private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
+    private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
 
     deinit {
         textField.removeTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
@@ -36,16 +36,16 @@ public class TextFieldTableViewCell: UITableViewCell {
     }
 
     func configure(
-        field: TextField,
+        field: Field,
         textFieldText: String?,
         textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
         labelStyle = field.labelStyle
+        fieldStyle = field.fieldStyle
         fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
-        textFieldStyle = field.textFieldStyle
-        placeholderStyle = field.placeholderStyle
+        textField.placeholder = field.placeholder
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
@@ -54,27 +54,15 @@ public class TextFieldTableViewCell: UITableViewCell {
 
     func setFieldBorder() {
         textFieldView.stroked(
-            with: textFieldStyle?.borderStyle?.borderWidth ?? 1,
-            color: textFieldStyle?.borderStyle?.borderColor ?? .lightGray
+            with: fieldStyle?.borderStyle?.borderWidth ?? 1,
+            color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
         )
-        guard let borderStyle = textFieldStyle?.borderStyle else { return }
+        guard let borderStyle = fieldStyle?.borderStyle else { return }
         textFieldView.layer.cornerRadius = borderStyle.cornerRadius
     }
 
-    @objc
-    func textFieldChange(_ textField: UITextField) {
-        textFieldEditingHandler(textField.text)
-    }
-
-    @objc
-    func textFieldChangeDidEnd(_ textField: UITextField) {
-        textFieldEditingDidEndHandler(textField.text)
-    }
-}
-
-extension TextFieldTableViewCell: FieldTableViewCellProtocol {
     func showError(message: String, shouldClearText: Bool) {
-        textFieldView.stroked(with: textFieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
+        textFieldView.stroked(with: fieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
@@ -85,7 +73,17 @@ extension TextFieldTableViewCell: FieldTableViewCellProtocol {
         textField.attributedPlaceholder = nil
         errorLabel.isHidden = true
         setFieldBorder()
-        guard let textFieldStyle = textFieldStyle, let placeholderStyle = placeholderStyle else { return }
-        textField.setStyle(with: textFieldStyle, and: placeholderStyle)
+        guard let textFieldStyle = fieldStyle else { return }
+        textField.setStyle(with: textFieldStyle)
+    }
+
+    @objc
+    func textFieldChange(_ textField: UITextField) {
+        textFieldEditingHandler(textField.text)
+    }
+
+    @objc
+    func textFieldChangeDidEnd(_ textField: UITextField) {
+        textFieldEditingDidEndHandler(textField.text)
     }
 }

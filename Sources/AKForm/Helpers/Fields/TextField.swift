@@ -9,7 +9,6 @@ import UIKit
 
 /// TextField properties wrapper.
 public class TextField: Field {
-    var textFieldStyle: TextFieldStyle
     var textFieldObserverHandlers: TextFieldObserverHandlers?
 
     public init(
@@ -17,12 +16,10 @@ public class TextField: Field {
         count: FieldCount = .uni,
         contentType: FieldContentType,
         labelStyle: LabelStyle,
-        placeholderStyle: PlaceholderStyle,
+        fieldStyle: FieldStyle,
         errorMessages: FieldErrorMessages? = nil,
-        textFieldStyle: TextFieldStyle,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
-        self.textFieldStyle = textFieldStyle
         self.textFieldObserverHandlers = textFieldObserverHandlers
         super.init(
             id: id,
@@ -30,7 +27,8 @@ public class TextField: Field {
             type: .text,
             contentType: contentType,
             labelStyle: labelStyle,
-            placeholderStyle: placeholderStyle,
+            fieldStyle: fieldStyle,
+            placeholder: placeholder,
             errorMessages: errorMessages
         )
     }

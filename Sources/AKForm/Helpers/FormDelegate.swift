@@ -49,16 +49,16 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
         switch field.type {
         case .text:
             cell ?= tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
-            guard let cell = cell as? TextFieldTableViewCell,
-                  let field = field as? TextField else { return cell }
-            cell.configure(
+            let fieldCell = cell as? TextFieldTableViewCell
+            let textField = field as? TextField
+            fieldCell?.configure(
                 field: field,
                 textFieldText: data ?? "",
-                textFieldEditingHandler: field.textFieldObserverHandlers?.editingHandler ?? { [weak self] text in
+                textFieldEditingHandler: textField?.textFieldObserverHandlers?.editingHandler ?? { [weak self] text in
                     guard let text = text else { return }
                     self?.dataSource?.dataMap[field.id] = text
                 },
-                textFieldEditingDidEndHandler: field.textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
+                textFieldEditingDidEndHandler: textField?.textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             )
@@ -96,7 +96,7 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
 
 precedencegroup OptionalAssignment { associativity: right }
 infix operator ?= : OptionalAssignment
-func ?= <T: Any> ( left: inout T, right: T?) {
+func ?= <T: Any> (left: inout T, right: T?) {
     guard let right = right else { return }
     left = right
 }

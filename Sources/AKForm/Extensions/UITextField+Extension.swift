@@ -8,15 +8,14 @@
 import UIKit
 
 public extension UITextField {
-    /// Set text field attributes using a `TextFieldStyle` object.
-    func setStyle(with textFieldStyle: TextFieldStyle, and placeholderStyle: PlaceholderStyle) {
+    /// Set text field attributes using a `FieldStyle` object.
+    func setStyle(with textFieldStyle: FieldStyle) {
         textColor = textFieldStyle.textColor
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
         backgroundColor = textFieldStyle.backgroundColor
-        placeholder = placeholderStyle.text
-        guard let attributedText = placeholderStyle.attributedText else { return }
-        attributedPlaceholder = attributedText
+        guard let placeholderAttributes = textFieldStyle.placeholderAttributes else { return }
+        attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: placeholderAttributes)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.

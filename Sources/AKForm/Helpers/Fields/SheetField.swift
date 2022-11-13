@@ -9,8 +9,7 @@ import Foundation
 
 /// SheetField properties wrapper.
 public class SheetField: Field {
-    var textFieldStyle: TextFieldStyle
-    var sheetTextFieldStyle: TextFieldStyle
+    var sheetTextFieldStyle: FieldStyle
     var sheetTextFieldObserverHandlers: TextFieldObserverHandlers?
     var optionStyle: OptionStyle
     var options: [String]
@@ -20,15 +19,15 @@ public class SheetField: Field {
         count: FieldCount = .uni,
         contentType: FieldContentType,
         labelStyle: LabelStyle,
-        placeholderStyle: PlaceholderStyle,
+        fieldStyle: FieldStyle,
+        placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
-        textFieldStyle: TextFieldStyle,
-        sheetTextFieldStyle: TextFieldStyle,
+        textFieldStyle: FieldStyle,
+        sheetTextFieldStyle: FieldStyle,
         sheetTextFieldObserverHandlers: TextFieldObserverHandlers? = nil,
         optionStyle: OptionStyle = OptionStyle(),
         options: [String]
     ) {
-        self.textFieldStyle = textFieldStyle
         self.sheetTextFieldStyle = sheetTextFieldStyle
         self.sheetTextFieldObserverHandlers = sheetTextFieldObserverHandlers
         self.optionStyle = optionStyle
@@ -39,7 +38,8 @@ public class SheetField: Field {
             type: .sheet,
             contentType: contentType,
             labelStyle: labelStyle,
-            placeholderStyle: placeholderStyle,
+            fieldStyle: fieldStyle,
+            placeholder: placeholder,
             errorMessages: errorMessages
         )
     }
