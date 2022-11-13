@@ -10,14 +10,18 @@ import UIKit
 public typealias TextFieldEditingChangedHandler = (String?) -> Void
 public typealias TextFieldEditingDidEnddHandler = (String?) -> Void
 
-public class TextFieldTableViewCell: UITableViewCell {
+public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
-    
-    var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
-    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
+
+    var labelStyle: LabelStyle?
+    var fieldStyle: FieldStyle?
+
+    private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
+    private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
 
     deinit {
         textField.removeTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
@@ -37,25 +41,40 @@ public class TextFieldTableViewCell: UITableViewCell {
         textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
+        labelStyle = field.labelStyle
+        fieldStyle = field.fieldStyle
         fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
-        textField.setStyle(with: field.textFieldStyle)
+        textField.placeholder = field.placeholder
+        clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
-        textFieldView.stroked(with: 1, color: .lightGray)
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
 
-    func showError(message: String, clearText: Bool = false) {
-        textFieldView.stroked(with: 1, color: .red)
-        textField.attributedPlaceholder = NSAttributedString.errorPlaceholder(message)
-        guard clearText else { return }
+    func setFieldBorder() {
+        textFieldView.stroked(
+            with: fieldStyle?.borderStyle?.borderWidth ?? 1,
+            color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
+        )
+        guard let borderStyle = fieldStyle?.borderStyle else { return }
+        textFieldView.layer.cornerRadius = borderStyle.cornerRadius
+    }
+
+    func showError(message: String, shouldClearText: Bool) {
+        textFieldView.stroked(with: fieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
+        errorLabel.text = message
+        errorLabel.isHidden = false
+        guard shouldClearText else { return }
         textField.text = ""
     }
 
-    func clearField(_ placeholderStyle: PlaceholderStyle) {
-        textFieldView.stroked(with: 1, color: .lightGray)
-        textField.attributedPlaceholder = placeholderStyle.attributedText
+    func clearFieldUI() {
+        textField.attributedPlaceholder = nil
+        errorLabel.isHidden = true
+        setFieldBorder()
+        guard let textFieldStyle = fieldStyle else { return }
+        textField.setStyle(with: textFieldStyle)
     }
 
     @objc

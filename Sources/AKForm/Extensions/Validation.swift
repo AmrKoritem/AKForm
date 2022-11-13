@@ -46,12 +46,6 @@ extension String {
     }
 }
 
-extension Optional where Wrapped == String {
-    var isNilOrEmpty: Bool {
-        self?.isEmpty ?? true
-    }
-}
-
 extension UITextInput {
     func hasValid(_ regex: String.ValidationRegex) -> Bool {
         hasValid(regex.rawValue)

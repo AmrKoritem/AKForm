@@ -30,6 +30,8 @@ public extension UITableView {
             switch field.type {
             case .text:
                 registerNib(TextFieldTableViewCell.self)
+            case .sheet:
+                registerNib(ButtonFieldTableViewCell.self)
             default:
                 break
             }
@@ -43,35 +45,56 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableViewCell() }
+        var cell = UITableViewCell()
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return cell }
+        let data = dataSource?.dataMap[field.id] as? String
         switch field.type {
         case .text:
-            let data = dataSource?.dataMap[field.id] as? String
-            let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
-            guard let cell = cell as? TextFieldTableViewCell else { return UITableViewCell() }
-            cell.configure(
+            cell ?= tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
+            let fieldCell = cell as? TextFieldTableViewCell
+            let textField = field as? TextField
+            fieldCell?.configure(
                 field: field,
                 textFieldText: data ?? "",
-                textFieldEditingHandler: field.textFieldEditingHandler ?? { [weak self] text in
+                textFieldEditingHandler: textField?.textFieldObserverHandlers?.editingHandler ?? { [weak self] text in
                     guard let text = text else { return }
                     self?.dataSource?.dataMap[field.id] = text
                 },
-                textFieldEditingDidEndHandler: field.textFieldEditingDidEndHandler ?? { _ in
+                textFieldEditingDidEndHandler: textField?.textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             )
-            switch data?.getValidationStatus(for: field.contentType.validationRegex) {
-            case .invalid:
-                cell.showError(message: field.invalidErrorMessage ?? "Please enter a valid entry")
-            case .missing:
-                cell.showError(message: field.emptyErrorMessage ?? "Please enter your data")
-            default:
-                cell.clearField(field.textFieldStyle.placeholderStyle)
-            }
-            return cell
+        case .sheet:
+            cell ?= tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
+            let fieldCell = cell as? ButtonFieldTableViewCell
+            let sheetField = field as? SheetField
+            fieldCell?.configure(
+                field: field,
+                fieldText: data ?? "",
+                buttonActionHandler: {
+                    let vc = SheetViewController()
+                    vc.sheetField = sheetField
+                    vc.modalPresentationStyle = .overCurrentContext
+                    vc.optionSelectionHandler = { [weak self] text in
+                        self?.dataSource?.dataMap[field.id] = text
+                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                    }
+                    UIApplication.topViewController()?.present(vc, animated: true)
+                }
+            )
         default:
-            return UITableViewCell()
+            break
         }
+        guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
+        switch data?.getValidationStatus(for: field.contentType.validationRegex) ?? .valid {
+        case .invalid:
+            cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
+        case .missing:
+            cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
+        default:
+            cell.clearFieldUI()
+        }
+        return cell
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -89,4 +112,11 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         dataSource?.footer(for: section)?.frame.height ?? 0
     }
+}
+
+precedencegroup OptionalAssignment { associativity: right }
+infix operator ?= : OptionalAssignment
+func ?= <T: Any> (left: inout T, right: T?) {
+    guard let right = right else { return }
+    left = right
 }

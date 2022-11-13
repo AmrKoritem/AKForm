@@ -20,6 +20,14 @@ open class FormViewController: UIViewController, FormDataSource {
         true
     }
 
+    open var formHeader: UIView? {
+        nil
+    }
+
+    open var formFooter: UIView? {
+        nil
+    }
+
     public var form: UITableView?
 
     public lazy var formDelegate = FormDelegate(dataSource: self)
@@ -28,16 +36,24 @@ open class FormViewController: UIViewController, FormDataSource {
         removeKeyboardObservers()
     }
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
-        setFormUI()
         configureForm()
         addKeyboardObservers()
         hideKeyboardWhenTappedAround()
     }
 
+    public func configureForm() {
+        setFormUI()
+        form?.dataSource = formDelegate
+        form?.delegate = formDelegate
+        form?.register(fields: fields)
+    }
+
     public func setFormUI() {
         form = UITableView()
+        form?.tableHeaderView = formHeader
+        form?.tableFooterView = formFooter
         form?.allowsSelection = false
         form?.separatorStyle = .none
         guard let form = form else { return }
@@ -51,12 +67,6 @@ open class FormViewController: UIViewController, FormDataSource {
             form.topAnchor.constraint(equalTo: topAnchor, constant: 0),
             form.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
         ])
-    }
-
-    public func configureForm() {
-        form?.dataSource = formDelegate
-        form?.delegate = formDelegate
-        form?.register(fields: fields)
     }
 
     public func addKeyboardObservers() {
