@@ -32,29 +32,37 @@ class SheetViewController: UIViewController {
         view.frame.size.height * 0.65
     }
     private lazy var header: UIView = {
-        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 64)))
+        let header = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 64)))
+        let wrapper = UIView()
         let textField = UITextField()
+        wrapper.addSubview(textField)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 0),
+            textField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: 0),
+            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 0),
+            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        ])
         searchField = textField
         if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
             textField.placeholder = sheetField?.placeholder
             textField.setStyle(with: sheetTextFieldStyle)
-            textField.stroked(
-                with: sheetField?.sheetTextFieldStyle.borderStyle?.borderWidth ?? 1,
-                color: sheetField?.sheetTextFieldStyle.borderStyle?.borderColor ?? .lightGray)
             textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
         }
-        wrapper.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        if let borderStyle = sheetField?.sheetTextFieldStyle.borderStyle {
+            wrapper.setBorder(with: borderStyle)
+        }
+        header.addSubview(wrapper)
+        wrapper.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            textField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20),
-            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 7),
-            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -7)
+            wrapper.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 20),
+            wrapper.trailingAnchor.constraint(equalTo: header.trailingAnchor, constant: -20),
+            wrapper.topAnchor.constraint(equalTo: header.safeAreaLayoutGuide.topAnchor, constant: 7),
+            wrapper.bottomAnchor.constraint(equalTo: header.safeAreaLayoutGuide.bottomAnchor, constant: -7)
         ])
-        wrapper.addSubview(textField)
-        return wrapper
+        return header
     }()
 
     deinit {
@@ -67,6 +75,7 @@ class SheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSheet()
+        dismissWhenTappedAround()
         addKeyboardObservers()
         view.backgroundColor = .clear
         guard let sheetField = sheetField else { return }
@@ -99,6 +108,12 @@ class SheetViewController: UIViewController {
             topConstraint,
             sheet.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
+    }
+
+    func dismissWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 
     func addKeyboardObservers() {
@@ -155,6 +170,11 @@ class SheetViewController: UIViewController {
     @objc
     func returnKeyPressed(_ textField: UITextField) {
         view.endEditing(true)
+    }
+
+    @objc
+    func close() {
+        dismiss(animated: true)
     }
 }
 

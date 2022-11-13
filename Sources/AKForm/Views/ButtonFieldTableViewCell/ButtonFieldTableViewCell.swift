@@ -10,6 +10,7 @@ import UIKit
 class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var fieldHeightConstraint: NSLayoutConstraint!
 
@@ -46,17 +47,17 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setFieldBorder() {
         guard let borderStyle = fieldStyle?.borderStyle else {
-            button.stroked(
+            buttonView.stroked(
                 with: fieldStyle?.borderStyle?.borderWidth ?? 1,
                 color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
             )
             return
         }
-        button.setBorder(with: borderStyle)
+        buttonView.setBorder(with: borderStyle)
     }
 
     func showError(message: String, shouldClearText: Bool) {
-        button.stroked(with: fieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
+        buttonView.stroked(with: fieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
