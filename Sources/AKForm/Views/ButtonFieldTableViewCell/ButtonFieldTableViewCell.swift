@@ -15,6 +15,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     var labelStyle: LabelStyle?
     var fieldStyle: FieldStyle?
+    var placeholder: String?
 
     private var buttonActionHandler: () -> Void = {}
 
@@ -30,6 +31,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         labelStyle = field.labelStyle
         fieldStyle = field.fieldStyle
         fieldLabel.setStyle(with: field.labelStyle)
+        clearFieldUI()
         if let fieldText = fieldText {
             button.setTitle(fieldText, for: .normal)
         } else {
@@ -40,7 +42,6 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
                 for: .normal
             )
         }
-        clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
     }
 

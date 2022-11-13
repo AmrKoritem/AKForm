@@ -20,7 +20,7 @@ class SheetViewController: UIViewController {
 
     var filteredOptions: [String] {
         let options = sheetField?.options ?? []
-        guard let keyword = searchField?.text else { return options }
+        guard let keyword = searchField?.text, !keyword.isEmpty else { return options }
         return options.filter { $0.contains(keyword) }
     }
 
@@ -32,7 +32,7 @@ class SheetViewController: UIViewController {
         view.frame.size.height * 0.65
     }
     private lazy var header: UIView = {
-        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 64)))
+        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 68)))
         let textField = UITextField()
         searchField = textField
         if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
@@ -48,8 +48,8 @@ class SheetViewController: UIViewController {
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
             textField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20),
-            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 7),
-            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -7)
+            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 9),
+            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -9)
         ])
         wrapper.addSubview(textField)
         return wrapper

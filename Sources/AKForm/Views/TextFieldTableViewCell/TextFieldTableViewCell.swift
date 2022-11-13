@@ -19,6 +19,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
 
     var labelStyle: LabelStyle?
     var fieldStyle: FieldStyle?
+    var placeholder: String?
 
     private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
@@ -43,9 +44,9 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     ) {
         labelStyle = field.labelStyle
         fieldStyle = field.fieldStyle
+        placeholder = field.placeholder
         fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
-        textField.placeholder = field.placeholder
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
@@ -55,6 +56,14 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     func setFieldBorder() {
         guard let borderStyle = fieldStyle?.borderStyle else { return }
         textFieldView.setBorder(with: borderStyle)
+    }
+
+    func setPlaceholder() {
+        guard let placeholderAttributes = fieldStyle?.placeholderAttributes else {
+            textField.placeholder = placeholder
+            return
+        }
+        textField.attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: placeholderAttributes)
     }
 
     func showError(message: String, shouldClearText: Bool) {
@@ -69,6 +78,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         textField.attributedPlaceholder = nil
         errorLabel.isHidden = true
         setFieldBorder()
+        setPlaceholder()
         guard let textFieldStyle = fieldStyle else { return }
         textField.setStyle(with: textFieldStyle)
     }

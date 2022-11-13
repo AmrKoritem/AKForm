@@ -14,8 +14,6 @@ public extension UITextField {
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
         backgroundColor = textFieldStyle.backgroundColor
-        guard let placeholderAttributes = textFieldStyle.placeholderAttributes else { return }
-        attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: placeholderAttributes)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
