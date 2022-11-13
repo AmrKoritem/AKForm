@@ -27,30 +27,18 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="acF-I7-xec">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwG-As-fiI">
                                 <rect key="frame" x="0.0" y="27.5" width="276" height="52"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kwG-As-fiI">
-                                        <rect key="frame" x="0.0" y="0.0" width="276" height="52"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="52" id="tdf-qk-lj3"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Label"/>
-                                        <connections>
-                                            <action selector="buttonAction" destination="WWJ-1c-QdV" eventType="touchUpInside" id="f0H-x0-n3Q"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="kwG-As-fiI" firstAttribute="leading" secondItem="acF-I7-xec" secondAttribute="leading" id="51Q-nu-30Z"/>
-                                    <constraint firstItem="kwG-As-fiI" firstAttribute="top" secondItem="acF-I7-xec" secondAttribute="top" id="5NP-le-ocE"/>
-                                    <constraint firstAttribute="bottom" secondItem="kwG-As-fiI" secondAttribute="bottom" id="GkI-lW-WNw"/>
-                                    <constraint firstAttribute="trailing" secondItem="kwG-As-fiI" secondAttribute="trailing" id="kSo-NK-A6G"/>
+                                    <constraint firstAttribute="height" constant="52" id="tdf-qk-lj3"/>
                                 </constraints>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Label"/>
+                                <connections>
+                                    <action selector="buttonAction" destination="WWJ-1c-QdV" eventType="touchUpInside" id="f0H-x0-n3Q"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZP-xi-Oa1">
                                 <rect key="frame" x="0.0" y="85.5" width="276" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -72,7 +60,6 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="button" destination="kwG-As-fiI" id="csB-tS-Cfg"/>
-                <outlet property="buttonView" destination="acF-I7-xec" id="CTi-cB-wmU"/>
                 <outlet property="errorLabel" destination="nZP-xi-Oa1" id="WU2-bc-cj9"/>
                 <outlet property="fieldHeightConstraint" destination="tdf-qk-lj3" id="Kah-rJ-Ndj"/>
                 <outlet property="fieldLabel" destination="NAF-jU-s6N" id="b1F-SY-EIc"/>

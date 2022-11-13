@@ -12,7 +12,7 @@ public struct FieldBorderStyle {
     var borderWidth: CGFloat
     var cornerRadius: CGFloat
 
-    public init(borderColor: UIColor, borderWidth: CGFloat, cornerRadius: CGFloat) {
+    public init(borderColor: UIColor = .lightGray, borderWidth: CGFloat = 1, cornerRadius: CGFloat = 14) {
         self.borderColor = borderColor
         self.borderWidth = borderWidth
         self.cornerRadius = cornerRadius

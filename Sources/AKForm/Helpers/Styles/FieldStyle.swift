@@ -14,7 +14,7 @@ public struct FieldStyle {
     var textAlignment: NSTextAlignment
     var backgroundColor: UIColor
     var placeholderAttributes: [NSAttributedString.Key: Any]?
-    var borderStyle: FieldBorderStyle?
+    var borderStyle: FieldBorderStyle
 
     public init(
         textColor: UIColor,
@@ -22,7 +22,7 @@ public struct FieldStyle {
         textAlignment: NSTextAlignment = .natural,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
         backgroundColor: UIColor = .white,
-        borderStyle: FieldBorderStyle? = nil
+        borderStyle: FieldBorderStyle = FieldBorderStyle()
     ) {
         self.textColor = textColor
         self.font = font
