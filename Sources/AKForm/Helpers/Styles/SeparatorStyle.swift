@@ -8,18 +8,16 @@
 import UIKit
 
 public struct SeparatorStyle {
-    public static let defaultColor: UIColor = .lightGray
-
     var color: UIColor
     var dimension: CGFloat
     var startInset: CGFloat
     var endInset: CGFloat
 
     public init(
-        color: UIColor = SeparatorStyle.defaultColor,
-        dimension: CGFloat = 1,
-        startInset: CGFloat = 0,
-        endInset: CGFloat = 0
+        color: UIColor = Default.Colors.separator,
+        dimension: CGFloat = Default.Dimensions.separatorThickness,
+        startInset: CGFloat = Default.Dimensions.separatorStartInset,
+        endInset: CGFloat = Default.Dimensions.separatorEndInset
     ) {
         self.color = color
         self.dimension = dimension

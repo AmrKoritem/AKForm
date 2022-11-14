@@ -47,7 +47,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         if let fieldText = buttonText {
             button.setTitle(fieldText, for: .normal)
         } else {
-            let attributes = fieldStyle?.placeholderAttributes ?? [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            let attributes = fieldStyle?.placeholderAttributes ?? [
+                NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
+                NSAttributedString.Key.font: Default.Fonts.placeholder
+            ]
             button.setAttributedTitle(
                 NSAttributedString(
                     string: placeholder ?? "",
@@ -58,7 +61,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func showError(message: String, shouldClearText: Bool) {
-        button.stroked(with: fieldStyle?.borderStyle.borderWidth ?? 1, color: .systemRed)
+        button.stroked(
+            with: fieldStyle?.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            color: Default.Colors.errorBorder
+        )
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }

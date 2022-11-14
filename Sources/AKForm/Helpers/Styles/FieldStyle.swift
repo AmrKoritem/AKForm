@@ -17,11 +17,11 @@ public struct FieldStyle {
     var borderStyle: FieldBorderStyle
 
     public init(
-        textColor: UIColor,
-        font: UIFont,
+        textColor: UIColor = Default.Colors.field,
+        font: UIFont = Default.Fonts.field,
         textAlignment: NSTextAlignment = .natural,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
-        backgroundColor: UIColor = .white,
+        backgroundColor: UIColor = Default.Colors.background,
         borderStyle: FieldBorderStyle = FieldBorderStyle()
     ) {
         self.textColor = textColor

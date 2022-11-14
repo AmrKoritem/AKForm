@@ -67,7 +67,10 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     }
 
     func showError(message: String, shouldClearText: Bool) {
-        textFieldView.stroked(with: fieldStyle?.borderStyle.borderWidth ?? 1, color: .systemRed)
+        textFieldView.stroked(
+            with: fieldStyle?.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            color: Default.Colors.errorBorder
+        )
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
