@@ -14,8 +14,6 @@ public extension UITextField {
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
         backgroundColor = textFieldStyle.backgroundColor
-        guard let placeholderAttributes = textFieldStyle.placeholderAttributes else { return }
-        attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: placeholderAttributes)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
@@ -25,5 +23,27 @@ public extension UITextField {
         autocorrectionType = contentType.autocorrectionType
         textContentType = contentType.contentType
         isSecureTextEntry = contentType.isSecureTextEntry
+    }
+
+    var leftPadding: CGFloat {
+        get {
+            return leftView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            leftView = paddingView
+            leftViewMode = .always
+        }
+    }
+    
+    var rightPadding: CGFloat {
+        get {
+            return rightView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            rightView = paddingView
+            rightViewMode = .always
+        }
     }
 }

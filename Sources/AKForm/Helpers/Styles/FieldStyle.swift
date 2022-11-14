@@ -14,15 +14,15 @@ public struct FieldStyle {
     var textAlignment: NSTextAlignment
     var backgroundColor: UIColor
     var placeholderAttributes: [NSAttributedString.Key: Any]?
-    var borderStyle: FieldBorderStyle?
+    var borderStyle: FieldBorderStyle
 
     public init(
-        textColor: UIColor,
-        font: UIFont,
+        textColor: UIColor = Default.Colors.field,
+        font: UIFont = Default.Fonts.field,
         textAlignment: NSTextAlignment = .natural,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
-        backgroundColor: UIColor = .white,
-        borderStyle: FieldBorderStyle? = nil
+        backgroundColor: UIColor = Default.Colors.background,
+        borderStyle: FieldBorderStyle = FieldBorderStyle()
     ) {
         self.textColor = textColor
         self.font = font

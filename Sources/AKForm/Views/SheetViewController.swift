@@ -19,21 +19,29 @@ class SheetViewController: UIViewController {
     var optionSelectionHandler: (String) -> Void = { _ in }
 
     var filteredOptions: [String] {
-        sheetField?.options.filter { $0.contains(searchField?.text ?? "") } ?? []
+        let options = sheetField?.options ?? []
+        guard let keyword = searchField?.text, !keyword.isEmpty else { return options }
+        return options.filter { $0.contains(keyword) }
     }
 
     private var sheet: UITableView?
     private var searchField: UITextField?
     private var topConstraint: NSLayoutConstraint?
 
+    private var topSheetConstraintConstant: CGFloat {
+        view.frame.size.height * 0.65
+    }
+
     private lazy var header: UIView = {
-        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 64)))
+        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 68)))
         let textField = UITextField()
+        textField.leftPadding = Default.Dimensions.horizontalPadding
+        textField.rightPadding = Default.Dimensions.horizontalPadding
         searchField = textField
         if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
-            // TODO: - set border style
             textField.placeholder = sheetField?.placeholder
             textField.setStyle(with: sheetTextFieldStyle)
+            textField.setBorder(with: sheetTextFieldStyle.borderStyle)
             textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
@@ -43,8 +51,8 @@ class SheetViewController: UIViewController {
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
             textField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20),
-            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 7),
-            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -7)
+            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 9),
+            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -9)
         ])
         wrapper.addSubview(textField)
         return wrapper
@@ -59,27 +67,33 @@ class SheetViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureForm()
+        configureSheet()
+        dismissWhenTappedAround()
         addKeyboardObservers()
+        view.backgroundColor = .clear
     }
 
-    func configureForm() {
-        setFormUI()
+    func configureSheet() {
+        setSheetUI()
         sheet?.dataSource = self
         sheet?.delegate = self
         sheet?.registerNib(OptionTableViewCell.self)
     }
 
-    func setFormUI() {
+    func setSheetUI() {
         sheet = UITableView()
         sheet?.tableHeaderView = header
         sheet?.separatorStyle = .none
+        sheet?.backgroundColor = sheetField?.sheetBackgroundColor
+        if let sheetField = sheetField {
+            sheet?.setBorder(with: sheetField.sheetBorderStyle)
+        }
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
         sheet.translatesAutoresizingMaskIntoConstraints = false
         let topConstraint = sheet.topAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.topAnchor,
-            constant: view.frame.size.height * 0.35
+            constant: topSheetConstraintConstant
         )
         self.topConstraint = topConstraint
         NSLayoutConstraint.activate([
@@ -88,6 +102,12 @@ class SheetViewController: UIViewController {
             topConstraint,
             sheet.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
+    }
+
+    func dismissWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 
     func addKeyboardObservers() {
@@ -118,13 +138,15 @@ class SheetViewController: UIViewController {
     func keyboardDidShow(_ notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
-        topConstraint?.constant -= keyboardSize.height
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        guard keyboardSize.height > view.frame.size.height - topSheetConstraintConstant else { return }
+        let sheetHeaderHeight = sheet?.tableHeaderView?.frame.size.height ?? 0
+        topConstraint?.constant = view.frame.size.height - keyboardSize.height - sheetHeaderHeight
     }
 
     @objc
     func keyboardDidHide(_ notification: Notification) {
-        topConstraint?.constant = 0
+        topConstraint?.constant = topSheetConstraintConstant
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
@@ -142,6 +164,11 @@ class SheetViewController: UIViewController {
     @objc
     func returnKeyPressed(_ textField: UITextField) {
         view.endEditing(true)
+    }
+
+    @objc
+    func close() {
+        dismiss(animated: true)
     }
 }
 

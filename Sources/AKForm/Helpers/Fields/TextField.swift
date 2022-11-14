@@ -17,6 +17,7 @@ public class TextField: Field {
         contentType: FieldContentType,
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
+        placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {

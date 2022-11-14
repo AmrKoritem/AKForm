@@ -8,10 +8,6 @@
 import UIKit
 
 public struct OptionStyle {
-    public static let defaultTextColor: UIColor = .black
-    public static let defaultFont: UIFont = .systemFont(ofSize: 16)
-    public static let defaultBackgroundColor: UIColor = .clear
-
     var textColor: UIColor
     var font: UIFont
     var textAlignment: NSTextAlignment
@@ -19,10 +15,10 @@ public struct OptionStyle {
     var separatorStyle: SeparatorStyle
 
     public init(
-        textColor: UIColor = OptionStyle.defaultTextColor,
-        font: UIFont = OptionStyle.defaultFont,
+        textColor: UIColor = Default.Colors.optionTitle,
+        font: UIFont = Default.Fonts.optionTitle,
         textAlignment: NSTextAlignment = .natural,
-        backgroundColor: UIColor = OptionStyle.defaultBackgroundColor,
+        backgroundColor: UIColor = Default.Colors.optionBackground,
         separatorStyle: SeparatorStyle = SeparatorStyle()
     ) {
         self.textColor = textColor

@@ -15,6 +15,8 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     var labelStyle: LabelStyle?
     var fieldStyle: FieldStyle?
+    var placeholder: String?
+    var buttonText: String?
 
     private var buttonActionHandler: () -> Void = {}
 
@@ -29,32 +31,42 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     ) {
         labelStyle = field.labelStyle
         fieldStyle = field.fieldStyle
+        placeholder = field.placeholder
+        buttonText = fieldText
+        button.titleEdgeInsets.left = Default.Dimensions.horizontalPadding
+        button.titleEdgeInsets.right = Default.Dimensions.horizontalPadding
         fieldLabel.setStyle(with: field.labelStyle)
-        if let fieldText = fieldText {
-            button.setTitle(fieldText, for: .normal)
-        } else {
-            button.setAttributedTitle(
-                NSAttributedString(
-                    string: field.placeholder,
-                    attributes: field.fieldStyle.placeholderAttributes),
-                for: .normal
-            )
-        }
         clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
     }
 
     func setFieldBorder() {
-        button.stroked(
-            with: fieldStyle?.borderStyle?.borderWidth ?? 1,
-            color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
-        )
         guard let borderStyle = fieldStyle?.borderStyle else { return }
-        button.layer.cornerRadius = borderStyle.cornerRadius
+        button.setBorder(with: borderStyle)
+    }
+
+    func setPlaceholder() {
+        if let fieldText = buttonText, !fieldText.isEmpty {
+            button.setTitle(fieldText, for: .normal)
+        } else {
+            let attributes = fieldStyle?.placeholderAttributes ?? [
+                NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
+                NSAttributedString.Key.font: Default.Fonts.placeholder
+            ]
+            button.setAttributedTitle(
+                NSAttributedString(
+                    string: placeholder ?? "",
+                    attributes: attributes),
+                for: .normal
+            )
+        }
     }
 
     func showError(message: String, shouldClearText: Bool) {
-        button.stroked(with: fieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
+        button.stroked(
+            with: fieldStyle?.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            color: Default.Colors.errorBorder
+        )
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
@@ -64,6 +76,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     func clearFieldUI() {
         errorLabel.isHidden = true
         setFieldBorder()
+        setPlaceholder()
         guard let fieldStyle = fieldStyle else { return }
         button.setStyle(with: fieldStyle)
     }

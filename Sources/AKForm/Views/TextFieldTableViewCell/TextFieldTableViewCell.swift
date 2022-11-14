@@ -19,6 +19,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
 
     var labelStyle: LabelStyle?
     var fieldStyle: FieldStyle?
+    var placeholder: String?
 
     private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
@@ -43,9 +44,11 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     ) {
         labelStyle = field.labelStyle
         fieldStyle = field.fieldStyle
+        placeholder = field.placeholder
         fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
-        textField.placeholder = field.placeholder
+        textField.leftPadding = Default.Dimensions.horizontalPadding
+        textField.rightPadding = Default.Dimensions.horizontalPadding
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
@@ -53,16 +56,23 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     }
 
     func setFieldBorder() {
-        textFieldView.stroked(
-            with: fieldStyle?.borderStyle?.borderWidth ?? 1,
-            color: fieldStyle?.borderStyle?.borderColor ?? .lightGray
-        )
         guard let borderStyle = fieldStyle?.borderStyle else { return }
-        textFieldView.layer.cornerRadius = borderStyle.cornerRadius
+        textFieldView.setBorder(with: borderStyle)
+    }
+
+    func setPlaceholder() {
+        guard let placeholderAttributes = fieldStyle?.placeholderAttributes else {
+            textField.placeholder = placeholder
+            return
+        }
+        textField.attributedPlaceholder = NSAttributedString(string: placeholder ?? "", attributes: placeholderAttributes)
     }
 
     func showError(message: String, shouldClearText: Bool) {
-        textFieldView.stroked(with: fieldStyle?.borderStyle?.borderWidth ?? 1, color: .systemRed)
+        textFieldView.stroked(
+            with: fieldStyle?.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            color: Default.Colors.errorBorder
+        )
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
@@ -73,6 +83,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         textField.attributedPlaceholder = nil
         errorLabel.isHidden = true
         setFieldBorder()
+        setPlaceholder()
         guard let textFieldStyle = fieldStyle else { return }
         textField.setStyle(with: textFieldStyle)
     }

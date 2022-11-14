@@ -7,16 +7,6 @@
 
 import UIKit
 
-extension UIView {
-    /// Strokes the view with the given line width and color.
-    ///  - Returns: The view.
-    @discardableResult func stroked(with borderWidth: CGFloat = 1.0, color borderColor: UIColor) -> Self {
-        layer.borderWidth = borderWidth
-        layer.borderColor = borderColor.cgColor
-        return self
-    }
-}
-
 extension NSAttributedString {
     static func defaultPlaceholder(_ placeholder: String) -> NSAttributedString {
         NSAttributedString(
