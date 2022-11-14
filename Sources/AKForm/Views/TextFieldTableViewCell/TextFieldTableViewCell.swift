@@ -47,6 +47,8 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         placeholder = field.placeholder
         fieldLabel.setStyle(with: field.labelStyle)
         textField.text = textFieldText
+        textField.leftPadding = Default.Dimensions.horizontalPadding
+        textField.rightPadding = Default.Dimensions.horizontalPadding
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler

@@ -24,4 +24,26 @@ public extension UITextField {
         textContentType = contentType.contentType
         isSecureTextEntry = contentType.isSecureTextEntry
     }
+
+    var leftPadding: CGFloat {
+        get {
+            return leftView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            leftView = paddingView
+            leftViewMode = .always
+        }
+    }
+    
+    var rightPadding: CGFloat {
+        get {
+            return rightView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            rightView = paddingView
+            rightViewMode = .always
+        }
+    }
 }

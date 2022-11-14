@@ -25,6 +25,7 @@ public struct Default {
         public static var separatorThickness: CGFloat = 14
         public static var separatorStartInset: CGFloat = 14
         public static var separatorEndInset: CGFloat = 14
+        public static var horizontalPadding: CGFloat = 8
     }
 
     public struct Colors {

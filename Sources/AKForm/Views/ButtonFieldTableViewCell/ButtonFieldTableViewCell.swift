@@ -33,6 +33,8 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         fieldStyle = field.fieldStyle
         placeholder = field.placeholder
         buttonText = fieldText
+        button.titleEdgeInsets.left = Default.Dimensions.horizontalPadding
+        button.titleEdgeInsets.right = Default.Dimensions.horizontalPadding
         fieldLabel.setStyle(with: field.labelStyle)
         clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
@@ -44,7 +46,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setPlaceholder() {
-        if let fieldText = buttonText {
+        if let fieldText = buttonText, !fieldText.isEmpty {
             button.setTitle(fieldText, for: .normal)
         } else {
             let attributes = fieldStyle?.placeholderAttributes ?? [
