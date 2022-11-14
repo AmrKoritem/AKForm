@@ -22,9 +22,9 @@ public struct Default {
         public static var cornerRadius: CGFloat = 14
         public static var sheetBorderWidth: CGFloat = 1
         public static var sheetCornerRadius: CGFloat = 14
-        public static var separatorThickness: CGFloat = 14
-        public static var separatorStartInset: CGFloat = 14
-        public static var separatorEndInset: CGFloat = 14
+        public static var separatorStartInset: CGFloat = 1
+        public static var separatorThickness: CGFloat = 1
+        public static var separatorEndInset: CGFloat = 1
         public static var horizontalPadding: CGFloat = 8
     }
 

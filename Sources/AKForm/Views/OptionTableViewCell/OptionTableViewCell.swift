@@ -26,7 +26,7 @@ class OptionTableViewCell: UITableViewCell {
         separatorView.isHidden = optionStyle.separatorStyle.color == .clear
         separatorView.backgroundColor = optionStyle.separatorStyle.color
         startInsetConstraint.constant = optionStyle.separatorStyle.startInset
-        separatorHeightConstraint.constant = optionStyle.separatorStyle.dimension
+        separatorHeightConstraint.constant = optionStyle.separatorStyle.thickness
         endInsetConstraint.constant = optionStyle.separatorStyle.endInset
     }
 }

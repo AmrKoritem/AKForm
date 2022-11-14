@@ -31,9 +31,12 @@ class SheetViewController: UIViewController {
     private var topSheetConstraintConstant: CGFloat {
         view.frame.size.height * 0.65
     }
+
     private lazy var header: UIView = {
         let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 68)))
         let textField = UITextField()
+        textField.leftPadding = Default.Dimensions.horizontalPadding
+        textField.rightPadding = Default.Dimensions.horizontalPadding
         searchField = textField
         if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
             textField.placeholder = sheetField?.placeholder

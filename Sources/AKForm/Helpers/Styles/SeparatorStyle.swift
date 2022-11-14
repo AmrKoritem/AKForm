@@ -9,7 +9,7 @@ import UIKit
 
 public struct SeparatorStyle {
     var color: UIColor
-    var dimension: CGFloat
+    var thickness: CGFloat
     var startInset: CGFloat
     var endInset: CGFloat
 
@@ -20,7 +20,7 @@ public struct SeparatorStyle {
         endInset: CGFloat = Default.Dimensions.separatorEndInset
     ) {
         self.color = color
-        self.dimension = dimension
+        self.thickness = dimension
         self.startInset = startInset
         self.endInset = endInset
     }
