@@ -18,12 +18,16 @@ public extension UILabel {
                     NSAttributedString.Key.font: labelStyle.font,
                     NSAttributedString.Key.foregroundColor: labelStyle.textColor
                 ])
-            mandatory.addSymbol(to: attributedText)
+            if mandatory.isMandatory {
+                mandatory.addSymbol(to: attributedText)
+            }
             self.attributedText = attributedText
             return
         }
         let mutableAttributedText = NSMutableAttributedString(attributedString: attributedText)
-        mandatory.addSymbol(to: mutableAttributedText)
+        if mandatory.isMandatory {
+            mandatory.addSymbol(to: mutableAttributedText)
+        }
         self.attributedText = mutableAttributedText
     }
 }
