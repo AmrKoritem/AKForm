@@ -35,7 +35,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         buttonText = fieldText
         button.titleEdgeInsets.left = Default.Dimensions.horizontalPadding
         button.titleEdgeInsets.right = Default.Dimensions.horizontalPadding
-        fieldLabel.setStyle(with: field.labelStyle)
+        fieldLabel.setStyle(with: field.labelStyle, mandatory: field.mandatory)
         clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
     }

@@ -8,10 +8,10 @@
 import UIKit
 
 public struct SeparatorStyle {
-    var color: UIColor
-    var thickness: CGFloat
-    var startInset: CGFloat
-    var endInset: CGFloat
+    let color: UIColor
+    let thickness: CGFloat
+    let startInset: CGFloat
+    let endInset: CGFloat
 
     public init(
         color: UIColor = Default.Colors.separator,

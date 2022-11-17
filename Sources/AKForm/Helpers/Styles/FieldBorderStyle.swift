@@ -8,9 +8,9 @@
 import UIKit
 
 public struct FieldBorderStyle {
-    var borderColor: UIColor
-    var borderWidth: CGFloat
-    var cornerRadius: CGFloat
+    let borderColor: UIColor
+    let borderWidth: CGFloat
+    let cornerRadius: CGFloat
 
     public init(
         borderColor: UIColor = Default.Colors.border,

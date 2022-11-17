@@ -9,12 +9,12 @@ import UIKit
 
 /// Used to set text fields ui.
 public struct FieldStyle {
-    var textColor: UIColor
-    var font: UIFont
-    var textAlignment: NSTextAlignment
-    var backgroundColor: UIColor
-    var placeholderAttributes: [NSAttributedString.Key: Any]?
-    var borderStyle: FieldBorderStyle
+    let textColor: UIColor
+    let font: UIFont
+    let textAlignment: NSTextAlignment
+    let backgroundColor: UIColor
+    let placeholderAttributes: [NSAttributedString.Key: Any]?
+    let borderStyle: FieldBorderStyle
 
     public init(
         textColor: UIColor = Default.Colors.field,

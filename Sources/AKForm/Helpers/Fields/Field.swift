@@ -25,14 +25,15 @@ public enum FieldType {
 
 /// Field properties wrapper.
 public class Field {
-    var id: Int
-    var count: FieldCount
-    var type: FieldType
-    var contentType: FieldContentType
-    var labelStyle: LabelStyle
-    var fieldStyle: FieldStyle
-    var placeholder: String
-    var errorMessages: FieldErrorMessages?
+    let id: Int
+    let count: FieldCount
+    let type: FieldType
+    let contentType: FieldContentType
+    let labelStyle: LabelStyle
+    let fieldStyle: FieldStyle
+    let placeholder: String
+    let errorMessages: FieldErrorMessages?
+    let mandatory: MandatoryStyle
 
     init(
         id: Int,
@@ -42,7 +43,8 @@ public class Field {
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
         placeholder: String,
-        errorMessages: FieldErrorMessages? = nil
+        errorMessages: FieldErrorMessages? = nil,
+        mandatory: MandatoryStyle = MandatoryStyle()
     ) {
         self.id = id
         self.count = count
@@ -52,5 +54,6 @@ public class Field {
         self.fieldStyle = fieldStyle
         self.placeholder = placeholder
         self.errorMessages = errorMessages
+        self.mandatory = mandatory
     }
 }

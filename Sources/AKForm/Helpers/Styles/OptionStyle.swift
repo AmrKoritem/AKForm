@@ -8,11 +8,11 @@
 import UIKit
 
 public struct OptionStyle {
-    var textColor: UIColor
-    var font: UIFont
-    var textAlignment: NSTextAlignment
-    var backgroundColor: UIColor
-    var separatorStyle: SeparatorStyle
+    let textColor: UIColor
+    let font: UIFont
+    let textAlignment: NSTextAlignment
+    let backgroundColor: UIColor
+    let separatorStyle: SeparatorStyle
 
     public init(
         textColor: UIColor = Default.Colors.optionTitle,
