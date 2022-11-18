@@ -25,6 +25,7 @@ public class SheetField: Field {
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
         mandatory: MandatoryStyle = MandatoryStyle(),
+        onFirstResponderStyle: OnFirstResponderStyle? = nil,
         sheetBackgroundColor: UIColor = .white,
         sheetBorderStyle: FieldBorderStyle,
         sheetTextFieldStyle: FieldStyle,
@@ -47,7 +48,8 @@ public class SheetField: Field {
             fieldStyle: fieldStyle,
             placeholder: placeholder,
             errorMessages: errorMessages,
-            mandatory: mandatory
+            mandatory: mandatory,
+            onFirstResponderStyle: onFirstResponderStyle
         )
     }
 }

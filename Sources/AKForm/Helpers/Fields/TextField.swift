@@ -20,6 +20,7 @@ public class TextField: Field {
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
         mandatory: MandatoryStyle = MandatoryStyle(),
+        onFirstResponderStyle: OnFirstResponderStyle? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
         self.textFieldObserverHandlers = textFieldObserverHandlers
@@ -32,10 +33,14 @@ public class TextField: Field {
             fieldStyle: fieldStyle,
             placeholder: placeholder,
             errorMessages: errorMessages,
-            mandatory: mandatory
+            mandatory: mandatory,
+            onFirstResponderStyle: onFirstResponderStyle
         )
     }
 }
+
+public typealias TextFieldEditingChangedHandler = (_ text: String?) -> Void
+public typealias TextFieldEditingDidEnddHandler = (_ text: String?) -> Void
 
 public struct TextFieldObserverHandlers {
     let editingHandler: TextFieldEditingChangedHandler
