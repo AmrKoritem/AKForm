@@ -8,13 +8,26 @@
 import UIKit
 
 public extension UILabel {
-    /// Set label attributes using a `LabelStyle` object.
-    func setStyle(with labelStyle: LabelStyle) {
-        textColor = labelStyle.textColor
-        font = labelStyle.font
+    /// Set label attributes using `LabelStyle` and `MandatoryStyle` objects.
+    func setStyle(with labelStyle: LabelStyle, mandatory: MandatoryStyle = MandatoryStyle()) {
         textAlignment = labelStyle.textAlignment
-        text = labelStyle.text
-        guard let attributedText = labelStyle.attributedText else { return }
-        self.attributedText = attributedText
+        guard let attributedText = labelStyle.attributedText else {
+            let attributedText = NSMutableAttributedString(
+                string: labelStyle.text ?? "",
+                attributes: [
+                    NSAttributedString.Key.font: labelStyle.font,
+                    NSAttributedString.Key.foregroundColor: labelStyle.textColor
+                ])
+            if mandatory.isMandatory {
+                mandatory.addSymbol(to: attributedText)
+            }
+            self.attributedText = attributedText
+            return
+        }
+        let mutableAttributedText = NSMutableAttributedString(attributedString: attributedText)
+        if mandatory.isMandatory {
+            mandatory.addSymbol(to: mutableAttributedText)
+        }
+        self.attributedText = mutableAttributedText
     }
 }

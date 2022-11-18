@@ -9,7 +9,7 @@ import UIKit
 
 /// TextField properties wrapper.
 public class TextField: Field {
-    var textFieldObserverHandlers: TextFieldObserverHandlers?
+    let textFieldObserverHandlers: TextFieldObserverHandlers?
 
     public init(
         id: Int,
@@ -19,6 +19,8 @@ public class TextField: Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
+        mandatory: MandatoryStyle = MandatoryStyle(),
+        onFirstResponderStyle: OnFirstResponderStyle? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
         self.textFieldObserverHandlers = textFieldObserverHandlers
@@ -30,14 +32,19 @@ public class TextField: Field {
             labelStyle: labelStyle,
             fieldStyle: fieldStyle,
             placeholder: placeholder,
-            errorMessages: errorMessages
+            errorMessages: errorMessages,
+            mandatory: mandatory,
+            onFirstResponderStyle: onFirstResponderStyle
         )
     }
 }
 
+public typealias TextFieldEditingChangedHandler = (_ text: String?) -> Void
+public typealias TextFieldEditingDidEnddHandler = (_ text: String?) -> Void
+
 public struct TextFieldObserverHandlers {
-    var editingHandler: TextFieldEditingChangedHandler
-    var editingDidEndHandler: TextFieldEditingDidEnddHandler
+    let editingHandler: TextFieldEditingChangedHandler
+    let editingDidEndHandler: TextFieldEditingDidEnddHandler
     
     public init(
         editingHandler: @escaping TextFieldEditingChangedHandler,

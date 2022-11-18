@@ -8,8 +8,7 @@
 import UIKit
 
 protocol FieldTableViewCellProtocol: UITableViewCell {
-    var labelStyle: LabelStyle? { get }
-    var fieldStyle: FieldStyle? { get }
+    var field: Field? { get }
     func showError(message: String, shouldClearText: Bool)
     func clearFieldUI()
 }

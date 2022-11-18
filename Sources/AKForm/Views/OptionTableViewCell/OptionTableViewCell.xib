@@ -17,27 +17,29 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lCF-df-emm">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lCF-df-emm">
                         <rect key="frame" x="8" y="8" width="44" height="44"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="lCF-df-emm" secondAttribute="height" id="X7a-ZV-aa4"/>
-                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fj-Vg-2T3">
-                        <rect key="frame" x="62" y="8" width="40" height="20"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyT-61-7jl">
+                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="FwY-hC-32C">
+                        <rect key="frame" x="62" y="8" width="39.5" height="19.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fj-Vg-2T3">
+                                <rect key="frame" x="0.0" y="0.0" width="39.5" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyT-61-7jl">
                         <rect key="frame" x="62" y="52" width="0.0" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4BU-2X-RSe">
-                        <rect key="frame" x="265" y="8" width="44" height="44"/>
+                        <rect key="frame" x="265" y="8" width="47" height="44"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n7K-1i-cYv">
@@ -52,17 +54,18 @@
                 <constraints>
                     <constraint firstItem="xyT-61-7jl" firstAttribute="bottom" secondItem="lCF-df-emm" secondAttribute="bottom" id="28M-8o-Cne"/>
                     <constraint firstAttribute="trailing" secondItem="4BU-2X-RSe" secondAttribute="trailing" constant="8" id="3DU-kr-rYa"/>
-                    <constraint firstItem="6fj-Vg-2T3" firstAttribute="leading" secondItem="lCF-df-emm" secondAttribute="trailing" constant="10" id="6IO-nR-IYU"/>
-                    <constraint firstItem="xyT-61-7jl" firstAttribute="leading" secondItem="6fj-Vg-2T3" secondAttribute="leading" id="7VP-aC-WKD"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xyT-61-7jl" secondAttribute="trailing" constant="10" id="82y-VJ-Qyd"/>
                     <constraint firstAttribute="bottom" secondItem="lCF-df-emm" secondAttribute="bottom" constant="8" id="IqV-YY-qY2"/>
+                    <constraint firstItem="4BU-2X-RSe" firstAttribute="top" secondItem="FwY-hC-32C" secondAttribute="top" priority="999" id="LhC-i7-RFf"/>
                     <constraint firstItem="n7K-1i-cYv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="McW-Gb-S9O"/>
                     <constraint firstItem="lCF-df-emm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Roq-W4-ohz"/>
                     <constraint firstAttribute="bottom" secondItem="n7K-1i-cYv" secondAttribute="bottom" id="UWn-Ec-HuE"/>
                     <constraint firstAttribute="trailing" secondItem="n7K-1i-cYv" secondAttribute="trailing" id="UX6-yk-Zdv"/>
+                    <constraint firstItem="FwY-hC-32C" firstAttribute="leading" secondItem="lCF-df-emm" secondAttribute="trailing" constant="10" id="cjx-al-hZl"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FwY-hC-32C" secondAttribute="bottom" constant="8" id="p72-Wy-Lc4"/>
+                    <constraint firstItem="xyT-61-7jl" firstAttribute="leading" secondItem="lCF-df-emm" secondAttribute="trailing" constant="10" id="pVf-gS-76l"/>
                     <constraint firstItem="lCF-df-emm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="pu0-Sr-2AK"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6fj-Vg-2T3" secondAttribute="bottom" constant="8" id="rdd-c7-LOH"/>
-                    <constraint firstItem="6fj-Vg-2T3" firstAttribute="top" secondItem="lCF-df-emm" secondAttribute="top" id="y6l-WX-acT"/>
+                    <constraint firstItem="FwY-hC-32C" firstAttribute="top" secondItem="lCF-df-emm" secondAttribute="top" id="x0v-04-MEI"/>
                     <constraint firstItem="4BU-2X-RSe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="yrc-fN-S1e"/>
                 </constraints>
             </tableViewCellContentView>
@@ -71,12 +74,16 @@
             <connections>
                 <outlet property="endInsetConstraint" destination="UX6-yk-Zdv" id="cHR-GX-euN"/>
                 <outlet property="mainImageView" destination="lCF-df-emm" id="uAq-Ct-tYQ"/>
+                <outlet property="secondaryImageCenterConstraint" destination="yrc-fN-S1e" id="TBR-vv-7tS"/>
+                <outlet property="secondaryImageTopConstraint" destination="LhC-i7-RFf" id="w7t-JQ-4sS"/>
+                <outlet property="secondaryImageTrailingConstraint" destination="3DU-kr-rYa" id="WT6-na-zjL"/>
                 <outlet property="secondaryImageView" destination="4BU-2X-RSe" id="HCw-z5-lii"/>
                 <outlet property="separatorHeightConstraint" destination="KtZ-0z-ZW1" id="qm2-FK-mRc"/>
                 <outlet property="separatorView" destination="n7K-1i-cYv" id="ff9-ls-4Yd"/>
                 <outlet property="startInsetConstraint" destination="McW-Gb-S9O" id="KaI-Qq-jZS"/>
                 <outlet property="subtitleLabel" destination="xyT-61-7jl" id="E1b-CZ-OYM"/>
                 <outlet property="titleLabel" destination="6fj-Vg-2T3" id="yPK-NP-vhx"/>
+                <outlet property="titleStackView" destination="FwY-hC-32C" id="rmc-0B-zdd"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="99.776785714285708"/>
         </tableViewCell>

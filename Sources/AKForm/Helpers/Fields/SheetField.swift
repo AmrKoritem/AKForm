@@ -9,12 +9,9 @@ import UIKit
 
 /// SheetField properties wrapper.
 public class SheetField: Field {
-    var sheetBackgroundColor: UIColor
-    var sheetBorderStyle: FieldBorderStyle
-    var sheetTextFieldStyle: FieldStyle
-    var sheetTextFieldObserverHandlers: TextFieldObserverHandlers?
-    var optionStyle: OptionStyle
-    var options: [String]
+    let sheetStyle: SheetStyle
+    let optionStyle: OptionStyle
+    let options: [String]
 
     public init(
         id: Int,
@@ -24,17 +21,13 @@ public class SheetField: Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
-        sheetBackgroundColor: UIColor = .white,
-        sheetBorderStyle: FieldBorderStyle,
-        sheetTextFieldStyle: FieldStyle,
-        sheetTextFieldObserverHandlers: TextFieldObserverHandlers? = nil,
+        mandatory: MandatoryStyle = MandatoryStyle(),
+        onFirstResponderStyle: OnFirstResponderStyle? = nil,
+        sheetStyle: SheetStyle = SheetStyle(),
         optionStyle: OptionStyle = OptionStyle(),
         options: [String]
     ) {
-        self.sheetBackgroundColor = sheetBackgroundColor
-        self.sheetBorderStyle = sheetBorderStyle
-        self.sheetTextFieldStyle = sheetTextFieldStyle
-        self.sheetTextFieldObserverHandlers = sheetTextFieldObserverHandlers
+        self.sheetStyle = sheetStyle
         self.optionStyle = optionStyle
         self.options = options
         super.init(
@@ -45,7 +38,9 @@ public class SheetField: Field {
             labelStyle: labelStyle,
             fieldStyle: fieldStyle,
             placeholder: placeholder,
-            errorMessages: errorMessages
+            errorMessages: errorMessages,
+            mandatory: mandatory,
+            onFirstResponderStyle: onFirstResponderStyle
         )
     }
 }

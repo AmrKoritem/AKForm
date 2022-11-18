@@ -32,8 +32,6 @@ public extension UITableView {
                 registerNib(TextFieldTableViewCell.self)
             case .sheet:
                 registerNib(ButtonFieldTableViewCell.self)
-            default:
-                break
             }
         }
     }
@@ -74,16 +72,18 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 buttonActionHandler: {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
+                    vc.selectedOption = data
                     vc.modalPresentationStyle = .overCurrentContext
                     vc.optionSelectionHandler = { [weak self] text in
                         self?.dataSource?.dataMap[field.id] = text
                         tableView.reloadRows(at: [indexPath], with: .automatic)
                     }
+                    vc.viewWillDisappearHandler = { [weak fieldCell] in
+                        fieldCell?.setStyles(with: field)
+                    }
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
-        default:
-            break
         }
         guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
         switch data?.getValidationStatus(for: field.contentType.validationRegex) ?? .valid {

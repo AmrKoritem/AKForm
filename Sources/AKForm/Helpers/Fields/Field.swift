@@ -16,23 +16,31 @@ public enum FieldCount: Int {
 /// Supported field types.
 public enum FieldType {
     case text
-    case dropDown
-    case filePicker
+//    case dropDown
+//    case filePicker
     case sheet
-    case location
-    case picker
+//    case location
+//    case picker
 }
+
+public typealias OnFirstResponderStyle = () -> (
+    labelStyle: LabelStyle?,
+    fieldStyle: FieldStyle?,
+    mandatoryStyle: MandatoryStyle?
+)
 
 /// Field properties wrapper.
 public class Field {
-    var id: Int
-    var count: FieldCount
-    var type: FieldType
-    var contentType: FieldContentType
-    var labelStyle: LabelStyle
-    var fieldStyle: FieldStyle
-    var placeholder: String
-    var errorMessages: FieldErrorMessages?
+    let id: Int
+    let count: FieldCount
+    let type: FieldType
+    let contentType: FieldContentType
+    let labelStyle: LabelStyle
+    let fieldStyle: FieldStyle
+    let placeholder: String
+    let errorMessages: FieldErrorMessages?
+    let mandatory: MandatoryStyle
+    var onFirstResponderStyle: OnFirstResponderStyle?
 
     init(
         id: Int,
@@ -42,7 +50,9 @@ public class Field {
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
         placeholder: String,
-        errorMessages: FieldErrorMessages? = nil
+        errorMessages: FieldErrorMessages? = nil,
+        mandatory: MandatoryStyle = MandatoryStyle(),
+        onFirstResponderStyle: OnFirstResponderStyle? = nil
     ) {
         self.id = id
         self.count = count
@@ -52,5 +62,22 @@ public class Field {
         self.fieldStyle = fieldStyle
         self.placeholder = placeholder
         self.errorMessages = errorMessages
+        self.mandatory = mandatory
+        self.onFirstResponderStyle = onFirstResponderStyle
+    }
+
+    public func getOnFirstResponderCopy() -> Field {
+        Field(
+            id: id,
+            count: count,
+            type: type,
+            contentType: contentType,
+            labelStyle: onFirstResponderStyle?().labelStyle ?? labelStyle,
+            fieldStyle: onFirstResponderStyle?().fieldStyle ?? fieldStyle,
+            placeholder: placeholder,
+            errorMessages: errorMessages,
+            mandatory: onFirstResponderStyle?().mandatoryStyle ?? mandatory,
+            onFirstResponderStyle: onFirstResponderStyle
+        )
     }
 }
