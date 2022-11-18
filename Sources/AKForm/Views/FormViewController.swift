@@ -55,7 +55,9 @@ open class FormViewController: UIViewController, FormDataSource {
         form?.tableHeaderView = formHeader
         form?.tableFooterView = formFooter
         form?.allowsSelection = false
-        form?.separatorStyle = .none
+        if #available(iOS 13.0, *) {
+            form?.separatorStyle = .none
+        }
         guard let form = form else { return }
         view.addSubview(form)
         form.translatesAutoresizingMaskIntoConstraints = false
