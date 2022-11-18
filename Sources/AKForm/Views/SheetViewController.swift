@@ -29,9 +29,10 @@ class SheetViewController: UIViewController {
     private var topConstraint: NSLayoutConstraint?
 
     private var topSheetConstraintConstant: CGFloat {
-        view.frame.size.height * 0.65
+        view.frame.size.height * (1.0 - heightCoefficient)
     }
 
+    private lazy var heightCoefficient: CGFloat = sheetField?.heightCoefficient ?? 0
     private lazy var header: UIView = {
         let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 68)))
         let textField = UITextField()

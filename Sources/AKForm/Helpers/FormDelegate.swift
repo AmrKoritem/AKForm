@@ -32,8 +32,6 @@ public extension UITableView {
                 registerNib(TextFieldTableViewCell.self)
             case .sheet:
                 registerNib(ButtonFieldTableViewCell.self)
-            default:
-                break
             }
         }
     }
@@ -82,8 +80,6 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
-        default:
-            break
         }
         guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
         switch data?.getValidationStatus(for: field.contentType.validationRegex) ?? .valid {

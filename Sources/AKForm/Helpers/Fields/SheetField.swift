@@ -13,6 +13,7 @@ public class SheetField: Field {
     let sheetBorderStyle: FieldBorderStyle
     let sheetTextFieldStyle: FieldStyle
     let sheetTextFieldObserverHandlers: TextFieldObserverHandlers?
+    let heightCoefficient: CGFloat
     let optionStyle: OptionStyle
     let options: [String]
 
@@ -30,6 +31,7 @@ public class SheetField: Field {
         sheetBorderStyle: FieldBorderStyle,
         sheetTextFieldStyle: FieldStyle,
         sheetTextFieldObserverHandlers: TextFieldObserverHandlers? = nil,
+        heightCoefficient: CGFloat = 0.35,
         optionStyle: OptionStyle = OptionStyle(),
         options: [String]
     ) {
@@ -37,6 +39,7 @@ public class SheetField: Field {
         self.sheetBorderStyle = sheetBorderStyle
         self.sheetTextFieldStyle = sheetTextFieldStyle
         self.sheetTextFieldObserverHandlers = sheetTextFieldObserverHandlers
+        self.heightCoefficient = heightCoefficient
         self.optionStyle = optionStyle
         self.options = options
         super.init(
