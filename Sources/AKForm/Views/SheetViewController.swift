@@ -10,10 +10,11 @@ import UIKit
 class SheetViewController: UIViewController {
     var sheetField: SheetField? {
         didSet {
-            textFieldEditingHandler = sheetField?.sheetTextFieldObserverHandlers?.editingHandler
-            textFieldEditingDidEndHandler = sheetField?.sheetTextFieldObserverHandlers?.editingDidEndHandler
+            textFieldEditingHandler = sheetField?.sheetStyle.textFieldObserverHandlers?.editingHandler
+            textFieldEditingDidEndHandler = sheetField?.sheetStyle.textFieldObserverHandlers?.editingDidEndHandler
         }
     }
+    var selectedOption: String?
     var textFieldEditingHandler: TextFieldEditingChangedHandler?
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
     var optionSelectionHandler: (String) -> Void = { _ in }
@@ -32,14 +33,14 @@ class SheetViewController: UIViewController {
         view.frame.size.height * (1.0 - heightCoefficient)
     }
 
-    private lazy var heightCoefficient: CGFloat = sheetField?.heightCoefficient ?? 0
+    private lazy var heightCoefficient: CGFloat = sheetField?.sheetStyle.heightCoefficient ?? 0
     private lazy var header: UIView = {
         let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 68)))
         let textField = UITextField()
         textField.leftPadding = Default.Dimensions.horizontalPadding
         textField.rightPadding = Default.Dimensions.horizontalPadding
         searchField = textField
-        if let sheetTextFieldStyle = sheetField?.sheetTextFieldStyle {
+        if let sheetTextFieldStyle = sheetField?.sheetStyle.textFieldStyle {
             textField.placeholder = sheetField?.placeholder
             textField.setStyle(with: sheetTextFieldStyle)
             textField.setBorder(with: sheetTextFieldStyle.borderStyle)
@@ -85,9 +86,9 @@ class SheetViewController: UIViewController {
         sheet = UITableView()
         sheet?.tableHeaderView = header
         sheet?.separatorStyle = .none
-        sheet?.backgroundColor = sheetField?.sheetBackgroundColor
+        sheet?.backgroundColor = sheetField?.sheetStyle.backgroundColor
         if let sheetField = sheetField {
-            sheet?.setBorder(with: sheetField.sheetBorderStyle)
+            sheet?.setBorder(with: sheetField.sheetStyle.borderStyle)
         }
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
@@ -183,7 +184,7 @@ extension SheetViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: OptionTableViewCell.reuseIdentifier)
         guard let fieldCell = cell as? OptionTableViewCell,
               let optionStyle = sheetField?.optionStyle else { return UITableViewCell() }
-        fieldCell.configure(with: option, and: optionStyle)
+        fieldCell.configure(with: option, and: optionStyle, isSelected: selectedOption == option)
         return fieldCell
     }
 

@@ -7,12 +7,13 @@
 
 import UIKit
 
-public struct MandatoryStyle {
-    public enum SymbolPosition {
-        case start
-        case end
-    }
+public enum SymbolPosition {
+    case start
+    case end
+    case lineEnd(endMargin: CGFloat)
+}
 
+public struct MandatoryStyle {
     let isMandatory: Bool
     let symbol: String
     let color: UIColor
@@ -47,7 +48,7 @@ public struct MandatoryStyle {
         switch position {
         case .start:
             text.insert(attributedString, at: 0)
-        case .end:
+        case .end, .lineEnd:
             text.append(attributedString)
         }
     }

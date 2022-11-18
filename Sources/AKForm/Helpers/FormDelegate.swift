@@ -72,6 +72,7 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 buttonActionHandler: {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
+                    vc.selectedOption = data
                     vc.modalPresentationStyle = .overCurrentContext
                     vc.optionSelectionHandler = { [weak self] text in
                         self?.dataSource?.dataMap[field.id] = text
