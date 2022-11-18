@@ -23,7 +23,11 @@ public enum FieldType {
 //    case picker
 }
 
-public typealias OnFirstResponderStyle = () -> (labelStyle: LabelStyle?, fieldStyle: FieldStyle?, mandatory: MandatoryStyle?)
+public typealias OnFirstResponderStyle = () -> (
+    labelStyle: LabelStyle?,
+    fieldStyle: FieldStyle?,
+    mandatoryStyle: MandatoryStyle?
+)
 
 /// Field properties wrapper.
 public class Field {
