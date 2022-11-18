@@ -76,7 +76,7 @@ public class Field {
             fieldStyle: onFirstResponderStyle?().fieldStyle ?? fieldStyle,
             placeholder: placeholder,
             errorMessages: errorMessages,
-            mandatory: onFirstResponderStyle?().mandatory ?? mandatory,
+            mandatory: onFirstResponderStyle?().mandatoryStyle ?? mandatory,
             onFirstResponderStyle: onFirstResponderStyle
         )
     }
