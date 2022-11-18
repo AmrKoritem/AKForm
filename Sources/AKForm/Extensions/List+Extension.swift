@@ -7,9 +7,19 @@
 
 import UIKit
 
+extension Bundle {
+    static var form: Bundle {
+#if SWIFT_PACKAGE
+        return module
+#else
+        return main
+#endif
+    }
+}
+
 extension UITableView {
     func registerNib<T: UITableViewCell>(_ tableViewCell: T.Type) {
-        register(UINib(nibName: T.nibName, bundle: Bundle.module), forCellReuseIdentifier: T.reuseIdentifier)
+        register(UINib(nibName: T.nibName, bundle: .form), forCellReuseIdentifier: T.reuseIdentifier)
     }
 }
 
