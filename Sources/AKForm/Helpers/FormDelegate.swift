@@ -78,6 +78,9 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                         self?.dataSource?.dataMap[field.id] = text
                         tableView.reloadRows(at: [indexPath], with: .automatic)
                     }
+                    vc.viewWillDisappearHandler = { [weak fieldCell] in
+                        fieldCell?.setStyles(with: field)
+                    }
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )

@@ -17,6 +17,7 @@ class SheetViewController: UIViewController {
     var selectedOption: String?
     var textFieldEditingHandler: TextFieldEditingChangedHandler?
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
+    var viewWillDisappearHandler: () -> Void = {}
     var optionSelectionHandler: (String) -> Void = { _ in }
 
     var filteredOptions: [String] {
@@ -73,6 +74,11 @@ class SheetViewController: UIViewController {
         dismissWhenTappedAround()
         addKeyboardObservers()
         view.backgroundColor = .clear
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewWillDisappearHandler()
     }
 
     func configureSheet() {
