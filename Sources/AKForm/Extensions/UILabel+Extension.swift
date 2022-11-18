@@ -9,7 +9,7 @@ import UIKit
 
 public extension UILabel {
     /// Set label attributes using `LabelStyle` and `MandatoryStyle` objects.
-    func setStyle(with labelStyle: LabelStyle, mandatory: MandatoryStyle = MandatoryStyle()) {
+    func setStyle(with labelStyle: LabelStyle, mandatoryStyle: MandatoryStyle = MandatoryStyle()) {
         textAlignment = labelStyle.textAlignment
         guard let attributedText = labelStyle.attributedText else {
             let attributedText = NSMutableAttributedString(
@@ -18,15 +18,15 @@ public extension UILabel {
                     NSAttributedString.Key.font: labelStyle.font,
                     NSAttributedString.Key.foregroundColor: labelStyle.textColor
                 ])
-            if mandatory.isMandatory {
-                mandatory.addSymbol(to: attributedText)
+            if mandatoryStyle.isMandatory {
+                mandatoryStyle.addSymbol(to: attributedText)
             }
             self.attributedText = attributedText
             return
         }
         let mutableAttributedText = NSMutableAttributedString(attributedString: attributedText)
-        if mandatory.isMandatory {
-            mandatory.addSymbol(to: mutableAttributedText)
+        if mandatoryStyle.isMandatory {
+            mandatoryStyle.addSymbol(to: mutableAttributedText)
         }
         self.attributedText = mutableAttributedText
     }

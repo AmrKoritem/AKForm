@@ -1,7 +1,6 @@
 [![Swift](https://img.shields.io/badge/Swift-5.0+-orange?style=flat-square)](https://img.shields.io/badge/Swift-5.0+-Orange?style=flat-square)
 [![UIKit](https://img.shields.io/badge/UIKit-Compatible-red?style=flat-square)](https://img.shields.io/badge/UIKit-Compatible-Red?style=flat-square)
 [![iOS](https://img.shields.io/badge/iOS-Platform-blue?style=flat-square)](https://img.shields.io/badge/iOS-Platform-Blue?style=flat-square)
-[![tvOS](https://img.shields.io/badge/tvOS-Platform-blue?style=flat-square)](https://img.shields.io/badge/tvOS-Platform-Blue?style=flat-square)
 [![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-Support-yellow?style=flat-square)](https://img.shields.io/badge/Swift_Package_Manager-Support-Yellow?style=flat-square)
 
 # AKForm

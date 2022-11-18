@@ -40,7 +40,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
         self.field = field
-        fieldLabel.setStyle(with: field.labelStyle, mandatory: field.mandatory)
+        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         textField.text = textFieldText
         textField.leftPadding = Default.Dimensions.horizontalPadding
         textField.rightPadding = Default.Dimensions.horizontalPadding
@@ -68,7 +68,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     }
 
     func setStyles(with field: Field) {
-        fieldLabel.setStyle(with: field.labelStyle, mandatory: field.mandatory)
+        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)

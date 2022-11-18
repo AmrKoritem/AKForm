@@ -234,12 +234,12 @@
 		1DABB0BE2920B0990051B551 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */,
 				1DABB0BF2920B0AC0051B551 /* LabelStyle.swift */,
 				1DABB0C32920B1380051B551 /* FieldStyle.swift */,
 				1DABB0D02920C5130051B551 /* FieldBorderStyle.swift */,
 				1DABB0D22920D01B0051B551 /* OptionStyle.swift */,
 				1DABB0D42920D08D0051B551 /* SeparatorStyle.swift */,
+				1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */,
 				1DF77DCB2927C81C00FF3F1D /* SheetStyle.swift */,
 			);
 			path = Styles;

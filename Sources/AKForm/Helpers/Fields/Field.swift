@@ -39,7 +39,7 @@ public class Field {
     let fieldStyle: FieldStyle
     let placeholder: String
     let errorMessages: FieldErrorMessages?
-    let mandatory: MandatoryStyle
+    let mandatoryStyle: MandatoryStyle
     var onFirstResponderStyle: OnFirstResponderStyle?
 
     init(
@@ -51,7 +51,7 @@ public class Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
-        mandatory: MandatoryStyle = MandatoryStyle(),
+        mandatoryStyle: MandatoryStyle = MandatoryStyle(),
         onFirstResponderStyle: OnFirstResponderStyle? = nil
     ) {
         self.id = id
@@ -62,7 +62,7 @@ public class Field {
         self.fieldStyle = fieldStyle
         self.placeholder = placeholder
         self.errorMessages = errorMessages
-        self.mandatory = mandatory
+        self.mandatoryStyle = mandatoryStyle
         self.onFirstResponderStyle = onFirstResponderStyle
     }
 
@@ -76,7 +76,7 @@ public class Field {
             fieldStyle: onFirstResponderStyle?().fieldStyle ?? fieldStyle,
             placeholder: placeholder,
             errorMessages: errorMessages,
-            mandatory: onFirstResponderStyle?().mandatoryStyle ?? mandatory,
+            mandatoryStyle: onFirstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
             onFirstResponderStyle: onFirstResponderStyle
         )
     }

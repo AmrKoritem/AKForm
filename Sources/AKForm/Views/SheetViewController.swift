@@ -10,8 +10,9 @@ import UIKit
 class SheetViewController: UIViewController {
     var sheetField: SheetField? {
         didSet {
-            textFieldEditingHandler = sheetField?.sheetStyle.textFieldObserverHandlers?.editingHandler
-            textFieldEditingDidEndHandler = sheetField?.sheetStyle.textFieldObserverHandlers?.editingDidEndHandler
+            let textFieldObserverHandlers = sheetField?.sheetStyle.textFieldStyle?.textFieldObserverHandlers
+            textFieldEditingHandler = textFieldObserverHandlers?.editingHandler
+            textFieldEditingDidEndHandler = textFieldObserverHandlers?.editingDidEndHandler
         }
     }
     var selectedOption: String?
@@ -35,16 +36,17 @@ class SheetViewController: UIViewController {
     }
 
     private lazy var heightCoefficient: CGFloat = sheetField?.sheetStyle.heightCoefficient ?? 0
-    private lazy var header: UIView = {
-        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 68)))
+    private lazy var header: UIView? = {
+        guard sheetField?.sheetStyle.textFieldStyle?.withTextField == true else { return nil }
+        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 71)))
         let textField = UITextField()
         textField.leftPadding = Default.Dimensions.horizontalPadding
         textField.rightPadding = Default.Dimensions.horizontalPadding
         searchField = textField
-        if let sheetTextFieldStyle = sheetField?.sheetStyle.textFieldStyle {
+        if let fieldStyle = sheetField?.sheetStyle.textFieldStyle?.fieldStyle {
             textField.placeholder = sheetField?.placeholder
-            textField.setStyle(with: sheetTextFieldStyle)
-            textField.setBorder(with: sheetTextFieldStyle.borderStyle)
+            textField.setStyle(with: fieldStyle)
+            textField.setBorder(with: fieldStyle.borderStyle)
             textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
@@ -54,7 +56,7 @@ class SheetViewController: UIViewController {
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
             textField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20),
-            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 9),
+            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 12),
             textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -9)
         ])
         wrapper.addSubview(textField)

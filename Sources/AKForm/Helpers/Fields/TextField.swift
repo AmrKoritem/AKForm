@@ -19,7 +19,7 @@ public class TextField: Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
-        mandatory: MandatoryStyle = MandatoryStyle(),
+        mandatoryStyle: MandatoryStyle = MandatoryStyle(),
         onFirstResponderStyle: OnFirstResponderStyle? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
@@ -33,7 +33,7 @@ public class TextField: Field {
             fieldStyle: fieldStyle,
             placeholder: placeholder,
             errorMessages: errorMessages,
-            mandatory: mandatory,
+            mandatoryStyle: mandatoryStyle,
             onFirstResponderStyle: onFirstResponderStyle
         )
     }
