@@ -54,6 +54,7 @@ open class FormViewController: UIViewController, FormDataSource {
         form = UITableView()
         form?.tableHeaderView = formHeader
         form?.tableFooterView = formFooter
+        form?.backgroundColor = .clear
         form?.allowsSelection = false
         form?.separatorStyle = .none
         guard let form = form else { return }
