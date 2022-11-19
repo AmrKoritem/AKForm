@@ -20,7 +20,7 @@ extension String {
         case none = ""
     }
 
-    enum ValidationStatus {
+    public enum ValidationStatus {
         case valid
         case invalid
         case missing
