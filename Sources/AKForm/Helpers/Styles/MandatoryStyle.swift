@@ -18,6 +18,7 @@ public struct MandatoryStyle {
     let symbol: String
     let color: UIColor
     let font: UIFont
+    /// For this property, .end and .lineEnd yield the same result.
     let position: SymbolPosition
 
     var attributedString: NSAttributedString {

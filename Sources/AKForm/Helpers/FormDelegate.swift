@@ -86,7 +86,7 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
             )
         }
         guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
-        switch data?.getValidationStatus(for: field.contentType.validationRegex) ?? .valid {
+        switch field.contentType.getValidationStatus(for: data) ?? .valid {
         case .invalid:
             cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
         case .missing:

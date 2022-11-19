@@ -15,12 +15,12 @@ public struct SeparatorStyle {
 
     public init(
         color: UIColor = Default.Colors.separator,
-        dimension: CGFloat = Default.Dimensions.separatorThickness,
+        thickness: CGFloat = Default.Dimensions.separatorThickness,
         startInset: CGFloat = Default.Dimensions.separatorStartInset,
         endInset: CGFloat = Default.Dimensions.separatorEndInset
     ) {
         self.color = color
-        self.thickness = dimension
+        self.thickness = thickness
         self.startInset = startInset
         self.endInset = endInset
     }

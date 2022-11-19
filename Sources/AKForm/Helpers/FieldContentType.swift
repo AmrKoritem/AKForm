@@ -7,17 +7,27 @@
 
 import UIKit
 
+public typealias ContentTypeAttributes = (
+    keyboardType: UIKeyboardType?,
+    autocapitalizationType: UITextAutocapitalizationType?,
+    autocorrectionType: UITextAutocorrectionType?,
+    contentType: UITextContentType?,
+    isSecureTextEntry: Bool?,
+    validationHandler: ((String?) -> String.ValidationStatus)?
+)
+
 /// Supported field content types.
 public enum FieldContentType {
     case name
     case email
-    case password
+    case password(isSecureTextEntry: Bool? = nil)
     case image
     case price
     case phone
     case address
     case url
     case other
+    case custom(contentTypeAttributes: ContentTypeAttributes)
 
     /// Validation equivalent regex.
     var validationRegex: String.ValidationRegex {
@@ -34,6 +44,15 @@ public enum FieldContentType {
             return .none
         }
     }
+
+    func getValidationStatus(for text: String?) -> String.ValidationStatus? {
+        switch self {
+        case .custom(let contentTypeAttributes):
+            return contentTypeAttributes.validationHandler?(text)
+        default:
+            return text?.getValidationStatus(for: validationRegex)
+        }
+    }
 }
 
 public extension FieldContentType {
@@ -48,6 +67,8 @@ public extension FieldContentType {
             return .phonePad
         case .url:
             return .URL
+        case .custom(let contentTypeAttributes):
+            return contentTypeAttributes.keyboardType ?? .default
         default:
             return .default
         }
@@ -60,6 +81,8 @@ public extension FieldContentType {
             return .sentences
         case .name:
             return .words
+        case .custom(let contentTypeAttributes):
+            return contentTypeAttributes.autocapitalizationType ?? .none
         default:
             return .none
         }
@@ -70,6 +93,8 @@ public extension FieldContentType {
         switch self {
         case .other:
             return .default
+        case .custom(let contentTypeAttributes):
+            return contentTypeAttributes.autocorrectionType ?? .no
         default:
             return .no
         }
@@ -88,6 +113,8 @@ public extension FieldContentType {
             return .fullStreetAddress
         case .url:
             return .URL
+        case .custom(let contentTypeAttributes):
+            return contentTypeAttributes.contentType
         default:
             return nil
         }
@@ -96,8 +123,10 @@ public extension FieldContentType {
     /// Determines if the text input should be shown.
     var isSecureTextEntry: Bool {
         switch self {
-        case .password:
-            return true
+        case .password(let isSecureTextEntry):
+            return isSecureTextEntry ?? true
+        case .custom(let contentTypeAttributes):
+            return contentTypeAttributes.isSecureTextEntry ?? false
         default:
             return false
         }

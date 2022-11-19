@@ -43,6 +43,7 @@
 		1DABB0E92921F7C70051B551 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E82921F7C70051B551 /* Constants.swift */; };
 		1DABB0FA29262E6C0051B551 /* MandatoryStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */; };
 		1DF77DCC2927C81C00FF3F1D /* SheetStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF77DCB2927C81C00FF3F1D /* SheetStyle.swift */; };
+		1DF77DCE29288C7B00FF3F1D /* IconStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF77DCD29288C7B00FF3F1D /* IconStyle.swift */; };
 		30E198D7D85F92BBA793BC0C /* Pods_AKForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113495FC36A3DE6CF80DBF0C /* Pods_AKForm.framework */; };
 		4F8444BE610AE9147275603C /* Pods_AKForm_AKFormTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1693CA11E1DDE18DDE1E5076 /* Pods_AKForm_AKFormTests.framework */; };
 /* End PBXBuildFile section */
@@ -97,6 +98,7 @@
 		1DABB0E82921F7C70051B551 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandatoryStyle.swift; sourceTree = "<group>"; };
 		1DF77DCB2927C81C00FF3F1D /* SheetStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStyle.swift; sourceTree = "<group>"; };
+		1DF77DCD29288C7B00FF3F1D /* IconStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconStyle.swift; sourceTree = "<group>"; };
 		47CB629C80C0FAB3357A8CE0 /* Pods-AKForm-AKFormTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm-AKFormTests.debug.xcconfig"; path = "Target Support Files/Pods-AKForm-AKFormTests/Pods-AKForm-AKFormTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B705DDDC3F46C560C3E4007 /* Pods-AKForm-AKFormTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm-AKFormTests.release.xcconfig"; path = "Target Support Files/Pods-AKForm-AKFormTests/Pods-AKForm-AKFormTests.release.xcconfig"; sourceTree = "<group>"; };
 		B351017E434CDECD41C3987C /* Pods-AKForm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AKForm.debug.xcconfig"; path = "Target Support Files/Pods-AKForm/Pods-AKForm.debug.xcconfig"; sourceTree = "<group>"; };
@@ -234,13 +236,14 @@
 		1DABB0BE2920B0990051B551 /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */,
 				1DABB0BF2920B0AC0051B551 /* LabelStyle.swift */,
 				1DABB0C32920B1380051B551 /* FieldStyle.swift */,
 				1DABB0D02920C5130051B551 /* FieldBorderStyle.swift */,
 				1DABB0D22920D01B0051B551 /* OptionStyle.swift */,
 				1DABB0D42920D08D0051B551 /* SeparatorStyle.swift */,
+				1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */,
 				1DF77DCB2927C81C00FF3F1D /* SheetStyle.swift */,
+				1DF77DCD29288C7B00FF3F1D /* IconStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				1DABB0FA29262E6C0051B551 /* MandatoryStyle.swift in Sources */,
 				1DABB0CB2920B5640051B551 /* FieldTableViewCellProtocol.swift in Sources */,
 				1DA3323F291D99E8008EA18E /* FormViewController.swift in Sources */,
+				1DF77DCE29288C7B00FF3F1D /* IconStyle.swift in Sources */,
 				1D79C067291D91E200FBEF78 /* AKForm.docc in Sources */,
 				1DABB0D92920ED1B0051B551 /* ButtonFieldTableViewCell.swift in Sources */,
 				1DABB0CD2920B5E90051B551 /* TextField.swift in Sources */,

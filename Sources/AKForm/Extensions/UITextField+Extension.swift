@@ -8,12 +8,47 @@
 import UIKit
 
 public extension UITextField {
+    var leftPadding: CGFloat {
+        get {
+            leftView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            leftView = paddingView
+            leftViewMode = .always
+        }
+    }
+    
+    var rightPadding: CGFloat {
+        get {
+            rightView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            rightView = paddingView
+            rightViewMode = .always
+        }
+    }
+
+    func setHorizontalPadding(to padding: CGFloat) {
+        leftPadding = padding
+        rightPadding = padding
+    }
+
     /// Set text field attributes using a `FieldStyle` object.
     func setStyle(with textFieldStyle: FieldStyle) {
         textColor = textFieldStyle.textColor
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
         backgroundColor = textFieldStyle.backgroundColor
+    }
+
+    func setStyle(with textFieldStyle: SheetStyle.TextFieldStyle) {
+        placeholder = textFieldStyle.placeholder
+        setStyle(with: textFieldStyle.fieldStyle)
+        setBorder(with: textFieldStyle.fieldStyle.borderStyle)
+        guard let iconStyleHandler = textFieldStyle.fieldStyle.iconStyleHandler else { return }
+        setIcons(with: iconStyleHandler)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
@@ -25,25 +60,22 @@ public extension UITextField {
         isSecureTextEntry = contentType.isSecureTextEntry
     }
 
-    var leftPadding: CGFloat {
-        get {
-            return leftView?.frame.size.width ?? 0
-        }
-        set {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
-            leftView = paddingView
-            leftViewMode = .always
-        }
+    func setLeftIcon(with iconStyle: IconStyle) {
+        leftView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        leftViewMode = .always
     }
-    
-    var rightPadding: CGFloat {
-        get {
-            return rightView?.frame.size.width ?? 0
+
+    func setRightIcon(with iconStyle: IconStyle) {
+        rightView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        rightViewMode = .always
+    }
+
+    func setIcons(with iconStyleHandler: IconStyleHandler) {
+        if let leadingIcon = iconStyleHandler().leading {
+            setLeftIcon(with: leadingIcon)
         }
-        set {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
-            rightView = paddingView
-            rightViewMode = .always
+        if let trailingIcon = iconStyleHandler().trailing {
+            setRightIcon(with: trailingIcon)
         }
     }
 }

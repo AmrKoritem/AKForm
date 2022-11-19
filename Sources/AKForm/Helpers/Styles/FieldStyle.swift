@@ -7,6 +7,8 @@
 
 import UIKit
 
+public typealias IconStyleHandler = () -> (leading: IconStyle?, trailing: IconStyle?)
+
 /// Used to set text fields ui.
 public struct FieldStyle {
     let textColor: UIColor
@@ -15,6 +17,7 @@ public struct FieldStyle {
     let backgroundColor: UIColor
     let placeholderAttributes: [NSAttributedString.Key: Any]?
     let borderStyle: FieldBorderStyle
+    let iconStyleHandler: IconStyleHandler?
 
     public init(
         textColor: UIColor = Default.Colors.field,
@@ -22,7 +25,8 @@ public struct FieldStyle {
         textAlignment: NSTextAlignment = .natural,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
         backgroundColor: UIColor = Default.Colors.background,
-        borderStyle: FieldBorderStyle = FieldBorderStyle()
+        borderStyle: FieldBorderStyle = FieldBorderStyle(),
+        iconStyleHandler: IconStyleHandler? = nil
     ) {
         self.textColor = textColor
         self.font = font
@@ -30,6 +34,7 @@ public struct FieldStyle {
         self.placeholderAttributes = placeholderAttributes
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
+        self.iconStyleHandler = iconStyleHandler
     }
 }
 

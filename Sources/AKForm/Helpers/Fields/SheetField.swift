@@ -21,7 +21,7 @@ public class SheetField: Field {
         fieldStyle: FieldStyle,
         placeholder: String,
         errorMessages: FieldErrorMessages? = nil,
-        mandatory: MandatoryStyle = MandatoryStyle(),
+        mandatoryStyle: MandatoryStyle = MandatoryStyle(),
         onFirstResponderStyle: OnFirstResponderStyle? = nil,
         sheetStyle: SheetStyle = SheetStyle(),
         optionStyle: OptionStyle = OptionStyle(),
@@ -39,7 +39,7 @@ public class SheetField: Field {
             fieldStyle: fieldStyle,
             placeholder: placeholder,
             errorMessages: errorMessages,
-            mandatory: mandatory,
+            mandatoryStyle: mandatoryStyle,
             onFirstResponderStyle: onFirstResponderStyle
         )
     }

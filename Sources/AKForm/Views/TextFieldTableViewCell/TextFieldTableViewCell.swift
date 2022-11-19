@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
+class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
@@ -40,10 +40,9 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
         self.field = field
-        fieldLabel.setStyle(with: field.labelStyle, mandatory: field.mandatory)
+        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         textField.text = textFieldText
-        textField.leftPadding = Default.Dimensions.horizontalPadding
-        textField.rightPadding = Default.Dimensions.horizontalPadding
+        textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
@@ -67,11 +66,17 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         )
     }
 
+    func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
+        guard let iconStyleHandler = iconStyleHandler ?? field?.fieldStyle.iconStyleHandler else { return }
+        textField.setIcons(with: iconStyleHandler)
+    }
+
     func setStyles(with field: Field) {
-        fieldLabel.setStyle(with: field.labelStyle, mandatory: field.mandatory)
+        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)
+        setIcons(with: field.fieldStyle.iconStyleHandler)
     }
 
     func showError(message: String, shouldClearText: Bool) {
@@ -88,10 +93,8 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     func clearFieldUI() {
         textField.attributedPlaceholder = nil
         errorLabel.isHidden = true
-        setFieldBorder()
-        setPlaceholder()
-        guard let textFieldStyle = field?.fieldStyle else { return }
-        textField.setStyle(with: textFieldStyle)
+        guard let field = field else { return }
+        setStyles(with: field)
     }
 
     @objc
