@@ -67,6 +67,16 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         )
     }
 
+    func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
+        guard let iconStyleHandler = iconStyleHandler ?? field?.fieldStyle.iconStyleHandler else { return }
+        if let leadingIcon = iconStyleHandler().leading {
+            textField.setLeftIcon(with: leadingIcon)
+        }
+        if let trailingIcon = iconStyleHandler().trailing {
+            textField.setRightIcon(with: trailingIcon)
+        }
+    }
+
     func setStyles(with field: Field) {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         setFieldBorder(with: field.fieldStyle.borderStyle)
@@ -88,10 +98,8 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
     func clearFieldUI() {
         textField.attributedPlaceholder = nil
         errorLabel.isHidden = true
-        setFieldBorder()
-        setPlaceholder()
-        guard let textFieldStyle = field?.fieldStyle else { return }
-        textField.setStyle(with: textFieldStyle)
+        guard let field = field else { return }
+        setStyles(with: field)
     }
 
     @objc

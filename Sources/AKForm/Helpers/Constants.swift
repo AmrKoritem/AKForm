@@ -27,6 +27,7 @@ public struct Default {
         public static var separatorThickness: CGFloat = 1
         public static var separatorEndInset: CGFloat = 1
         public static var horizontalPadding: CGFloat = 8
+        public static var fieldIconEdgeMargin: CGFloat = 18
     }
 
     public struct Colors {

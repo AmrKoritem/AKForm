@@ -8,6 +8,28 @@
 import UIKit
 
 public extension UITextField {
+    var leftPadding: CGFloat {
+        get {
+            leftView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            leftView = paddingView
+            leftViewMode = .always
+        }
+    }
+    
+    var rightPadding: CGFloat {
+        get {
+            rightView?.frame.size.width ?? 0
+        }
+        set {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
+            rightView = paddingView
+            rightViewMode = .always
+        }
+    }
+
     /// Set text field attributes using a `FieldStyle` object.
     func setStyle(with textFieldStyle: FieldStyle) {
         textColor = textFieldStyle.textColor
@@ -25,25 +47,13 @@ public extension UITextField {
         isSecureTextEntry = contentType.isSecureTextEntry
     }
 
-    var leftPadding: CGFloat {
-        get {
-            return leftView?.frame.size.width ?? 0
-        }
-        set {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
-            leftView = paddingView
-            leftViewMode = .always
-        }
+    func setLeftIcon(with iconStyle: IconStyle) {
+        self.leftView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        self.leftViewMode = .always
     }
-    
-    var rightPadding: CGFloat {
-        get {
-            return rightView?.frame.size.width ?? 0
-        }
-        set {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: newValue, height: frame.size.height))
-            rightView = paddingView
-            rightViewMode = .always
-        }
+
+    func setRightIcon(with iconStyle: IconStyle) {
+        self.rightView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        self.rightViewMode = .always
     }
 }

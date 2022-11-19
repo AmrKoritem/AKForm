@@ -80,9 +80,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func clearFieldUI() {
         errorLabel.isHidden = true
-        setFieldBorder()
-        setPlaceholder()
-        guard let fieldStyle = field?.fieldStyle else { return }
-        button.setStyle(with: fieldStyle)
+        guard let field = field else { return }
+        setStyles(with: field)
     }
 }
