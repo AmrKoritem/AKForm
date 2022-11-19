@@ -69,6 +69,11 @@ open class FormViewController: UIViewController, FormDataSource {
         ])
     }
 
+    public func reloadField(withId id: Int) {
+        guard let index = fields.firstIndex(where: { $0.id == id }) else { return }
+        form?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+    }
+
     public func addKeyboardObservers() {
         NotificationCenter.default.addObserver(
             self,
