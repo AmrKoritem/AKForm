@@ -55,9 +55,7 @@ open class FormViewController: UIViewController, FormDataSource {
         form?.tableHeaderView = formHeader
         form?.tableFooterView = formFooter
         form?.allowsSelection = false
-        if #available(iOS 13.0, *) {
-            form?.separatorStyle = .none
-        }
+        form?.separatorStyle = .none
         guard let form = form else { return }
         view.addSubview(form)
         form.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +70,6 @@ open class FormViewController: UIViewController, FormDataSource {
     }
 
     public func addKeyboardObservers() {
-        guard #available(iOS 13.0, *) else { return }
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardDidShow),
@@ -86,7 +83,6 @@ open class FormViewController: UIViewController, FormDataSource {
     }
 
     public func removeKeyboardObservers() {
-        guard #available(iOS 13.0, *) else { return }
         NotificationCenter.default.removeObserver(
             self,
             name: UIResponder.keyboardDidShowNotification,
@@ -98,14 +94,12 @@ open class FormViewController: UIViewController, FormDataSource {
     }
 
     open func hideKeyboardWhenTappedAround() {
-        guard #available(iOS 13.0, *) else { return }
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = cancelsTouchesInView
         view.addGestureRecognizer(tap)
     }
 
     @objc
-    @available(iOS 13.0, *)
     public func keyboardDidShow(_ notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
@@ -114,7 +108,6 @@ open class FormViewController: UIViewController, FormDataSource {
     }
 
     @objc
-    @available(iOS 13.0, *)
     public func keyboardDidHide(_ notification: Notification) {
         form?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }

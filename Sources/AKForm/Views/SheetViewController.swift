@@ -93,9 +93,7 @@ class SheetViewController: UIViewController {
     func setSheetUI() {
         sheet = UITableView()
         sheet?.tableHeaderView = header
-        if #available(iOS 13.0, *) {
-            sheet?.separatorStyle = .none
-        }
+        sheet?.separatorStyle = .none
         sheet?.backgroundColor = sheetField?.sheetStyle.backgroundColor
         if let sheetField = sheetField {
             sheet?.setBorder(with: sheetField.sheetStyle.borderStyle)
@@ -123,7 +121,6 @@ class SheetViewController: UIViewController {
     }
 
     func addKeyboardObservers() {
-        guard #available(iOS 13.0, *) else { return }
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardDidShow),
@@ -137,7 +134,6 @@ class SheetViewController: UIViewController {
     }
 
     func removeKeyboardObservers() {
-        guard #available(iOS 13.0, *) else { return }
         NotificationCenter.default.removeObserver(
             self,
             name: UIResponder.keyboardDidShowNotification,
@@ -149,7 +145,6 @@ class SheetViewController: UIViewController {
     }
 
     @objc
-    @available(iOS 13.0, *)
     func keyboardDidShow(_ notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
@@ -160,7 +155,6 @@ class SheetViewController: UIViewController {
     }
 
     @objc
-    @available(iOS 13.0, *)
     func keyboardDidHide(_ notification: Notification) {
         topConstraint?.constant = topSheetConstraintConstant
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
