@@ -60,6 +60,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         }
     }
 
+    func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
+        //
+    }
+
     func setStyles(with field: Field) {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         setFieldBorder(with: field.fieldStyle.borderStyle)

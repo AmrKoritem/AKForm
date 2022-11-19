@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
+class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
@@ -82,6 +82,7 @@ public class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol
         setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)
+        setIcons(with: field.fieldStyle.iconStyleHandler)
     }
 
     func showError(message: String, shouldClearText: Bool) {
