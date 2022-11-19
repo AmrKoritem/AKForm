@@ -30,12 +30,25 @@ public extension UITextField {
         }
     }
 
+    func setHorizontalPadding(to padding: CGFloat) {
+        leftPadding = padding
+        rightPadding = padding
+    }
+
     /// Set text field attributes using a `FieldStyle` object.
     func setStyle(with textFieldStyle: FieldStyle) {
         textColor = textFieldStyle.textColor
         font = textFieldStyle.font
         textAlignment = textFieldStyle.textAlignment
         backgroundColor = textFieldStyle.backgroundColor
+    }
+
+    func setStyle(with textFieldStyle: SheetStyle.TextFieldStyle) {
+        placeholder = textFieldStyle.placeholder
+        setStyle(with: textFieldStyle.fieldStyle)
+        setBorder(with: textFieldStyle.fieldStyle.borderStyle)
+        guard let iconStyleHandler = textFieldStyle.fieldStyle.iconStyleHandler else { return }
+        setIcons(with: iconStyleHandler)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
@@ -48,12 +61,21 @@ public extension UITextField {
     }
 
     func setLeftIcon(with iconStyle: IconStyle) {
-        self.leftView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
-        self.leftViewMode = .always
+        leftView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        leftViewMode = .always
     }
 
     func setRightIcon(with iconStyle: IconStyle) {
-        self.rightView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
-        self.rightViewMode = .always
+        rightView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        rightViewMode = .always
+    }
+
+    func setIcons(with iconStyleHandler: IconStyleHandler) {
+        if let leadingIcon = iconStyleHandler().leading {
+            setLeftIcon(with: leadingIcon)
+        }
+        if let trailingIcon = iconStyleHandler().trailing {
+            setRightIcon(with: trailingIcon)
+        }
     }
 }

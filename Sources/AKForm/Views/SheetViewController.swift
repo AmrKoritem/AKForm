@@ -28,7 +28,6 @@ class SheetViewController: UIViewController {
     }
 
     private var sheet: UITableView?
-    private var searchField: UITextField?
     private var topConstraint: NSLayoutConstraint?
 
     private var topSheetConstraintConstant: CGFloat {
@@ -36,31 +35,69 @@ class SheetViewController: UIViewController {
     }
 
     private lazy var heightCoefficient: CGFloat = sheetField?.sheetStyle.heightCoefficient ?? 0
-    private lazy var header: UIView? = {
-        guard sheetField?.sheetStyle.textFieldStyle?.withTextField == true else { return nil }
-        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 71)))
-        let textField = UITextField()
-        textField.leftPadding = Default.Dimensions.horizontalPadding
-        textField.rightPadding = Default.Dimensions.horizontalPadding
-        searchField = textField
-        if let fieldStyle = sheetField?.sheetStyle.textFieldStyle?.fieldStyle {
-            textField.placeholder = sheetField?.placeholder
-            textField.setStyle(with: fieldStyle)
-            textField.setBorder(with: fieldStyle.borderStyle)
-            textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
-            textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
-            textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
+    private lazy var headerView: UIView? = {
+        let wrapperTop: CGFloat = 12
+        let closeButtonHeight = closeButton?.frame.size.height ?? 0
+        let textFieldTop: CGFloat = searchField == nil || closeButton == nil ? 0 : 5
+        let textFieldHeight = searchField?.frame.size.height ?? 0
+        let wrapperBottom: CGFloat = 9
+        let wrapperHeight = wrapperTop + closeButtonHeight + textFieldTop + textFieldHeight + wrapperBottom
+        let wrapper = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: wrapperHeight)))
+        if let closeButton = closeButton {
+            wrapper.addSubview(closeButton)
+            closeButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                closeButton.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
+                closeButton.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: wrapperTop),
+                closeButton.heightAnchor.constraint(equalToConstant: closeButtonHeight)
+            ])
         }
-        wrapper.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        guard let searchField = searchField else {
+            closeButton?.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -wrapperBottom).isActive = true
+            return wrapper
+        }
+        wrapper.addSubview(searchField)
+        searchField.translatesAutoresizingMaskIntoConstraints = false
+        let fieldTop = textFieldTop == 0 ? wrapperTop : textFieldTop
+        let fieldTopAnchor = closeButton?.bottomAnchor ?? wrapper.safeAreaLayoutGuide.topAnchor
         NSLayoutConstraint.activate([
-            textField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20),
-            textField.topAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.topAnchor, constant: 12),
-            textField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -9)
+            searchField.leadingAnchor.constraint(equalTo: wrapper.leadingAnchor, constant: 20),
+            searchField.trailingAnchor.constraint(equalTo: wrapper.trailingAnchor, constant: -20),
+            searchField.topAnchor.constraint(equalTo: fieldTopAnchor, constant: fieldTop),
+            searchField.bottomAnchor.constraint(equalTo: wrapper.safeAreaLayoutGuide.bottomAnchor, constant: -wrapperBottom)
         ])
-        wrapper.addSubview(textField)
         return wrapper
+    }()
+    private lazy var closeButton: UIButton? = {
+        let closeButtonSide: CGFloat = 30
+        let closeButton = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: closeButtonSide, height: closeButtonSide)))
+        closeButton.addTarget(
+            self,
+            action: #selector(close),
+            for: .touchUpInside
+        )
+        switch sheetField?.sheetStyle.closeButtonStyle {
+        case .text(let attributedString):
+            closeButton.setAttributedTitle(attributedString, for: .normal)
+        case .icon(let image, let tintColor):
+            closeButton.setImage(image?.withRenderingMode(.alwaysTemplate), for: .normal)
+            closeButton.imageView?.tintColor = tintColor
+            closeButton.tintColor = tintColor
+        default:
+            return nil
+        }
+        return closeButton
+    }()
+    private lazy var searchField: UITextField? = {
+        let textFieldHeight: CGFloat = 50
+        guard let textFieldStyle = sheetField?.sheetStyle.textFieldStyle else { return nil }
+        let textField = UITextField(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: textFieldHeight)))
+        textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
+        textField.setStyle(with: textFieldStyle)
+        textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(returnKeyPressed(_:)), for: .primaryActionTriggered)
+        return textField
     }()
 
     deinit {
@@ -92,7 +129,7 @@ class SheetViewController: UIViewController {
 
     func setSheetUI() {
         sheet = UITableView()
-        sheet?.tableHeaderView = header
+        sheet?.tableHeaderView = headerView
         sheet?.separatorStyle = .none
         sheet?.backgroundColor = sheetField?.sheetStyle.backgroundColor
         if let sheetField = sheetField {

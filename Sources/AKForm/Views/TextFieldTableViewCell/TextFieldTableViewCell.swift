@@ -42,8 +42,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         self.field = field
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         textField.text = textFieldText
-        textField.leftPadding = Default.Dimensions.horizontalPadding
-        textField.rightPadding = Default.Dimensions.horizontalPadding
+        textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
@@ -69,12 +68,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
         guard let iconStyleHandler = iconStyleHandler ?? field?.fieldStyle.iconStyleHandler else { return }
-        if let leadingIcon = iconStyleHandler().leading {
-            textField.setLeftIcon(with: leadingIcon)
-        }
-        if let trailingIcon = iconStyleHandler().trailing {
-            textField.setRightIcon(with: trailingIcon)
-        }
+        textField.setIcons(with: iconStyleHandler)
     }
 
     func setStyles(with field: Field) {
