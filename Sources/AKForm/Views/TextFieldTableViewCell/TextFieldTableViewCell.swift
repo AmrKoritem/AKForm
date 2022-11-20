@@ -72,9 +72,11 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         guard let iconStyleHandler = iconStyleHandler ?? field?.fieldStyle.iconStyleHandler else { return }
         if let leadingIconView = leadingIconView {
             textFieldStack.removeArrangedSubview(leadingIconView)
+            leadingIconView.removeFromSuperview()
         }
         if let trailingIconView = trailingIconView {
             textFieldStack.removeArrangedSubview(trailingIconView)
+            trailingIconView.removeFromSuperview()
         }
         let iconViewSize = CGSize(width: 21, height: textFieldHeightConstraint.constant)
         if let leadingIconStyle = iconStyleHandler().leading {
