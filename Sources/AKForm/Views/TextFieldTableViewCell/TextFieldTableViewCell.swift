@@ -83,8 +83,8 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
             textFieldStack.insertArrangedSubview(leadingIconView, at: 0)
         }
         if let trailingIconStyle = iconStyleHandler().trailing {
-            let trailingIconView = trailingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: true)
-            self.leadingIconView = trailingIconView
+            let trailingIconView = trailingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: false)
+            self.trailingIconView = trailingIconView
             textFieldStack.addArrangedSubview(trailingIconView)
         }
     }
@@ -94,6 +94,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)
+        textFieldView.backgroundColor = field.fieldStyle.backgroundColor
         setIcons(with: field.fieldStyle.iconStyleHandler)
     }
 

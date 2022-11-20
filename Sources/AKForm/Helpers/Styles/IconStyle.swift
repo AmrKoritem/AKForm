@@ -31,6 +31,7 @@ public struct IconStyle {
                 height: iconViewSize.height
             )
         )
+        containerView.backgroundColor = .clear
         let iconViewFrame = CGRect(origin: CGPoint(x: isLeft ? marginToEdge : 0, y: 0), size: iconViewSize)
         if let action = action {
             let iconView = UIButton(frame: iconViewFrame)
