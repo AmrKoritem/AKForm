@@ -73,9 +73,13 @@ public extension UITextField {
     func setIcons(with iconStyleHandler: IconStyleHandler) {
         if let leadingIcon = iconStyleHandler().leading {
             setLeftIcon(with: leadingIcon)
+        } else {
+            leftViewMode = .never
         }
         if let trailingIcon = iconStyleHandler().trailing {
             setRightIcon(with: trailingIcon)
+        } else {
+            rightViewMode = .never
         }
     }
 }
