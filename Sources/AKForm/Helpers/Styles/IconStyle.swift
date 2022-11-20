@@ -23,15 +23,13 @@ public struct IconStyle {
     }
 
     func getIconContainerView(iconViewSize: CGSize, isLeft: Bool) -> UIView {
-        let containerView: UIView = UIView(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: iconViewSize.width + marginToEdge,
-                height: iconViewSize.height
-            )
-        )
+        let containerView = UIView()
         containerView.backgroundColor = .clear
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.heightAnchor.constraint(equalToConstant: iconViewSize.height),
+            containerView.widthAnchor.constraint(equalToConstant: iconViewSize.width + marginToEdge)
+        ])
         let iconViewFrame = CGRect(origin: CGPoint(x: isLeft ? marginToEdge : 0, y: 0), size: iconViewSize)
         if let action = action {
             let iconView = UIButton(frame: iconViewFrame)
