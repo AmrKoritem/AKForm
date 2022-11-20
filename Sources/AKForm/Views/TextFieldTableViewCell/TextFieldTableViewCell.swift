@@ -9,12 +9,15 @@ import UIKit
 
 class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
-    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
+    @IBOutlet weak var textFieldStack: UIStackView!
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
 
     var field: Field?
+    var leadingIconView: UIView?
+    var trailingIconView: UIView?
 
     private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
@@ -67,7 +70,23 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
         guard let iconStyleHandler = iconStyleHandler ?? field?.fieldStyle.iconStyleHandler else { return }
-        textField.setIcons(with: iconStyleHandler)
+        if let leadingIconView = leadingIconView {
+            textFieldStack.removeArrangedSubview(leadingIconView)
+        }
+        if let trailingIconView = trailingIconView {
+            textFieldStack.removeArrangedSubview(trailingIconView)
+        }
+        let iconViewSize = CGSize(width: 21, height: textFieldHeightConstraint.constant)
+        if let leadingIconStyle = iconStyleHandler().leading {
+            let leadingIconView = leadingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: true)
+            self.leadingIconView = leadingIconView
+            textFieldStack.insertArrangedSubview(leadingIconView, at: 0)
+        }
+        if let trailingIconStyle = iconStyleHandler().trailing {
+            let trailingIconView = trailingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: true)
+            self.leadingIconView = trailingIconView
+            textFieldStack.addArrangedSubview(trailingIconView)
+        }
     }
 
     func setStyles(with field: Field) {

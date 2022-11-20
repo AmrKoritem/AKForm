@@ -30,23 +30,28 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="onO-ua-DVS">
                                 <rect key="frame" x="0.0" y="27.5" width="276" height="52"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Label" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U9p-UI-yKa">
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Irc-Gg-b9a">
                                         <rect key="frame" x="0.0" y="0.0" width="276" height="52"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="52" id="D2K-tQ-dlq"/>
-                                        </constraints>
-                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Label" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U9p-UI-yKa">
+                                                <rect key="frame" x="0.0" y="0.0" width="276" height="52"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="52" id="D2K-tQ-dlq"/>
+                                                </constraints>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="U9p-UI-yKa" secondAttribute="trailing" id="NW5-tT-psn"/>
-                                    <constraint firstItem="U9p-UI-yKa" firstAttribute="leading" secondItem="onO-ua-DVS" secondAttribute="leading" id="Pah-Xs-cE5"/>
-                                    <constraint firstAttribute="bottom" secondItem="U9p-UI-yKa" secondAttribute="bottom" id="RVg-fH-gs8"/>
-                                    <constraint firstItem="U9p-UI-yKa" firstAttribute="top" secondItem="onO-ua-DVS" secondAttribute="top" id="mgI-eQ-lhh"/>
+                                    <constraint firstAttribute="trailing" secondItem="Irc-Gg-b9a" secondAttribute="trailing" id="2i5-mc-DXE"/>
+                                    <constraint firstAttribute="bottom" secondItem="Irc-Gg-b9a" secondAttribute="bottom" id="Lj4-86-eL9"/>
+                                    <constraint firstItem="Irc-Gg-b9a" firstAttribute="leading" secondItem="onO-ua-DVS" secondAttribute="leading" id="UnU-1w-cJ2"/>
+                                    <constraint firstItem="Irc-Gg-b9a" firstAttribute="top" secondItem="onO-ua-DVS" secondAttribute="top" id="yqQ-LS-xNf"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -78,6 +83,7 @@
                 <outlet property="fieldLabel" destination="AnX-eN-p4A" id="HMh-3c-YXx"/>
                 <outlet property="textField" destination="U9p-UI-yKa" id="jmE-hD-1m9"/>
                 <outlet property="textFieldHeightConstraint" destination="D2K-tQ-dlq" id="EiU-Pv-vNO"/>
+                <outlet property="textFieldStack" destination="Irc-Gg-b9a" id="Iql-CS-d8N"/>
                 <outlet property="textFieldView" destination="onO-ua-DVS" id="hww-PS-LzP"/>
             </connections>
             <point key="canvasLocation" x="-17.39130434782609" y="0.0"/>
