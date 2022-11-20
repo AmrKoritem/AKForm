@@ -74,9 +74,8 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     vc.sheetField = sheetField
                     vc.selectedOption = data
                     vc.modalPresentationStyle = .overCurrentContext
-                    vc.optionSelectionHandler = { [weak self, weak fieldCell, weak tableView] text in
+                    vc.optionSelectionHandler = { [weak self, weak tableView] text in
                         self?.dataSource?.dataMap[field.id] = text
-                        fieldCell?.buttonText = text
                         tableView?.reloadRows(at: [indexPath], with: .automatic)
                     }
                     vc.viewDidDisappearHandler = { [weak fieldCell] in

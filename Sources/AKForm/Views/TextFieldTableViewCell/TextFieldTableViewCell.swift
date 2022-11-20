@@ -40,7 +40,6 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
         self.field = field
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         textField.text = textFieldText
         textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
         clearFieldUI()

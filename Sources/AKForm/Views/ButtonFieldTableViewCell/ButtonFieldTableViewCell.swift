@@ -33,7 +33,6 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         buttonText = fieldText
         button.titleEdgeInsets.left = Default.Dimensions.horizontalPadding
         button.titleEdgeInsets.right = Default.Dimensions.horizontalPadding
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
     }
@@ -45,12 +44,17 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
         if let fieldText = buttonText, !fieldText.isEmpty {
-            button.setTitle(fieldText, for: .normal)
+            let color = field?.fieldStyle.textColor
+            let font = field?.fieldStyle.font
+            let attributes = Default.StringAttributes.from(color: color, font: font)
+            button.setAttributedTitle(
+                NSAttributedString(
+                    string: fieldText,
+                    attributes: attributes),
+                for: .normal
+            )
         } else {
-            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? [
-                NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
-                NSAttributedString.Key.font: Default.Fonts.placeholder
-            ]
+            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? Default.StringAttributes.placeholder
             button.setAttributedTitle(
                 NSAttributedString(
                     string: placeholder ?? field?.placeholder ?? "",
@@ -80,6 +84,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         errorLabel.isHidden = false
         guard shouldClearText else { return }
         button.setTitle("", for: .normal)
+        button.setAttributedTitle(nil, for: .normal)
     }
 
     func clearFieldUI() {
