@@ -18,7 +18,7 @@ class SheetViewController: UIViewController {
     var selectedOption: String?
     var textFieldEditingHandler: TextFieldEditingChangedHandler?
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
-    var viewWillDisappearHandler: () -> Void = {}
+    var viewDidDisappearHandler: () -> Void = {}
     var optionSelectionHandler: (String) -> Void = { _ in }
 
     var filteredOptions: [String] {
@@ -113,11 +113,6 @@ class SheetViewController: UIViewController {
         dismissWhenTappedAround()
         addKeyboardObservers()
         view.backgroundColor = .clear
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewWillDisappearHandler()
     }
 
     func configureSheet() {
@@ -215,7 +210,9 @@ class SheetViewController: UIViewController {
 
     @objc
     func close() {
-        dismiss(animated: true)
+        dismiss(animated: true) { [weak self] in
+            self?.viewDidDisappearHandler()
+        }
     }
 }
 
@@ -235,8 +232,9 @@ extension SheetViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         view.endEditing(true)
-        dismiss(animated: true)
-        guard let option = filteredOptions[safe: indexPath.row] else { return }
-        optionSelectionHandler(option)
+        dismiss(animated: true) { [weak self] in
+            guard let option = self?.filteredOptions[safe: indexPath.row] else { return }
+            self?.optionSelectionHandler(option)
+        }
     }
 }

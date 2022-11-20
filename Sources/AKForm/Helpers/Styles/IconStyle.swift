@@ -9,19 +9,15 @@ import UIKit
 
 public struct IconStyle {
     let icon: UIImage
-    /// For this property, .end and .lineEnd yield the same result.
-    let position: SymbolPosition
     let marginToEdge: CGFloat
     let action: (target: Any?, selector: Selector)?
 
     public init(
         icon: UIImage,
-        position: SymbolPosition = .end,
         marginToEdge: CGFloat = Default.Dimensions.fieldIconEdgeMargin,
         action: (target: Any?, selector: Selector)? = nil
     ) {
         self.icon = icon
-        self.position = position
         self.marginToEdge = marginToEdge
         self.action = action
     }
