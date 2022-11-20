@@ -79,13 +79,15 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
             trailingIconView.removeFromSuperview()
         }
         let iconViewSize = CGSize(width: 21, height: textFieldHeightConstraint.constant)
+        let semanticContentAttribute = UIView.appearance().semanticContentAttribute
+        let isLeft = semanticContentAttribute == .forceLeftToRight
         if let leadingIconStyle = iconStyleHandler().leading {
-            let leadingIconView = leadingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: true)
+            let leadingIconView = leadingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: isLeft)
             self.leadingIconView = leadingIconView
             textFieldStack.insertArrangedSubview(leadingIconView, at: 0)
         }
         if let trailingIconStyle = iconStyleHandler().trailing {
-            let trailingIconView = trailingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: false)
+            let trailingIconView = trailingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: !isLeft)
             self.trailingIconView = trailingIconView
             textFieldStack.addArrangedSubview(trailingIconView)
         }
