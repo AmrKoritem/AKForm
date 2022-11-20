@@ -74,9 +74,10 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     vc.sheetField = sheetField
                     vc.selectedOption = data
                     vc.modalPresentationStyle = .overCurrentContext
-                    vc.optionSelectionHandler = { [weak self] text in
+                    vc.optionSelectionHandler = { [weak self, weak fieldCell, weak tableView] text in
                         self?.dataSource?.dataMap[field.id] = text
-                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                        fieldCell?.buttonText = text
+                        tableView?.reloadRows(at: [indexPath], with: .automatic)
                     }
                     vc.viewDidDisappearHandler = { [weak fieldCell] in
                         fieldCell?.setStyles(with: field)
@@ -85,7 +86,8 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 }
             )
         }
-        guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
+        guard let cell = cell as? FieldTableViewCellProtocol,
+              field.mandatoryStyle.isMandatory || data?.isEmpty == false else { return cell }
         switch field.contentType.getValidationStatus(for: data) ?? .valid {
         case .invalid:
             cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")

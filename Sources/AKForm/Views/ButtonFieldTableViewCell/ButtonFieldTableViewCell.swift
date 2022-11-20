@@ -61,7 +61,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
-        //
+        // TODO: - implementation
     }
 
     func setStyles(with field: Field) {
