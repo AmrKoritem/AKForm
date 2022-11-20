@@ -22,16 +22,16 @@ public struct IconStyle {
         self.action = action
     }
 
-    func getIconContainerView(width: CGFloat, height: CGFloat) -> UIView {
+    func getIconContainerView(iconViewSize: CGSize, isLeft: Bool) -> UIView {
         let containerView: UIView = UIView(
             frame: CGRect(
                 x: 0,
                 y: 0,
-                width: width + marginToEdge,
-                height: height
+                width: iconViewSize.width + marginToEdge,
+                height: iconViewSize.height
             )
         )
-        let iconViewFrame = CGRect(x: marginToEdge, y: 0, width: width, height: height)
+        let iconViewFrame = CGRect(origin: CGPoint(x: isLeft ? marginToEdge : 0, y: 0), size: iconViewSize)
         if let action = action {
             let iconView = UIButton(frame: iconViewFrame)
             iconView.addTarget(

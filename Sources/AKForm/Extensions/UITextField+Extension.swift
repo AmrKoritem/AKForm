@@ -61,25 +61,21 @@ public extension UITextField {
     }
 
     func setLeftIcon(with iconStyle: IconStyle) {
-        leftView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        leftView = iconStyle.getIconContainerView(iconViewSize: CGSize(width: 21, height: frame.size.height), isLeft: true)
         leftViewMode = .always
     }
 
     func setRightIcon(with iconStyle: IconStyle) {
-        rightView = iconStyle.getIconContainerView(width: 21, height: frame.size.height)
+        rightView = iconStyle.getIconContainerView(iconViewSize: CGSize(width: 21, height: frame.size.height), isLeft: false)
         rightViewMode = .always
     }
 
     func setIcons(with iconStyleHandler: IconStyleHandler) {
         if let leadingIcon = iconStyleHandler().leading {
             setLeftIcon(with: leadingIcon)
-        } else {
-            leftViewMode = .never
         }
         if let trailingIcon = iconStyleHandler().trailing {
             setRightIcon(with: trailingIcon)
-        } else {
-            rightViewMode = .never
         }
     }
 }
