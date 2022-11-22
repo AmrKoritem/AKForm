@@ -24,6 +24,7 @@ class OptionTableViewCell: UITableViewCell {
     var optionStyle: OptionStyle?
 
     func configure(with option: String?, and optionStyle: OptionStyle, isSelected: Bool) {
+        // TODO: - prepare for an option object instead of just a string
         titleLabel.text = option
         titleLabel.font = optionStyle.font
         titleLabel.textAlignment = optionStyle.textAlignment

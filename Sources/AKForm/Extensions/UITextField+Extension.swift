@@ -36,19 +36,19 @@ public extension UITextField {
     }
 
     /// Set text field attributes using a `FieldStyle` object.
-    func setStyle(with textFieldStyle: FieldStyle) {
-        textColor = textFieldStyle.textColor
-        font = textFieldStyle.font
-        textAlignment = textFieldStyle.textAlignment
-        backgroundColor = textFieldStyle.backgroundColor
+    func setStyle(with fieldStyle: FieldStyle) {
+        textColor = fieldStyle.textColor
+        font = fieldStyle.font
+        textAlignment = fieldStyle.textAlignment
+        backgroundColor = fieldStyle.backgroundColor
+        stroked(with: fieldStyle.borderStyle)
+        guard let shadowStyle = fieldStyle.shadowStyle else { return }
+        shadowed(with: shadowStyle)
     }
 
     func setStyle(with textFieldStyle: SheetStyle.TextFieldStyle) {
         placeholder = textFieldStyle.placeholder
         setStyle(with: textFieldStyle.fieldStyle)
-        setBorder(with: textFieldStyle.fieldStyle.borderStyle)
-        guard let iconStyleHandler = textFieldStyle.fieldStyle.iconStyleHandler else { return }
-        setIcons(with: iconStyleHandler)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
@@ -58,24 +58,5 @@ public extension UITextField {
         autocorrectionType = contentType.autocorrectionType
         textContentType = contentType.contentType
         isSecureTextEntry = contentType.isSecureTextEntry
-    }
-
-    func setLeftIcon(with iconStyle: IconStyle) {
-        leftView = iconStyle.getIconContainerView(iconViewSize: CGSize(width: 21, height: frame.size.height), isLeft: true)
-        leftViewMode = .always
-    }
-
-    func setRightIcon(with iconStyle: IconStyle) {
-        rightView = iconStyle.getIconContainerView(iconViewSize: CGSize(width: 21, height: frame.size.height), isLeft: false)
-        rightViewMode = .always
-    }
-
-    func setIcons(with iconStyleHandler: IconStyleHandler) {
-        if let leadingIcon = iconStyleHandler().leading {
-            setLeftIcon(with: leadingIcon)
-        }
-        if let trailingIcon = iconStyleHandler().trailing {
-            setRightIcon(with: trailingIcon)
-        }
     }
 }

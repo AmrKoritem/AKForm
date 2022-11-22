@@ -37,11 +37,6 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         self.buttonActionHandler = buttonActionHandler
     }
 
-    func setFieldBorder(with borderStyle: FieldBorderStyle? = nil) {
-        guard let borderStyle = borderStyle ?? field?.fieldStyle.borderStyle else { return }
-        button.setBorder(with: borderStyle)
-    }
-
     func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
         if let fieldText = buttonText, !fieldText.isEmpty {
             let color = field?.fieldStyle.textColor
@@ -70,14 +65,13 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setStyles(with field: Field) {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         button.setStyle(with: field.fieldStyle)
     }
 
     func showError(message: String, shouldClearText: Bool) {
         button.stroked(
-            with: field?.fieldStyle.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            with: field?.fieldStyle.borderStyle.thickness ?? Default.Dimensions.borderWidth,
             color: Default.Colors.errorBorder
         )
         errorLabel.text = message

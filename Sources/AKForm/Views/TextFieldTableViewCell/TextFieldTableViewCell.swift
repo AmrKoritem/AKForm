@@ -51,11 +51,6 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
 
-    func setFieldBorder(with borderStyle: FieldBorderStyle? = nil) {
-        guard let borderStyle = borderStyle ?? field?.fieldStyle.borderStyle else { return }
-        textFieldView.setBorder(with: borderStyle)
-    }
-
     func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
         let placeholder = placeholder ?? field?.placeholder ?? ""
         guard let placeholderAttributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes else {
@@ -95,7 +90,6 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setStyles(with field: Field) {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)
         textFieldView.backgroundColor = field.fieldStyle.backgroundColor
@@ -104,7 +98,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func showError(message: String, shouldClearText: Bool) {
         textFieldView.stroked(
-            with: field?.fieldStyle.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            with: field?.fieldStyle.borderStyle.thickness ?? Default.Dimensions.borderWidth,
             color: Default.Colors.errorBorder
         )
         errorLabel.text = message

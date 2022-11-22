@@ -16,7 +16,8 @@ public struct FieldStyle {
     let textAlignment: NSTextAlignment
     let backgroundColor: UIColor
     let placeholderAttributes: [NSAttributedString.Key: Any]?
-    let borderStyle: FieldBorderStyle
+    let borderStyle: BorderStyle
+    let shadowStyle: ShadowStyle?
     let iconStyleHandler: IconStyleHandler?
 
     public init(
@@ -25,7 +26,8 @@ public struct FieldStyle {
         textAlignment: NSTextAlignment = .natural,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
         backgroundColor: UIColor = Default.Colors.background,
-        borderStyle: FieldBorderStyle = FieldBorderStyle(),
+        borderStyle: BorderStyle = BorderStyle(),
+        shadowStyle: ShadowStyle? = nil,
         iconStyleHandler: IconStyleHandler? = nil
     ) {
         self.textColor = textColor
@@ -34,6 +36,7 @@ public struct FieldStyle {
         self.placeholderAttributes = placeholderAttributes
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
+        self.shadowStyle = shadowStyle
         self.iconStyleHandler = iconStyleHandler
     }
 }

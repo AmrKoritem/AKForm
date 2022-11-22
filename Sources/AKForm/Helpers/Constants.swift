@@ -10,8 +10,8 @@ import UIKit
 public struct Default {
     public struct Fonts {
         public static var label: UIFont = .systemFont(ofSize: 18)
-        public static var field: UIFont = .systemFont(ofSize: 18)
-        public static var placeholder: UIFont = .systemFont(ofSize: 18)
+        public static var field: UIFont = .systemFont(ofSize: 16)
+        public static var placeholder: UIFont = .systemFont(ofSize: 16)
         public static var error: UIFont = .systemFont(ofSize: 14)
         public static var optionTitle: UIFont = .systemFont(ofSize: 18)
         public static var optionSubtitle: UIFont = .systemFont(ofSize: 14)

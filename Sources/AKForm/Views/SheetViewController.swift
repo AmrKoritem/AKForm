@@ -129,7 +129,7 @@ class SheetViewController: UIViewController {
         sheet?.separatorStyle = .none
         sheet?.backgroundColor = sheetField?.sheetStyle.backgroundColor
         if let sheetField = sheetField {
-            sheet?.setBorder(with: sheetField.sheetStyle.borderStyle)
+            sheet?.stroked(with: sheetField.sheetStyle.borderStyle)
         }
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
@@ -189,8 +189,8 @@ class SheetViewController: UIViewController {
 
     @objc
     func keyboardDidHide(_ notification: Notification) {
+        sheet?.contentInset = .zero
         topConstraint?.constant = topSheetConstraintConstant
-        sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
     @objc
