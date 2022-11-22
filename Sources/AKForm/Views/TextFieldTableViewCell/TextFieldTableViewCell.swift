@@ -92,8 +92,13 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)
-        textFieldView.backgroundColor = field.fieldStyle.backgroundColor
+        textField.stroked(color: .clear)
+        textField.shadowRemoved()
         setIcons(with: field.fieldStyle.iconStyleHandler)
+        textFieldView.backgroundColor = field.fieldStyle.backgroundColor
+        textFieldView.stroked(with: field.fieldStyle.borderStyle)
+        guard let shadowStyle = field.fieldStyle.shadowStyle else { return }
+        textFieldView.shadowed(with: shadowStyle)
     }
 
     func showError(message: String, shouldClearText: Bool) {
