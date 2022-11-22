@@ -14,6 +14,11 @@ open class AKFormViewController: UIViewController {
 
     public var scrollView: UIScrollView?
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+    }
+
     public func addKeyboardObservers() {
         NotificationCenter.default.addObserver(
             self,

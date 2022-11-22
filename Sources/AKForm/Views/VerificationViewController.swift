@@ -9,31 +9,7 @@ import UIKit
 
 open class VerificationViewController: AKFormViewController {
     open var header: UIView? {
-        let wrapper = UIView()
-        wrapper.translatesAutoresizingMaskIntoConstraints = false
-        wrapper.backgroundColor = .clear
-        let title = UILabel()
-        if let headerTitleStyle = headerTitleStyle {
-            title.setStyle(with: headerTitleStyle)
-        }
-        wrapper.addSubview(title)
-        title.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            title.centerXAnchor.constraint(equalTo: wrapper.centerXAnchor),
-            title.topAnchor.constraint(equalTo: wrapper.topAnchor, constant: 25)
-        ])
-        let subtitle = UILabel()
-        if let headerSubtitleStyle = headerSubtitleStyle {
-            subtitle.setStyle(with: headerSubtitleStyle)
-        }
-        wrapper.addSubview(subtitle)
-        subtitle.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            subtitle.centerXAnchor.constraint(equalTo: wrapper.centerXAnchor),
-            subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 15),
-            subtitle.bottomAnchor.constraint(equalTo: wrapper.bottomAnchor, constant: -18)
-        ])
-        return wrapper
+        defaultHeader
     }
     open var headerTitleStyle: LabelStyle? {
         LabelStyle(attributedText: NSAttributedString(string: "title", attributes: Default.StringAttributes.label))
@@ -62,6 +38,34 @@ open class VerificationViewController: AKFormViewController {
 
     public private(set) var isTimerRunning = false
 
+    lazy var defaultHeader: UIView = {
+        let wrapper = UIView()
+        wrapper.translatesAutoresizingMaskIntoConstraints = false
+        wrapper.backgroundColor = .clear
+        let title = UILabel()
+        if let headerTitleStyle = headerTitleStyle {
+            title.setStyle(with: headerTitleStyle)
+        }
+        wrapper.addSubview(title)
+        title.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            title.centerXAnchor.constraint(equalTo: wrapper.centerXAnchor),
+            title.topAnchor.constraint(equalTo: wrapper.topAnchor, constant: 25)
+        ])
+        let subtitle = UILabel()
+        if let headerSubtitleStyle = headerSubtitleStyle {
+            subtitle.setStyle(with: headerSubtitleStyle)
+        }
+        wrapper.addSubview(subtitle)
+        subtitle.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            subtitle.centerXAnchor.constraint(equalTo: wrapper.centerXAnchor),
+            subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 15),
+            subtitle.bottomAnchor.constraint(equalTo: wrapper.bottomAnchor, constant: -18)
+        ])
+        return wrapper
+    }()
+
     private var timer = Timer()
     private var container: UIView?
     private var fieldsStack: UIStackView?
@@ -87,26 +91,23 @@ open class VerificationViewController: AKFormViewController {
     private func addScrollView() {
         scrollView = UIScrollView()
         guard let scrollView = scrollView else { return }
-        view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.embedWithSafeArea(scrollView)
     }
 
     private func addViews() {
         container = UIView()
+        scrollView?.embed(container!)
         container?.translatesAutoresizingMaskIntoConstraints = false
         container?.backgroundColor = .clear
         addHeader()
         addFieldsStack()
         addFooter()
-        guard let container = container else { return }
-        scrollView?.embed(container)
     }
 
     private func addHeader() {
-        guard let container = container, let header = header else { return }
-        container.addSubview(header)
-        container.embedAtTop(header)
+        guard let header = header else { return }
+        container?.embedAtTop(header)
     }
 
     private func addFieldsStack() {
@@ -116,21 +117,27 @@ open class VerificationViewController: AKFormViewController {
             textField.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 textField.widthAnchor.constraint(equalToConstant: fieldWidth),
-                textField.heightAnchor.constraint(equalToConstant: fieldHeight),
+                textField.heightAnchor.constraint(equalToConstant: fieldHeight)
             ])
             if let fieldStyle = fieldStyle {
                 textField.setStyle(with: fieldStyle)
             }
             fieldsStack?.addArrangedSubview(textField)
         }
+        guard let container = container, let fieldsStack = fieldsStack else { return }
+        container.addSubview(fieldsStack)
+        NSLayoutConstraint.activate([
+            fieldsStack.centerXAnchor.constraint(equalTo: container.centerXAnchor)
+        ])
         guard let header = header else { return }
-        fieldsStack?.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 0).isActive = true
+        fieldsStack.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
     }
 
     private func addFooter() {
-        guard let container = container, let footer = footer else { return }
-        container.addSubview(footer)
-        container.embedAtBottom(footer)
+        guard let footer = footer else { return }
+        container?.embedAtBottom(footer)
+        guard let fieldsStack = fieldsStack else { return }
+        footer.topAnchor.constraint(equalTo: fieldsStack.bottomAnchor).isActive = true
     }
 
     private func runTimer() {
