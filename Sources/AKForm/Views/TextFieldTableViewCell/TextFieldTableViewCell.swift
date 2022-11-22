@@ -9,12 +9,15 @@ import UIKit
 
 class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
-    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textFieldView: UIView!
+    @IBOutlet weak var textFieldStack: UIStackView!
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
 
     var field: Field?
+    var leadingIconView: UIView?
+    var trailingIconView: UIView?
 
     private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
     private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
@@ -40,18 +43,12 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
     ) {
         self.field = field
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         textField.text = textFieldText
         textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
-    }
-
-    func setFieldBorder(with borderStyle: FieldBorderStyle? = nil) {
-        guard let borderStyle = borderStyle ?? field?.fieldStyle.borderStyle else { return }
-        textFieldView.setBorder(with: borderStyle)
     }
 
     func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
@@ -68,20 +65,40 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
         guard let iconStyleHandler = iconStyleHandler ?? field?.fieldStyle.iconStyleHandler else { return }
-        textField.setIcons(with: iconStyleHandler)
+        if let leadingIconView = leadingIconView {
+            textFieldStack.removeArrangedSubview(leadingIconView)
+            leadingIconView.removeFromSuperview()
+        }
+        if let trailingIconView = trailingIconView {
+            textFieldStack.removeArrangedSubview(trailingIconView)
+            trailingIconView.removeFromSuperview()
+        }
+        let iconViewSize = CGSize(width: 21, height: textFieldHeightConstraint.constant)
+        let semanticContentAttribute = UIView.appearance().semanticContentAttribute
+        let isLeft = semanticContentAttribute == .forceLeftToRight
+        if let leadingIconStyle = iconStyleHandler().leading {
+            let leadingIconView = leadingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: isLeft)
+            self.leadingIconView = leadingIconView
+            textFieldStack.insertArrangedSubview(leadingIconView, at: 0)
+        }
+        if let trailingIconStyle = iconStyleHandler().trailing {
+            let trailingIconView = trailingIconStyle.getIconContainerView(iconViewSize: iconViewSize, isLeft: !isLeft)
+            self.trailingIconView = trailingIconView
+            textFieldStack.addArrangedSubview(trailingIconView)
+        }
     }
 
     func setStyles(with field: Field) {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         textField.setStyle(with: field.fieldStyle)
+        textFieldView.backgroundColor = field.fieldStyle.backgroundColor
         setIcons(with: field.fieldStyle.iconStyleHandler)
     }
 
     func showError(message: String, shouldClearText: Bool) {
         textFieldView.stroked(
-            with: field?.fieldStyle.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            with: field?.fieldStyle.borderStyle.thickness ?? Default.Dimensions.borderWidth,
             color: Default.Colors.errorBorder
         )
         errorLabel.text = message

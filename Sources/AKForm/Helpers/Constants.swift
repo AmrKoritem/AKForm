@@ -10,8 +10,8 @@ import UIKit
 public struct Default {
     public struct Fonts {
         public static var label: UIFont = .systemFont(ofSize: 18)
-        public static var field: UIFont = .systemFont(ofSize: 18)
-        public static var placeholder: UIFont = .systemFont(ofSize: 18)
+        public static var field: UIFont = .systemFont(ofSize: 16)
+        public static var placeholder: UIFont = .systemFont(ofSize: 16)
         public static var error: UIFont = .systemFont(ofSize: 14)
         public static var optionTitle: UIFont = .systemFont(ofSize: 18)
         public static var optionSubtitle: UIFont = .systemFont(ofSize: 14)
@@ -59,5 +59,22 @@ public struct Default {
         public static var separator: UIColor = .lightGray
         /// orangy red
         public static var mandatory: UIColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
+    }
+
+    struct StringAttributes {
+        static let label = [
+            NSAttributedString.Key.foregroundColor: Default.Colors.label,
+            NSAttributedString.Key.font: Default.Fonts.label
+        ]
+        static let placeholder = [
+            NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
+            NSAttributedString.Key.font: Default.Fonts.placeholder
+        ]
+        static func from(color: UIColor?, font: UIFont?) -> [NSAttributedString.Key: Any] {
+            [
+                NSAttributedString.Key.foregroundColor: color ?? Default.Colors.label,
+                NSAttributedString.Key.font: font ?? Default.Fonts.label
+            ]
+        }
     }
 }

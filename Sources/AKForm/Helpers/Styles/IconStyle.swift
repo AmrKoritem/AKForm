@@ -9,33 +9,28 @@ import UIKit
 
 public struct IconStyle {
     let icon: UIImage
-    /// For this property, .end and .lineEnd yield the same result.
-    let position: SymbolPosition
     let marginToEdge: CGFloat
     let action: (target: Any?, selector: Selector)?
 
     public init(
         icon: UIImage,
-        position: SymbolPosition = .end,
         marginToEdge: CGFloat = Default.Dimensions.fieldIconEdgeMargin,
         action: (target: Any?, selector: Selector)? = nil
     ) {
         self.icon = icon
-        self.position = position
         self.marginToEdge = marginToEdge
         self.action = action
     }
 
-    func getIconContainerView(width: CGFloat, height: CGFloat) -> UIView {
-        let containerView: UIView = UIView(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: width + marginToEdge,
-                height: height
-            )
-        )
-        let iconViewFrame = CGRect(x: marginToEdge, y: 0, width: width, height: height)
+    func getIconContainerView(iconViewSize: CGSize, isLeft: Bool) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = .clear
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.heightAnchor.constraint(equalToConstant: iconViewSize.height),
+            containerView.widthAnchor.constraint(equalToConstant: iconViewSize.width + marginToEdge)
+        ])
+        let iconViewFrame = CGRect(origin: CGPoint(x: isLeft ? marginToEdge : 0, y: 0), size: iconViewSize)
         if let action = action {
             let iconView = UIButton(frame: iconViewFrame)
             iconView.addTarget(

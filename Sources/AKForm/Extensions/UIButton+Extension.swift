@@ -14,5 +14,8 @@ public extension UIButton {
         titleLabel?.font = fieldStyle.font
         contentHorizontalAlignment = fieldStyle.textAlignment.buttonAlignment
         backgroundColor = fieldStyle.backgroundColor
+        stroked(with: fieldStyle.borderStyle)
+        guard let shadowStyle = fieldStyle.shadowStyle else { return }
+        shadowed(with: shadowStyle)
     }
 }

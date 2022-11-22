@@ -23,10 +23,17 @@ class OptionTableViewCell: UITableViewCell {
 
     var optionStyle: OptionStyle?
 
-    func configure(with option: String?, and optionStyle: OptionStyle, isSelected: Bool) {
-        titleLabel.text = option
-        titleLabel.font = optionStyle.font
-        titleLabel.textAlignment = optionStyle.textAlignment
+    func configure(with option: SheetOption?, and optionStyle: OptionStyle, isSelected: Bool) {
+        titleLabel.text = option?.title
+        titleLabel.textColor = optionStyle.titleColor
+        titleLabel.font = optionStyle.titleFont
+        titleLabel.textAlignment = optionStyle.titleTextAlignment
+        subtitleLabel.text = option?.subtitle
+        subtitleLabel.textColor = optionStyle.subtitleColor
+        subtitleLabel.font = optionStyle.subtitleFont
+        subtitleLabel.textAlignment = optionStyle.subtitleTextAlignment
+        mainImageView.image = option?.mainImage
+        secondaryImageView.image = option?.secondaryImage
         self.optionStyle = optionStyle
         separatorView.isHidden = optionStyle.separatorStyle.color == .clear
         separatorView.backgroundColor = optionStyle.separatorStyle.color
@@ -39,7 +46,7 @@ class OptionTableViewCell: UITableViewCell {
     func configureSelection(isSelected: Bool) {
         guard let optionStyle = optionStyle else { return }
         guard isSelected else {
-            titleLabel.textColor = optionStyle.textColor
+            titleLabel.textColor = optionStyle.titleColor
             contentView.backgroundColor = optionStyle.backgroundColor
             return
         }
@@ -47,9 +54,7 @@ class OptionTableViewCell: UITableViewCell {
         case .backgroundColor, .labelColor, .symbol:
             setSelectionStyle(with: optionStyle.selectionStyle)
         case .custom(let styles):
-            styles.forEach { style in
-                setSelectionStyle(with: style)
-            }
+            styles.forEach { setSelectionStyle(with: $0) }
         default:
             break
         }

@@ -7,11 +7,7 @@
 
 import UIKit
 
-open class FormViewController: UIViewController, FormDataSource {
-    open var cancelsTouchesInView: Bool {
-        false
-    }
-
+open class FormViewController: AKFormViewController, FormDataSource {
     open var isFormTopConstrintToSafeArea: Bool {
         true
     }
@@ -54,8 +50,14 @@ open class FormViewController: UIViewController, FormDataSource {
         form = UITableView()
         form?.tableHeaderView = formHeader
         form?.tableFooterView = formFooter
+        form?.backgroundColor = .clear
         form?.allowsSelection = false
         form?.separatorStyle = .none
+        form?.estimatedSectionHeaderHeight = 0
+        if #available(iOS 15, *) {
+            form?.sectionHeaderTopPadding = 0
+        }
+        scrollView = form
         guard let form = form else { return }
         view.addSubview(form)
         form.translatesAutoresizingMaskIntoConstraints = false
@@ -72,54 +74,6 @@ open class FormViewController: UIViewController, FormDataSource {
     public func reloadField(withId id: Int) {
         guard let index = fields.firstIndex(where: { $0.id == id }) else { return }
         form?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-    }
-
-    public func addKeyboardObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardDidShow),
-            name: UIResponder.keyboardDidShowNotification,
-            object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardDidHide),
-            name: UIResponder.keyboardDidHideNotification,
-            object: nil)
-    }
-
-    public func removeKeyboardObservers() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidShowNotification,
-            object: nil)
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidHideNotification,
-            object: nil)
-    }
-
-    open func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = cancelsTouchesInView
-        view.addGestureRecognizer(tap)
-    }
-
-    @objc
-    public func keyboardDidShow(_ notification: Notification) {
-        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
-        form?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        form?.isScrollEnabled = true
-    }
-
-    @objc
-    public func keyboardDidHide(_ notification: Notification) {
-        form?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-
-    @objc
-    public func dismissKeyboard() {
-        view.endEditing(true)
     }
 
     // MARK: - FormDataSource

@@ -16,9 +16,72 @@ extension UIView {
         return self
     }
 
-    func setBorder(with borderStyle: FieldBorderStyle) {
-        stroked(with: borderStyle.borderWidth, color: borderStyle.borderColor)
+    /// Strokes the view with the given borderStyle.
+    ///  - Returns: The view.
+    @discardableResult func stroked(with borderStyle: BorderStyle) -> Self {
+        stroked(with: borderStyle.thickness, color: borderStyle.color)
         clipsToBounds = true
         layer.cornerRadius = borderStyle.cornerRadius
+        return self
+    }
+
+    /// Shadows the view with the given parameters.
+    ///  - Returns: The view.
+    @discardableResult func shadowed(with color: UIColor, radius: CGFloat, offset: CGSize, opacity: Float) -> Self {
+        layer.shadowColor = color.cgColor
+        layer.shadowRadius = radius
+        layer.shadowOffset = offset
+        layer.shadowOpacity = opacity
+        layer.masksToBounds = false
+        return self
+    }
+
+    /// Shadows the view with the given shadowStyle.
+    ///  - Returns: The view.
+    @discardableResult func shadowed(with shadowStyle: ShadowStyle) -> Self {
+        return shadowed(
+            with: shadowStyle.color,
+            radius: shadowStyle.radius,
+            offset: shadowStyle.offset,
+            opacity: shadowStyle.opacity
+        )
+    }
+
+    func embed(_ view: UIView) {
+        addSubview(view)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+
+    func embedWithSafeArea(_ view: UIView) {
+        addSubview(view)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        ])
+    }
+
+    func embedAtTop(_ view: UIView) {
+        addSubview(view)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+
+    func embedAtBottom(_ view: UIView) {
+        addSubview(view)
+        NSLayoutConstraint.activate([
+            view.bottomAnchor.constraint(equalTo: bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
     }
 }

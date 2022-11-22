@@ -15,16 +15,16 @@ class SheetViewController: UIViewController {
             textFieldEditingDidEndHandler = textFieldObserverHandlers?.editingDidEndHandler
         }
     }
-    var selectedOption: String?
+    var selectedOption: SheetOption?
     var textFieldEditingHandler: TextFieldEditingChangedHandler?
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
-    var viewWillDisappearHandler: () -> Void = {}
-    var optionSelectionHandler: (String) -> Void = { _ in }
+    var viewDidDisappearHandler: () -> Void = {}
+    var optionSelectionHandler: (SheetOption?) -> Void = { _ in }
 
-    var filteredOptions: [String] {
+    var filteredOptions: [SheetOption] {
         let options = sheetField?.options ?? []
         guard let keyword = searchField?.text, !keyword.isEmpty else { return options }
-        return options.filter { $0.contains(keyword) }
+        return options.filter { $0.title.contains(keyword) }
     }
 
     private var sheet: UITableView?
@@ -110,14 +110,10 @@ class SheetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSheet()
-        dismissWhenTappedAround()
         addKeyboardObservers()
         view.backgroundColor = .clear
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewWillDisappearHandler()
+        guard heightCoefficient < 1.0 else { return }
+        dismissWhenTappedAround()
     }
 
     func configureSheet() {
@@ -133,7 +129,7 @@ class SheetViewController: UIViewController {
         sheet?.separatorStyle = .none
         sheet?.backgroundColor = sheetField?.sheetStyle.backgroundColor
         if let sheetField = sheetField {
-            sheet?.setBorder(with: sheetField.sheetStyle.borderStyle)
+            sheet?.stroked(with: sheetField.sheetStyle.borderStyle)
         }
         guard let sheet = sheet else { return }
         view.addSubview(sheet)
@@ -193,8 +189,8 @@ class SheetViewController: UIViewController {
 
     @objc
     func keyboardDidHide(_ notification: Notification) {
+        sheet?.contentInset = .zero
         topConstraint?.constant = topSheetConstraintConstant
-        sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
     @objc
@@ -215,6 +211,7 @@ class SheetViewController: UIViewController {
 
     @objc
     func close() {
+        viewDidDisappearHandler()
         dismiss(animated: true)
     }
 }
@@ -234,9 +231,9 @@ extension SheetViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let option = filteredOptions[safe: indexPath.row]
+        optionSelectionHandler(option)
         view.endEditing(true)
         dismiss(animated: true)
-        guard let option = filteredOptions[safe: indexPath.row] else { return }
-        optionSelectionHandler(option)
     }
 }

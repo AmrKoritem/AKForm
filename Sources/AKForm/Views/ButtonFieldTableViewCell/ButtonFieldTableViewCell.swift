@@ -33,24 +33,23 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         buttonText = fieldText
         button.titleEdgeInsets.left = Default.Dimensions.horizontalPadding
         button.titleEdgeInsets.right = Default.Dimensions.horizontalPadding
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
         clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
     }
 
-    func setFieldBorder(with borderStyle: FieldBorderStyle? = nil) {
-        guard let borderStyle = borderStyle ?? field?.fieldStyle.borderStyle else { return }
-        button.setBorder(with: borderStyle)
-    }
-
     func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
         if let fieldText = buttonText, !fieldText.isEmpty {
-            button.setTitle(fieldText, for: .normal)
+            let color = field?.fieldStyle.textColor
+            let font = field?.fieldStyle.font
+            let attributes = Default.StringAttributes.from(color: color, font: font)
+            button.setAttributedTitle(
+                NSAttributedString(
+                    string: fieldText,
+                    attributes: attributes),
+                for: .normal
+            )
         } else {
-            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? [
-                NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
-                NSAttributedString.Key.font: Default.Fonts.placeholder
-            ]
+            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? Default.StringAttributes.placeholder
             button.setAttributedTitle(
                 NSAttributedString(
                     string: placeholder ?? field?.placeholder ?? "",
@@ -61,25 +60,25 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
-        //
+        // TODO: - implementation
     }
 
     func setStyles(with field: Field) {
         fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setFieldBorder(with: field.fieldStyle.borderStyle)
         setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
         button.setStyle(with: field.fieldStyle)
     }
 
     func showError(message: String, shouldClearText: Bool) {
         button.stroked(
-            with: field?.fieldStyle.borderStyle.borderWidth ?? Default.Dimensions.borderWidth,
+            with: field?.fieldStyle.borderStyle.thickness ?? Default.Dimensions.borderWidth,
             color: Default.Colors.errorBorder
         )
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
         button.setTitle("", for: .normal)
+        button.setAttributedTitle(nil, for: .normal)
     }
 
     func clearFieldUI() {

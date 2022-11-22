@@ -19,14 +19,14 @@ public struct SheetStyle {
         textFieldObserverHandlers: TextFieldObserverHandlers?
     )
     let backgroundColor: UIColor
-    let borderStyle: FieldBorderStyle
+    let borderStyle: BorderStyle
     let textFieldStyle: TextFieldStyle?
     let heightCoefficient: CGFloat
     let closeButtonStyle: CloseButtonStyle
 
     public init(
         backgroundColor: UIColor = Default.Colors.sheetBackground,
-        borderStyle: FieldBorderStyle = FieldBorderStyle(borderColor: Default.Colors.sheetBorder),
+        borderStyle: BorderStyle = BorderStyle(color: Default.Colors.sheetBorder),
         textFieldStyle: TextFieldStyle? = nil,
         heightCoefficient: CGFloat = 0.35,
         closeButtonStyle: CloseButtonStyle = .none

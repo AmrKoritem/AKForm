@@ -50,9 +50,9 @@ public class Field {
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
         placeholder: String,
-        errorMessages: FieldErrorMessages? = nil,
-        mandatoryStyle: MandatoryStyle = MandatoryStyle(),
-        onFirstResponderStyle: OnFirstResponderStyle? = nil
+        errorMessages: FieldErrorMessages?,
+        mandatoryStyle: MandatoryStyle,
+        onFirstResponderStyle: OnFirstResponderStyle?
     ) {
         self.id = id
         self.count = count

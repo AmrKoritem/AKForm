@@ -16,24 +16,33 @@ public struct OptionStyle {
         case custom(styles: [SelectionStyle])
     }
 
-    let textColor: UIColor
-    let font: UIFont
-    let textAlignment: NSTextAlignment
+    let titleColor: UIColor
+    let titleFont: UIFont
+    let titleTextAlignment: NSTextAlignment
+    let subtitleColor: UIColor
+    let subtitleFont: UIFont
+    let subtitleTextAlignment: NSTextAlignment
     let backgroundColor: UIColor
     let separatorStyle: SeparatorStyle
     let selectionStyle: SelectionStyle
 
     public init(
-        textColor: UIColor = Default.Colors.optionTitle,
-        font: UIFont = Default.Fonts.optionTitle,
-        textAlignment: NSTextAlignment = .natural,
+        titleColor: UIColor = Default.Colors.optionTitle,
+        titleFont: UIFont = Default.Fonts.optionTitle,
+        titleTextAlignment: NSTextAlignment = .natural,
+        subtitleColor: UIColor = Default.Colors.optionSubtitle,
+        subtitleFont: UIFont = Default.Fonts.optionSubtitle,
+        subtitleTextAlignment: NSTextAlignment = .natural,
         backgroundColor: UIColor = Default.Colors.optionBackground,
         separatorStyle: SeparatorStyle = SeparatorStyle(),
         selectionStyle: SelectionStyle = .none
     ) {
-        self.textColor = textColor
-        self.font = font
-        self.textAlignment = textAlignment
+        self.titleColor = titleColor
+        self.titleFont = titleFont
+        self.titleTextAlignment = titleTextAlignment
+        self.subtitleColor = subtitleColor
+        self.subtitleFont = subtitleFont
+        self.subtitleTextAlignment = subtitleTextAlignment
         self.backgroundColor = backgroundColor
         self.separatorStyle = separatorStyle
         self.selectionStyle = selectionStyle

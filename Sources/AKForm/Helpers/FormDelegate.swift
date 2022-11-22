@@ -72,20 +72,21 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 buttonActionHandler: {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
-                    vc.selectedOption = data
+                    vc.selectedOption = data != nil ? SheetOption(title: data!) : nil
                     vc.modalPresentationStyle = .overCurrentContext
-                    vc.optionSelectionHandler = { [weak self] text in
-                        self?.dataSource?.dataMap[field.id] = text
-                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                    vc.optionSelectionHandler = { [weak self, weak tableView] option in
+                        self?.dataSource?.dataMap[field.id] = option?.title
+                        tableView?.reloadRows(at: [indexPath], with: .automatic)
                     }
-                    vc.viewWillDisappearHandler = { [weak fieldCell] in
+                    vc.viewDidDisappearHandler = { [weak fieldCell] in
                         fieldCell?.setStyles(with: field)
                     }
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
         }
-        guard let cell = cell as? FieldTableViewCellProtocol else { return cell }
+        guard let cell = cell as? FieldTableViewCellProtocol,
+              field.mandatoryStyle.isMandatory || data?.isEmpty == false else { return cell }
         switch field.contentType.getValidationStatus(for: data) ?? .valid {
         case .invalid:
             cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
