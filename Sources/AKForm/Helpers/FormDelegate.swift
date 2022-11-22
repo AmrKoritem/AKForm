@@ -72,10 +72,10 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 buttonActionHandler: {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
-                    vc.selectedOption = data
+                    vc.selectedOption = data != nil ? SheetOption(title: data!) : nil
                     vc.modalPresentationStyle = .overCurrentContext
-                    vc.optionSelectionHandler = { [weak self, weak tableView] text in
-                        self?.dataSource?.dataMap[field.id] = text
+                    vc.optionSelectionHandler = { [weak self, weak tableView] option in
+                        self?.dataSource?.dataMap[field.id] = option?.title
                         tableView?.reloadRows(at: [indexPath], with: .automatic)
                     }
                     vc.viewDidDisappearHandler = { [weak fieldCell] in

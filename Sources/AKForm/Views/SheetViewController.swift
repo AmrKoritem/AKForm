@@ -15,16 +15,16 @@ class SheetViewController: UIViewController {
             textFieldEditingDidEndHandler = textFieldObserverHandlers?.editingDidEndHandler
         }
     }
-    var selectedOption: String?
+    var selectedOption: SheetOption?
     var textFieldEditingHandler: TextFieldEditingChangedHandler?
     var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
     var viewDidDisappearHandler: () -> Void = {}
-    var optionSelectionHandler: (String?) -> Void = { _ in }
+    var optionSelectionHandler: (SheetOption?) -> Void = { _ in }
 
-    var filteredOptions: [String] {
+    var filteredOptions: [SheetOption] {
         let options = sheetField?.options ?? []
         guard let keyword = searchField?.text, !keyword.isEmpty else { return options }
-        return options.filter { $0.contains(keyword) }
+        return options.filter { $0.title.contains(keyword) }
     }
 
     private var sheet: UITableView?

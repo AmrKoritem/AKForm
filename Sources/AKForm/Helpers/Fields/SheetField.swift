@@ -11,7 +11,7 @@ import UIKit
 public class SheetField: Field {
     let sheetStyle: SheetStyle
     let optionStyle: OptionStyle
-    let options: [String]
+    let options: [SheetOption]
 
     public init(
         id: Int,
@@ -25,7 +25,7 @@ public class SheetField: Field {
         onFirstResponderStyle: OnFirstResponderStyle? = nil,
         sheetStyle: SheetStyle = SheetStyle(),
         optionStyle: OptionStyle = OptionStyle(),
-        options: [String]
+        options: [SheetOption]
     ) {
         self.sheetStyle = sheetStyle
         self.optionStyle = optionStyle
