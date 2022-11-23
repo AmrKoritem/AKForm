@@ -14,9 +14,15 @@ open class AKFormViewController: UIViewController {
 
     public var scrollView: UIScrollView?
 
+    deinit {
+        removeKeyboardObservers()
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        addKeyboardObservers()
+        hideKeyboardWhenTappedAround()
     }
 
     public func addKeyboardObservers() {

@@ -79,9 +79,6 @@ open class VerificationViewController: AKFormViewController {
         super.viewDidLoad()
         setUI()
         runTimer()
-        configureTextFields()
-        addKeyboardObservers()
-        hideKeyboardWhenTappedAround()
     }
     
     public func setUI() {
@@ -97,14 +94,18 @@ open class VerificationViewController: AKFormViewController {
     }
 
     private func addViews() {
+        addContainer()
+        addHeader()
+        addFieldsStack()
+        addFooter()
+    }
+
+    private func addContainer() {
         container = UIView()
         container?.backgroundColor = .clear
         container?.translatesAutoresizingMaskIntoConstraints = false
         scrollView?.embed(container!)
         container?.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        addHeader()
-        addFieldsStack()
-        addFooter()
     }
 
     private func addHeader() {
@@ -117,18 +118,7 @@ open class VerificationViewController: AKFormViewController {
         fieldsStack = UIStackView()
         fieldsStack?.spacing = 6
         fieldsStack?.translatesAutoresizingMaskIntoConstraints = false
-        (0..<fieldsCount).forEach { [weak fieldsStack] _ in
-            let textField = UITextField()
-            textField.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                textField.widthAnchor.constraint(equalToConstant: fieldWidth),
-                textField.heightAnchor.constraint(equalToConstant: fieldHeight)
-            ])
-            if let fieldStyle = fieldStyle {
-                textField.setStyle(with: fieldStyle)
-            }
-            fieldsStack?.addArrangedSubview(textField)
-        }
+        addTextFields()
         guard let fieldsStack = fieldsStack else { return }
         container?.addSubview(fieldsStack)
         guard let container = container else { return }
@@ -138,6 +128,30 @@ open class VerificationViewController: AKFormViewController {
             return
         }
         fieldsStack.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
+    }
+
+    private func addTextFields() {
+        (0..<fieldsCount).forEach { [weak fieldsStack] _ in
+            fieldsStack?.addArrangedSubview(makeTextField())
+        }
+        fieldsStack?.semanticContentAttribute = .forceLeftToRight
+        textFields.first?.becomeFirstResponder()
+    }
+
+    private func makeTextField() -> UITextField {
+        let textField = UITextField()
+        textField.delegate = self
+        textField.textContentType = .oneTimeCode
+        textField.keyboardType = .numberPad
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textField.widthAnchor.constraint(equalToConstant: fieldWidth),
+            textField.heightAnchor.constraint(equalToConstant: fieldHeight)
+        ])
+        if let fieldStyle = fieldStyle {
+            textField.setStyle(with: fieldStyle)
+        }
+        return textField
     }
 
     private func addFooter() {
@@ -157,18 +171,13 @@ open class VerificationViewController: AKFormViewController {
     }
 
     private func runTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
-    }
-
-    private func configureTextFields() {
-        fieldsStack?.semanticContentAttribute = .forceLeftToRight
-        textFields.first?.becomeFirstResponder()
-        textFields.forEach { [weak self] in
-            guard let self = self else {return}
-            $0.delegate = self
-            $0.textContentType = .oneTimeCode
-            $0.keyboardType = .numberPad
-        }
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: (#selector(updateTimer)),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     @objc
