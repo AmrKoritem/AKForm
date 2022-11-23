@@ -22,7 +22,8 @@ open class VerificationViewController: AKFormViewController {
     }
 
     public var fieldWidth: CGFloat {
-        let totalAvailableWidth = view.frame.size.width - fieldsMinHorizaontalMargin * 2
+        let totalStackSpacings: CGFloat = (fieldsStack?.spacing ?? 0) * CGFloat(max(0, fieldsCount - 1))
+        let totalAvailableWidth = view.frame.size.width - fieldsMinHorizaontalMargin * 2 - totalStackSpacings
         return totalAvailableWidth / CGFloat(fieldsCount)
     }
     private var textFields: [UITextField] {
@@ -30,7 +31,7 @@ open class VerificationViewController: AKFormViewController {
     }
 
     open var fieldHeight: CGFloat = 65
-    open var fieldStyle: FieldStyle?
+    open var fieldStyle: FieldStyle? = FieldStyle(textAlignment: .center)
     open var fieldsCount = 6
     open var fieldsMinHorizaontalMargin: CGFloat = 20
     open var countDownSeconds = 60
@@ -97,9 +98,10 @@ open class VerificationViewController: AKFormViewController {
 
     private func addViews() {
         container = UIView()
-        scrollView?.embed(container!)
-        container?.translatesAutoresizingMaskIntoConstraints = false
         container?.backgroundColor = .clear
+        container?.translatesAutoresizingMaskIntoConstraints = false
+        scrollView?.embed(container!)
+        container?.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         addHeader()
         addFieldsStack()
         addFooter()
@@ -107,12 +109,15 @@ open class VerificationViewController: AKFormViewController {
 
     private func addHeader() {
         guard let header = header else { return }
+        header.translatesAutoresizingMaskIntoConstraints = false
         container?.embedAtTop(header)
     }
 
     private func addFieldsStack() {
         fieldsStack = UIStackView()
-        (0..<fieldsCount).forEach { [weak fieldsStack] index in
+        fieldsStack?.spacing = 6
+        fieldsStack?.translatesAutoresizingMaskIntoConstraints = false
+        (0..<fieldsCount).forEach { [weak fieldsStack] _ in
             let textField = UITextField()
             textField.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -124,19 +129,30 @@ open class VerificationViewController: AKFormViewController {
             }
             fieldsStack?.addArrangedSubview(textField)
         }
-        guard let container = container, let fieldsStack = fieldsStack else { return }
-        container.addSubview(fieldsStack)
-        NSLayoutConstraint.activate([
-            fieldsStack.centerXAnchor.constraint(equalTo: container.centerXAnchor)
-        ])
-        guard let header = header else { return }
+        guard let fieldsStack = fieldsStack else { return }
+        container?.addSubview(fieldsStack)
+        guard let container = container else { return }
+        fieldsStack.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
+        guard let header = header else {
+            fieldsStack.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
+            return
+        }
         fieldsStack.topAnchor.constraint(equalTo: header.bottomAnchor).isActive = true
     }
 
     private func addFooter() {
-        guard let footer = footer else { return }
-        container?.embedAtBottom(footer)
-        guard let fieldsStack = fieldsStack else { return }
+        guard let container = container else { return }
+        guard let footer = footer else {
+            fieldsStack?.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
+            return
+        }
+        footer.translatesAutoresizingMaskIntoConstraints = false
+        container.embedAtBottom(footer)
+        guard let fieldsStack = fieldsStack else {
+            let anchor = header?.bottomAnchor ?? container.topAnchor
+            footer.topAnchor.constraint(equalTo: anchor).isActive = true
+            return
+        }
         footer.topAnchor.constraint(equalTo: fieldsStack.bottomAnchor).isActive = true
     }
 
@@ -170,6 +186,7 @@ extension VerificationViewController: UITextFieldDelegate {
     ) -> Bool {
         let textFieldIndex = textFields.firstIndex(of: textField) ?? 0
         guard string.count > 0 else {
+            // count == 0 means that the back button was tapped
             textField.text = string
             let previousIndex = textFieldIndex - 1
             let index = previousIndex < 0 ? fieldsCount - 1 : previousIndex
@@ -177,6 +194,7 @@ extension VerificationViewController: UITextFieldDelegate {
             return false
         }
         guard string.count == 1 else {
+            // count > 1 means an otp input
             let startIndex = string.startIndex
             textFields.forEach { [weak self] field in
                 guard let index = self?.textFields.firstIndex(of: field) else { return }
@@ -184,14 +202,9 @@ extension VerificationViewController: UITextFieldDelegate {
             }
             return false
         }
+        // count == 1 means that a key button was tapped
         textField.text = string
-        let nextIndex = textFieldIndex + 1
-        let index = nextIndex >= fieldsCount ? 0 : nextIndex
-        if index == fieldsCount - 1 {
-            textFields[safe: index]?.resignFirstResponder()
-        } else {
-            textFields[safe: index]?.becomeFirstResponder()
-        }
+        _ = textFieldShouldReturn(textField)
         return false
     }
 
@@ -199,8 +212,8 @@ extension VerificationViewController: UITextFieldDelegate {
         let textFieldIndex = textFields.firstIndex(of: textField) ?? 0
         let nextIndex = textFieldIndex + 1
         let index = nextIndex >= fieldsCount ? 0 : nextIndex
-        if index == fieldsCount - 1 {
-            textFields[safe: index]?.resignFirstResponder()
+        if textFieldIndex == fieldsCount - 1 {
+            textFields[safe: textFieldIndex]?.resignFirstResponder()
         } else {
             textFields[safe: index]?.becomeFirstResponder()
         }
