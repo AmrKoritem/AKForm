@@ -88,14 +88,8 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
         let fieldCell = cell as? FieldTableViewCellProtocol
         switch field.contentType {
         case .confirmPassword(let passwordFieldId, _):
-            let password = dataSource?.dataMap[passwordFieldId] as? String
-            if password?.isEmpty != false {
-                fieldCell?.showError(message: field.errorMessages?.empty ?? "Please enter your password")
-            } else if password != data {
-                fieldCell?.showError(message: field.errorMessages?.invalid ?? "Must be the same as the password")
-            } else {
-                fieldCell?.clearFieldUI()
-            }
+            let passwordData = dataSource?.dataMap[passwordFieldId] as? String
+            fieldCell?.validateConfirmPassword(data, passwordData: passwordData)
         default:
             fieldCell?.validate(data: data)
         }

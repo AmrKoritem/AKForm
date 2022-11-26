@@ -32,4 +32,15 @@ extension FieldTableViewCellProtocol {
             clearFieldUI()
         }
     }
+
+    func validateConfirmPassword(_ confirmPasswordData: String?, passwordData: String?) {
+        guard field?.mandatoryStyle.isMandatory == true || confirmPasswordData?.isEmpty == false else { return }
+        if passwordData?.isEmpty != false {
+            showError(message: field?.errorMessages?.empty ?? "Please enter your password")
+        } else if passwordData != confirmPasswordData {
+            showError(message: field?.errorMessages?.invalid ?? "Must be the same as the password")
+        } else {
+            clearFieldUI()
+        }
+    }
 }
