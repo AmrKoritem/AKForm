@@ -15,4 +15,15 @@ public struct FieldErrorMessages {
         self.empty = empty
         self.invalid = invalid
     }
+
+    public func message(for validationStatus: String.ValidationStatus) -> String {
+        switch validationStatus {
+        case .missing:
+            return empty
+        case .invalid:
+            return invalid
+        case .valid:
+            return ""
+        }
+    }
 }

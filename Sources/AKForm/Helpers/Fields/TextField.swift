@@ -21,6 +21,7 @@ public class TextField: Field {
         errorMessages: FieldErrorMessages? = nil,
         mandatoryStyle: MandatoryStyle = MandatoryStyle(),
         onFirstResponderStyle: OnFirstResponderStyle? = nil,
+        validationHandler: ValidationHandler? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
         self.textFieldObserverHandlers = textFieldObserverHandlers
@@ -34,7 +35,8 @@ public class TextField: Field {
             placeholder: placeholder,
             errorMessages: errorMessages,
             mandatoryStyle: mandatoryStyle,
-            onFirstResponderStyle: onFirstResponderStyle
+            onFirstResponderStyle: onFirstResponderStyle,
+            validationHandler: validationHandler
         )
     }
 }
