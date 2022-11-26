@@ -20,4 +20,16 @@ extension FieldTableViewCellProtocol {
     func showError(message: String) {
         showError(message: message, shouldClearText: false)
     }
+
+    func validate(data: String?) {
+        guard field?.mandatoryStyle.isMandatory == true || data?.isEmpty == false else { return }
+        switch field?.contentType.getValidationStatus(for: data) ?? .valid {
+        case .invalid:
+            showError(message: field?.errorMessages?.invalid ?? "Please enter a valid entry")
+        case .missing:
+            showError(message: field?.errorMessages?.empty ?? "Please enter your data")
+        default:
+            clearFieldUI()
+        }
+    }
 }

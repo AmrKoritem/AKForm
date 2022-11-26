@@ -21,6 +21,7 @@ public enum FieldContentType {
     case name
     case email
     case password(isSecureTextEntry: Bool? = nil)
+    case confirmPassword(passwordFieldId: Int, isSecureTextEntry: Bool? = nil)
     case image
     case price
     case phone
@@ -36,7 +37,7 @@ public enum FieldContentType {
             return .name
         case .email:
             return .email
-        case .password:
+        case .password, .confirmPassword:
             return .password
         case .url:
             return .url
@@ -107,7 +108,7 @@ public extension FieldContentType {
             return .name
         case .email:
             return .emailAddress
-        case .password:
+        case .password, .confirmPassword:
             return .password
         case .address:
             return .fullStreetAddress
@@ -123,7 +124,7 @@ public extension FieldContentType {
     /// Determines if the text input should be shown.
     var isSecureTextEntry: Bool {
         switch self {
-        case .password(let isSecureTextEntry):
+        case .password(let isSecureTextEntry), .confirmPassword(_, let isSecureTextEntry):
             return isSecureTextEntry ?? true
         case .custom(let contentTypeAttributes):
             return contentTypeAttributes.isSecureTextEntry ?? false

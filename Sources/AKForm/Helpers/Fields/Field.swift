@@ -81,3 +81,10 @@ public class Field {
         )
     }
 }
+
+public extension Collection where Iterator.Element == Field {
+    /// Returns an array of elements with the specified id.
+    func first(withId id: Int) -> Element? {
+        filter { $0.id == id }.first
+    }
+}

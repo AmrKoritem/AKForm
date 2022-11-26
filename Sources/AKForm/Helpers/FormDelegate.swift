@@ -85,15 +85,19 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 }
             )
         }
-        guard let cell = cell as? FieldTableViewCellProtocol,
-              field.mandatoryStyle.isMandatory || data?.isEmpty == false else { return cell }
-        switch field.contentType.getValidationStatus(for: data) ?? .valid {
-        case .invalid:
-            cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
-        case .missing:
-            cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
+        let fieldCell = cell as? FieldTableViewCellProtocol
+        switch field.contentType {
+        case .confirmPassword(let passwordFieldId, _):
+            let password = dataSource?.dataMap[passwordFieldId] as? String
+            if password?.isEmpty != false {
+                fieldCell?.showError(message: field.errorMessages?.empty ?? "Please enter your password")
+            } else if password != data {
+                fieldCell?.showError(message: field.errorMessages?.invalid ?? "Must be the same as the password")
+            } else {
+                fieldCell?.clearFieldUI()
+            }
         default:
-            cell.clearFieldUI()
+            fieldCell?.validate(data: data)
         }
         return cell
     }
