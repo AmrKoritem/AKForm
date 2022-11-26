@@ -20,6 +20,18 @@ open class VerificationViewController: AKFormViewController {
     open var footer: UIView? {
         nil
     }
+    open var fieldStyle: FieldStyle? {
+        FieldStyle(textAlignment: .center)
+    }
+    open var fieldHeight: CGFloat {
+        65
+    }
+    open var fieldsCount: Int {
+        6
+    }
+    open var fieldsMinHorizaontalMargin: CGFloat {
+        20
+    }
 
     public var fieldWidth: CGFloat {
         let totalStackSpacings: CGFloat = (fieldsStack?.spacing ?? 0) * CGFloat(max(0, fieldsCount - 1))
@@ -30,13 +42,8 @@ open class VerificationViewController: AKFormViewController {
         fieldsStack?.arrangedSubviews.compactMap { $0 as? UITextField } ?? []
     }
 
-    open var fieldHeight: CGFloat = 65
-    open var fieldStyle: FieldStyle? = FieldStyle(textAlignment: .center)
-    open var fieldsCount = 6
-    open var fieldsMinHorizaontalMargin: CGFloat = 20
-    open var countDownSeconds = 60
-    open var updateTimerHandler: () -> Void = {}
-
+    public var countDownSeconds = 60
+    public var updateTimerHandler: () -> Void = {}
     public private(set) var isTimerRunning = false
 
     lazy var defaultHeader: UIView = {
