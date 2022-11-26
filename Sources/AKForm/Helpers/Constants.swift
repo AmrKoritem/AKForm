@@ -8,6 +8,14 @@
 import UIKit
 
 public struct Default {
+    public static var isMandatory: Bool = false
+
+    public struct Strings {
+        public static var mandatorySymbol: String = "*"
+        public static var errorMessageEmpty: String = "Please enter your data"
+        public static var errorMessageInvalid: String = "Please enter a valid entry"
+    }
+
     public struct Fonts {
         public static var label: UIFont = .systemFont(ofSize: 18)
         public static var field: UIFont = .systemFont(ofSize: 16)

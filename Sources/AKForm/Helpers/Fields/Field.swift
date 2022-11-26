@@ -10,6 +10,7 @@ import UIKit
 /// Supported field count.
 public enum FieldCount: Int {
     case uni = 1
+    // TODO: - double fields
 //    case bi = 2
 }
 
@@ -17,6 +18,7 @@ public enum FieldCount: Int {
 public enum FieldType {
     case text
     case sheet
+    // TODO: - other field types
 //    case dropDown
 //    case filePicker
 //    case location
@@ -73,8 +75,8 @@ public class Field {
                 )
             default:
                 return FieldErrorMessages(
-                    empty: "Please enter your data",
-                    invalid: "Please enter a valid entry"
+                    empty: Default.Strings.errorMessageEmpty,
+                    invalid: Default.Strings.errorMessageInvalid
                 )
             }
         }()
