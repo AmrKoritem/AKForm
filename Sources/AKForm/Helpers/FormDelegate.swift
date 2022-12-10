@@ -37,6 +37,27 @@ public extension UITableView {
     }
 }
 
+public extension FormDelegate {
+    /// Dictionary containing the current validation status for each field id.
+    var validationStatus: [Int: String.ValidationStatus] {
+        dataSource?.fields.reduce([Int: String.ValidationStatus]()) { [weak self] dict, field in
+            let data = self?.dataSource?.dataMap[field.id] as? String
+            let validationStatus: String.ValidationStatus = {
+                switch field.contentType {
+                case .confirmPassword(let passwordFieldId, _):
+                    let passwordData = self?.dataSource?.dataMap[passwordFieldId] as? String
+                    return field.validateConfirmPassword(data, passwordData: passwordData)
+                default:
+                    return field.validate(data: data)
+                }
+            }()
+            var dict = dict
+            dict[field.id] = validationStatus
+            return dict
+        } ?? [:]
+    }
+}
+
 extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataSource?.fields.count ?? 0

@@ -100,6 +100,26 @@ public class Field {
             validationHandler: validationHandler
         )
     }
+
+    public func validate(data: String?) -> String.ValidationStatus {
+        guard mandatoryStyle.isMandatory == true || data?.isEmpty == false else { return .valid }
+        let validationStatus = validationHandler?(data) ?? contentType.getValidationStatus(for: data) ?? .valid
+        return validationStatus
+    }
+
+    public func validateConfirmPassword(_ confirmPasswordData: String?, passwordData: String?) -> String.ValidationStatus {
+        guard mandatoryStyle.isMandatory == true || confirmPasswordData?.isEmpty == false else { return .valid }
+        let validationStatus = validationHandler?(confirmPasswordData) ?? {
+            if confirmPasswordData?.isEmpty != false {
+                return String.ValidationStatus.missing
+            } else if passwordData != confirmPasswordData {
+                return String.ValidationStatus.invalid
+            } else {
+                return String.ValidationStatus.valid
+            }
+        }()
+        return validationStatus
+    }
 }
 
 public extension Collection where Iterator.Element == Field {

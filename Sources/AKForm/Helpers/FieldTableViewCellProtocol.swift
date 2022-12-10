@@ -17,33 +17,21 @@ protocol FieldTableViewCellProtocol: UITableViewCell {
 }
 
 extension FieldTableViewCellProtocol {
+    func showError(for status: String.ValidationStatus) {
+        let errorMessage = field?.errorMessages.message(for: status) ?? ""
+        errorMessage.isEmpty ? clearFieldUI() : showError(message: errorMessage)
+    }
+
     func showError(message: String) {
         showError(message: message, shouldClearText: false)
     }
 
     func validate(data: String?) {
-        guard field?.mandatoryStyle.isMandatory == true || data?.isEmpty == false else { return }
-        let validationStatus = field?.validationHandler?(data) ?? field?.contentType.getValidationStatus(for: data) ?? .valid
-        switch validationStatus {
-        case .valid:
-            clearFieldUI()
-        default:
-            showError(message: field?.errorMessages.message(for: validationStatus) ?? "")
-        }
+        showError(for: field?.validate(data: data) ?? .valid)
     }
 
     func validateConfirmPassword(_ confirmPasswordData: String?, passwordData: String?) {
-        guard field?.mandatoryStyle.isMandatory == true || confirmPasswordData?.isEmpty == false else { return }
-        let validationStatus = field?.validationHandler?(confirmPasswordData) ?? { () -> String.ValidationStatus in
-            if passwordData?.isEmpty != false {
-                return String.ValidationStatus.missing
-            } else if passwordData != confirmPasswordData {
-                return String.ValidationStatus.invalid
-            } else {
-                return String.ValidationStatus.valid
-            }
-        }()
-        let errorMessage = field?.errorMessages.message(for: validationStatus) ?? ""
-        errorMessage.isEmpty ? clearFieldUI() : showError(message: errorMessage)
+        let validationStatus = field?.validateConfirmPassword(confirmPasswordData, passwordData: passwordData)
+        showError(for: validationStatus ?? .valid)
     }
 }
