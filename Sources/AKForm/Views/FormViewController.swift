@@ -35,8 +35,6 @@ open class FormViewController: AKFormViewController, FormDataSource {
     open override func viewDidLoad() {
         super.viewDidLoad()
         configureForm()
-        addKeyboardObservers()
-        hideKeyboardWhenTappedAround()
     }
 
     public func configureForm() {

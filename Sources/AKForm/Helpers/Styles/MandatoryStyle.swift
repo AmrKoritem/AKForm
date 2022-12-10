@@ -32,8 +32,8 @@ public struct MandatoryStyle {
     }
 
     public init(
-        isMandatory: Bool = false,
-        symbol: String = "*",
+        isMandatory: Bool = Default.isMandatory,
+        symbol: String = Default.Strings.mandatorySymbol,
         color: UIColor = Default.Colors.mandatory,
         font: UIFont = Default.Fonts.mandatory,
         position: SymbolPosition = .end

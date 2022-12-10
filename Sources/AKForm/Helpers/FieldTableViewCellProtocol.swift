@@ -17,7 +17,21 @@ protocol FieldTableViewCellProtocol: UITableViewCell {
 }
 
 extension FieldTableViewCellProtocol {
+    func showError(for status: String.ValidationStatus) {
+        let errorMessage = field?.errorMessages.message(for: status) ?? ""
+        errorMessage.isEmpty ? clearFieldUI() : showError(message: errorMessage)
+    }
+
     func showError(message: String) {
         showError(message: message, shouldClearText: false)
+    }
+
+    func validate(data: String?) {
+        showError(for: field?.validate(data: data) ?? .valid)
+    }
+
+    func validateConfirmPassword(_ confirmPasswordData: String?, passwordData: String?) {
+        let validationStatus = field?.validateConfirmPassword(confirmPasswordData, passwordData: passwordData)
+        showError(for: validationStatus ?? .valid)
     }
 }

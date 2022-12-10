@@ -47,6 +47,11 @@ extension UIView {
         )
     }
 
+    @discardableResult func shadowRemoved() -> Self {
+        layer.shadowColor = UIColor.clear.cgColor
+        return self
+    }
+
     func embed(_ view: UIView) {
         addSubview(view)
         NSLayoutConstraint.activate([

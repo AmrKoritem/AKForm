@@ -37,6 +37,27 @@ public extension UITableView {
     }
 }
 
+public extension FormDelegate {
+    /// Dictionary containing the current validation status for each field id.
+    var validationStatus: [Int: String.ValidationStatus] {
+        dataSource?.fields.reduce([Int: String.ValidationStatus]()) { [weak self] dict, field in
+            let data = self?.dataSource?.dataMap[field.id] as? String
+            let validationStatus: String.ValidationStatus = {
+                switch field.contentType {
+                case .confirmPassword(let passwordFieldId, _):
+                    let passwordData = self?.dataSource?.dataMap[passwordFieldId] as? String
+                    return field.validateConfirmPassword(data, passwordData: passwordData)
+                default:
+                    return field.validate(data: data)
+                }
+            }()
+            var dict = dict
+            dict[field.id] = validationStatus
+            return dict
+        } ?? [:]
+    }
+}
+
 extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         dataSource?.fields.count ?? 0
@@ -85,15 +106,13 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 }
             )
         }
-        guard let cell = cell as? FieldTableViewCellProtocol,
-              field.mandatoryStyle.isMandatory || data?.isEmpty == false else { return cell }
-        switch field.contentType.getValidationStatus(for: data) ?? .valid {
-        case .invalid:
-            cell.showError(message: field.errorMessages?.invalid ?? "Please enter a valid entry")
-        case .missing:
-            cell.showError(message: field.errorMessages?.empty ?? "Please enter your data")
+        let fieldCell = cell as? FieldTableViewCellProtocol
+        switch field.contentType {
+        case .confirmPassword(let passwordFieldId, _):
+            let passwordData = dataSource?.dataMap[passwordFieldId] as? String
+            fieldCell?.validateConfirmPassword(data, passwordData: passwordData)
         default:
-            cell.clearFieldUI()
+            fieldCell?.validate(data: data)
         }
         return cell
     }

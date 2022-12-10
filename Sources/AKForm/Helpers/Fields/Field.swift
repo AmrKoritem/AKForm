@@ -10,15 +10,17 @@ import UIKit
 /// Supported field count.
 public enum FieldCount: Int {
     case uni = 1
-    case bi = 2
+    // TODO: - double fields
+//    case bi = 2
 }
 
 /// Supported field types.
 public enum FieldType {
     case text
+    case sheet
+    // TODO: - other field types
 //    case dropDown
 //    case filePicker
-    case sheet
 //    case location
 //    case picker
 }
@@ -28,6 +30,7 @@ public typealias OnFirstResponderStyle = () -> (
     fieldStyle: FieldStyle?,
     mandatoryStyle: MandatoryStyle?
 )
+public typealias ValidationHandler = (String?) -> String.ValidationStatus
 
 /// Field properties wrapper.
 public class Field {
@@ -38,9 +41,10 @@ public class Field {
     let labelStyle: LabelStyle
     let fieldStyle: FieldStyle
     let placeholder: String
-    let errorMessages: FieldErrorMessages?
+    let errorMessages: FieldErrorMessages
     let mandatoryStyle: MandatoryStyle
     var onFirstResponderStyle: OnFirstResponderStyle?
+    var validationHandler: ValidationHandler?
 
     init(
         id: Int,
@@ -52,7 +56,8 @@ public class Field {
         placeholder: String,
         errorMessages: FieldErrorMessages?,
         mandatoryStyle: MandatoryStyle,
-        onFirstResponderStyle: OnFirstResponderStyle?
+        onFirstResponderStyle: OnFirstResponderStyle?,
+        validationHandler: ValidationHandler?
     ) {
         self.id = id
         self.count = count
@@ -61,9 +66,23 @@ public class Field {
         self.labelStyle = labelStyle
         self.fieldStyle = fieldStyle
         self.placeholder = placeholder
-        self.errorMessages = errorMessages
+        self.errorMessages = errorMessages ?? {
+            switch contentType {
+            case .confirmPassword(_, _):
+                return FieldErrorMessages(
+                    empty: "Please enter your password",
+                    invalid: "Must be the same as the password"
+                )
+            default:
+                return FieldErrorMessages(
+                    empty: Default.Strings.errorMessageEmpty,
+                    invalid: Default.Strings.errorMessageInvalid
+                )
+            }
+        }()
         self.mandatoryStyle = mandatoryStyle
         self.onFirstResponderStyle = onFirstResponderStyle
+        self.validationHandler = validationHandler
     }
 
     public func getOnFirstResponderCopy() -> Field {
@@ -77,7 +96,35 @@ public class Field {
             placeholder: placeholder,
             errorMessages: errorMessages,
             mandatoryStyle: onFirstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
-            onFirstResponderStyle: onFirstResponderStyle
+            onFirstResponderStyle: onFirstResponderStyle,
+            validationHandler: validationHandler
         )
+    }
+
+    public func validate(data: String?) -> String.ValidationStatus {
+        guard mandatoryStyle.isMandatory == true || data?.isEmpty == false else { return .valid }
+        let validationStatus = validationHandler?(data) ?? contentType.getValidationStatus(for: data) ?? .valid
+        return validationStatus
+    }
+
+    public func validateConfirmPassword(_ confirmPasswordData: String?, passwordData: String?) -> String.ValidationStatus {
+        guard mandatoryStyle.isMandatory == true || confirmPasswordData?.isEmpty == false else { return .valid }
+        let validationStatus = validationHandler?(confirmPasswordData) ?? {
+            if confirmPasswordData?.isEmpty != false {
+                return String.ValidationStatus.missing
+            } else if passwordData != confirmPasswordData {
+                return String.ValidationStatus.invalid
+            } else {
+                return String.ValidationStatus.valid
+            }
+        }()
+        return validationStatus
+    }
+}
+
+public extension Collection where Iterator.Element == Field {
+    /// Returns an array of elements with the specified id.
+    func first(withId id: Int) -> Element? {
+        filter { $0.id == id }.first
     }
 }
