@@ -69,6 +69,12 @@ open class FormViewController: AKFormViewController, FormDataSource {
         ])
     }
 
+    /// Returns a boolean that determines if the fields data are valid.
+    public func validate() -> Bool {
+        form?.reloadData()
+        return formDelegate.validate()
+    }
+
     public func reloadField(withId id: Int) {
         guard let index = fields.firstIndex(where: { $0.id == id }) else { return }
         form?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)

@@ -56,6 +56,18 @@ public extension FormDelegate {
             return dict
         } ?? [:]
     }
+
+    /// Returns a boolean that determines if the fields data are valid.
+    func validate() -> Bool {
+        dataSource?.fields.forEach { field in
+            guard dataSource?.dataMap[field.id] == nil else { return }
+            dataSource?.dataMap[field.id] = ""
+        }
+        let validationStatus = validationStatus
+        guard !validationStatus.values.contains(.missing),
+              !validationStatus.values.contains(.invalid) else { return false }
+        return true
+    }
 }
 
 extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
