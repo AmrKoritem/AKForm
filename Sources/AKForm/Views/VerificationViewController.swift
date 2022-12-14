@@ -38,6 +38,9 @@ open class VerificationViewController: AKFormViewController {
         let totalAvailableWidth = view.frame.size.width - fieldsMinHorizaontalMargin * 2 - totalStackSpacings
         return totalAvailableWidth / CGFloat(fieldsCount)
     }
+    public var otp: String {
+        textFields.compactMap { $0.text }.joined()
+    }
     private var textFields: [UITextField] {
         fieldsStack?.arrangedSubviews.compactMap { $0 as? UITextField } ?? []
     }
