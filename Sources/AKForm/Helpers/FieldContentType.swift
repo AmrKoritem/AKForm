@@ -41,6 +41,8 @@ public enum FieldContentType {
             return .password
         case .url:
             return .url
+        case .phone:
+            return .phone
         default:
             return .none
         }
