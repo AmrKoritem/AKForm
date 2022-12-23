@@ -16,49 +16,51 @@ public typealias ContentTypeAttributes = (
     validationHandler: ((String?) -> String.ValidationStatus)?
 )
 
-/// Supported field content types.
-public enum FieldContentType {
-    case name
-    case email
-    case password(isSecureTextEntry: Bool? = nil)
-    case confirmPassword(passwordFieldId: Int, isSecureTextEntry: Bool? = nil)
-    case image
-    case price
-    case phone
-    case address
-    case url
-    case other
-    case custom(contentTypeAttributes: ContentTypeAttributes)
+extension Field {
+    /// Supported field content types.
+    public enum ContentType {
+        case name
+        case email
+        case password(isSecureTextEntry: Bool? = nil)
+        case confirmPassword(passwordFieldId: Int, isSecureTextEntry: Bool? = nil)
+        case image
+        case price
+        case phone
+        case address
+        case url
+        case other
+        case custom(contentTypeAttributes: ContentTypeAttributes)
 
-    /// Validation equivalent regex.
-    var validationRegex: String.ValidationRegex {
-        switch self {
-        case .name:
-            return .name
-        case .email:
-            return .email
-        case .password, .confirmPassword:
-            return .password
-        case .url:
-            return .url
-        case .phone:
-            return .phone
-        default:
-            return .none
+        /// Validation equivalent regex.
+        var validationRegex: String.ValidationRegex {
+            switch self {
+            case .name:
+                return .name
+            case .email:
+                return .email
+            case .password, .confirmPassword:
+                return .password
+            case .url:
+                return .url
+            case .phone:
+                return .phone
+            default:
+                return .none
+            }
         }
-    }
 
-    func getValidationStatus(for text: String?) -> String.ValidationStatus? {
-        switch self {
-        case .custom(let contentTypeAttributes):
-            return contentTypeAttributes.validationHandler?(text)
-        default:
-            return text?.getValidationStatus(for: validationRegex)
+        func getValidationStatus(for text: String?) -> String.ValidationStatus? {
+            switch self {
+            case .custom(let contentTypeAttributes):
+                return contentTypeAttributes.validationHandler?(text)
+            default:
+                return text?.getValidationStatus(for: validationRegex)
+            }
         }
     }
 }
 
-public extension FieldContentType {
+public extension Field.ContentType {
     /// Keyboard type.
     var keyboardType: UIKeyboardType {
         switch self {

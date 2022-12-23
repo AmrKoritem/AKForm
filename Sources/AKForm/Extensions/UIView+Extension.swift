@@ -54,6 +54,7 @@ extension UIView {
 
     func embed(_ view: UIView) {
         addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: topAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -64,6 +65,7 @@ extension UIView {
 
     func embedWithSafeArea(_ view: UIView) {
         addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             view.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
@@ -74,6 +76,7 @@ extension UIView {
 
     func embedAtTop(_ view: UIView) {
         addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: topAnchor),
             view.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -83,6 +86,7 @@ extension UIView {
 
     func embedAtBottom(_ view: UIView) {
         addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
             view.leadingAnchor.constraint(equalTo: leadingAnchor),

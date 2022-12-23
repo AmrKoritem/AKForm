@@ -7,23 +7,26 @@
 
 import Foundation
 
-public struct FieldErrorMessages {
-    var empty: String
-    var invalid: String
+extension Field {
+    /// Field errors holder.
+    public struct ErrorMessages {
+        var empty: String
+        var invalid: String
 
-    public init(empty: String, invalid: String) {
-        self.empty = empty
-        self.invalid = invalid
-    }
+        public init(empty: String, invalid: String) {
+            self.empty = empty
+            self.invalid = invalid
+        }
 
-    public func message(for validationStatus: String.ValidationStatus) -> String {
-        switch validationStatus {
-        case .missing:
-            return empty
-        case .invalid:
-            return invalid
-        case .valid:
-            return ""
+        public func message(for validationStatus: String.ValidationStatus) -> String {
+            switch validationStatus {
+            case .missing:
+                return empty
+            case .invalid:
+                return invalid
+            case .valid:
+                return ""
+            }
         }
     }
 }

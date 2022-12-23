@@ -18,7 +18,7 @@ protocol FieldTableViewCellProtocol: UITableViewCell {
 
 extension FieldTableViewCellProtocol {
     func showError(for status: String.ValidationStatus) {
-        let errorMessage = field?.errorMessages.message(for: status) ?? ""
+        let errorMessage = field?.texts.errorMessages.message(for: status) ?? ""
         errorMessage.isEmpty ? clearFieldUI() : showError(message: errorMessage)
     }
 

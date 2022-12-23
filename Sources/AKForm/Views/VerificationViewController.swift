@@ -11,11 +11,11 @@ open class VerificationViewController: AKFormViewController {
     open var header: UIView? {
         defaultHeader
     }
-    open var headerTitleStyle: LabelStyle? {
-        LabelStyle(attributedText: NSAttributedString(string: "title", attributes: Default.StringAttributes.label))
+    open var headerTitle: (text: String, style: LabelStyle?) {
+        (text: "title", style: LabelStyle(attributes: StringAttributes.defaultLabel))
     }
-    open var headerSubtitleStyle: LabelStyle? {
-        LabelStyle(attributedText: NSAttributedString(string: "subtitle", attributes: Default.StringAttributes.label))
+    open var headerSubtitle: (text: String, style: LabelStyle?) {
+        (text: "subtitle", style: LabelStyle(attributes: StringAttributes.defaultLabel))
     }
     open var footer: UIView? {
         nil
@@ -54,9 +54,10 @@ open class VerificationViewController: AKFormViewController {
         wrapper.translatesAutoresizingMaskIntoConstraints = false
         wrapper.backgroundColor = .clear
         let title = UILabel()
-        if let headerTitleStyle = headerTitleStyle {
-            title.setStyle(with: headerTitleStyle)
-        }
+        title.attributedText = NSAttributedString(
+            string: headerTitle.text,
+            attributes: headerTitle.style?.attributes
+        )
         wrapper.addSubview(title)
         title.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -64,9 +65,10 @@ open class VerificationViewController: AKFormViewController {
             title.topAnchor.constraint(equalTo: wrapper.topAnchor, constant: 25)
         ])
         let subtitle = UILabel()
-        if let headerSubtitleStyle = headerSubtitleStyle {
-            subtitle.setStyle(with: headerSubtitleStyle)
-        }
+        subtitle.attributedText = NSAttributedString(
+            string: headerSubtitle.text,
+            attributes: headerSubtitle.style?.attributes
+        )
         wrapper.addSubview(subtitle)
         subtitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -99,7 +101,6 @@ open class VerificationViewController: AKFormViewController {
     private func addScrollView() {
         scrollView = UIScrollView()
         guard let scrollView = scrollView else { return }
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.embedWithSafeArea(scrollView)
     }
 
@@ -113,14 +114,12 @@ open class VerificationViewController: AKFormViewController {
     private func addContainer() {
         container = UIView()
         container?.backgroundColor = .clear
-        container?.translatesAutoresizingMaskIntoConstraints = false
         scrollView?.embed(container!)
         container?.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
 
     private func addHeader() {
         guard let header = header else { return }
-        header.translatesAutoresizingMaskIntoConstraints = false
         container?.embedAtTop(header)
     }
 
@@ -170,7 +169,6 @@ open class VerificationViewController: AKFormViewController {
             fieldsStack?.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
             return
         }
-        footer.translatesAutoresizingMaskIntoConstraints = false
         container.embedAtBottom(footer)
         guard let fieldsStack = fieldsStack else {
             let anchor = header?.bottomAnchor ?? container.topAnchor

@@ -52,7 +52,7 @@ public extension UITextField {
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
-    func setTypingAttributes(with contentType: FieldContentType) {
+    func setTypingAttributes(with contentType: Field.ContentType) {
         keyboardType = contentType.keyboardType
         autocapitalizationType = contentType.autocapitalizationType
         autocorrectionType = contentType.autocorrectionType

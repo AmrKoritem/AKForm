@@ -9,30 +9,17 @@ import UIKit
 
 /// Used to set labels ui.
 public struct LabelStyle {
-    let text: String?
-    let textColor: UIColor
-    let font: UIFont
-    let attributedText: NSAttributedString?
-    let textAlignment: NSTextAlignment
+    let attributes: [NSAttributedString.Key: Any]
 
-    public init(attributedText: NSAttributedString, textAlignment: NSTextAlignment = .natural) {
-        text = nil
-        textColor = Default.Colors.label
-        font = Default.Fonts.label
-        self.attributedText = attributedText
-        self.textAlignment = textAlignment
+    public init(attributes: [NSAttributedString.Key: Any]) {
+        self.attributes = attributes
     }
 
     public init(
-        text: String,
-        textColor: UIColor = Default.Colors.label,
         font: UIFont = Default.Fonts.label,
+        textColor: UIColor = Default.Colors.label,
         textAlignment: NSTextAlignment = .natural
     ) {
-        self.text = text
-        self.textColor = textColor
-        self.font = font
-        attributedText = nil
-        self.textAlignment = textAlignment
+        attributes = StringAttributes.from(color: textColor, font: font, textAlignment: textAlignment)
     }
 }

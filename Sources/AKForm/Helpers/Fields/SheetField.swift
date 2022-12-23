@@ -16,11 +16,10 @@ public class SheetField: Field {
     public init(
         id: Int,
         count: FieldCount = .uni,
-        contentType: FieldContentType,
+        contentType: Field.ContentType,
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
-        placeholder: String,
-        errorMessages: FieldErrorMessages? = nil,
+        texts: Texts,
         mandatoryStyle: MandatoryStyle = MandatoryStyle(),
         onFirstResponderStyle: OnFirstResponderStyle? = nil,
         validationHandler: ValidationHandler? = nil,
@@ -38,8 +37,7 @@ public class SheetField: Field {
             contentType: contentType,
             labelStyle: labelStyle,
             fieldStyle: fieldStyle,
-            placeholder: placeholder,
-            errorMessages: errorMessages,
+            texts: texts,
             mandatoryStyle: mandatoryStyle,
             onFirstResponderStyle: onFirstResponderStyle,
             validationHandler: validationHandler

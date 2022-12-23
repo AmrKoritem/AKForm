@@ -41,7 +41,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         if let fieldText = buttonText, !fieldText.isEmpty {
             let color = field?.fieldStyle.textColor
             let font = field?.fieldStyle.font
-            let attributes = Default.StringAttributes.from(color: color, font: font)
+            let attributes = StringAttributes.from(color: color, font: font)
             button.setAttributedTitle(
                 NSAttributedString(
                     string: fieldText,
@@ -49,10 +49,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
                 for: .normal
             )
         } else {
-            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? Default.StringAttributes.placeholder
+            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? StringAttributes.defaultPlaceholder
             button.setAttributedTitle(
                 NSAttributedString(
-                    string: placeholder ?? field?.placeholder ?? "",
+                    string: placeholder ?? field?.texts.placeholder ?? "",
                     attributes: attributes),
                 for: .normal
             )
@@ -64,8 +64,9 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setStyles(with field: Field) {
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
+        fieldLabel.attributedText = NSAttributedString(string: field.texts.label, attributes: field.labelStyle.attributes)
+        fieldLabel.setStyle(with: field.mandatoryStyle)
+        setPlaceholder(with: field.texts.placeholder, or: field.fieldStyle.placeholderAttributes)
         button.setStyle(with: field.fieldStyle)
     }
 

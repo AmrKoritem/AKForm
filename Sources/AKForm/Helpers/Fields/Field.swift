@@ -37,11 +37,10 @@ public class Field {
     let id: Int
     let count: FieldCount
     let type: FieldType
-    let contentType: FieldContentType
+    let contentType: ContentType
     let labelStyle: LabelStyle
     let fieldStyle: FieldStyle
-    let placeholder: String
-    let errorMessages: FieldErrorMessages
+    let texts: Texts
     let mandatoryStyle: MandatoryStyle
     var onFirstResponderStyle: OnFirstResponderStyle?
     var validationHandler: ValidationHandler?
@@ -50,11 +49,10 @@ public class Field {
         id: Int,
         count: FieldCount = .uni,
         type: FieldType,
-        contentType: FieldContentType,
+        contentType: ContentType,
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
-        placeholder: String,
-        errorMessages: FieldErrorMessages?,
+        texts: Texts,
         mandatoryStyle: MandatoryStyle,
         onFirstResponderStyle: OnFirstResponderStyle?,
         validationHandler: ValidationHandler?
@@ -65,21 +63,7 @@ public class Field {
         self.contentType = contentType
         self.labelStyle = labelStyle
         self.fieldStyle = fieldStyle
-        self.placeholder = placeholder
-        self.errorMessages = errorMessages ?? {
-            switch contentType {
-            case .confirmPassword(_, _):
-                return FieldErrorMessages(
-                    empty: "Please enter your password",
-                    invalid: "Must be the same as the password"
-                )
-            default:
-                return FieldErrorMessages(
-                    empty: Default.Strings.errorMessageEmpty,
-                    invalid: Default.Strings.errorMessageInvalid
-                )
-            }
-        }()
+        self.texts = texts
         self.mandatoryStyle = mandatoryStyle
         self.onFirstResponderStyle = onFirstResponderStyle
         self.validationHandler = validationHandler
@@ -93,8 +77,7 @@ public class Field {
             contentType: contentType,
             labelStyle: onFirstResponderStyle?().labelStyle ?? labelStyle,
             fieldStyle: onFirstResponderStyle?().fieldStyle ?? fieldStyle,
-            placeholder: placeholder,
-            errorMessages: errorMessages,
+            texts: texts,
             mandatoryStyle: onFirstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
             onFirstResponderStyle: onFirstResponderStyle,
             validationHandler: validationHandler

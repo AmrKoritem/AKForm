@@ -68,21 +68,4 @@ public struct Default {
         /// orangy red
         public static var mandatory: UIColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
     }
-
-    struct StringAttributes {
-        static let label = [
-            NSAttributedString.Key.foregroundColor: Default.Colors.label,
-            NSAttributedString.Key.font: Default.Fonts.label
-        ]
-        static let placeholder = [
-            NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
-            NSAttributedString.Key.font: Default.Fonts.placeholder
-        ]
-        static func from(color: UIColor?, font: UIFont?) -> [NSAttributedString.Key: Any] {
-            [
-                NSAttributedString.Key.foregroundColor: color ?? Default.Colors.label,
-                NSAttributedString.Key.font: font ?? Default.Fonts.label
-            ]
-        }
-    }
 }
