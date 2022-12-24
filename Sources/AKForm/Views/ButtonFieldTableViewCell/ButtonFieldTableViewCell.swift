@@ -37,7 +37,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         self.buttonActionHandler = buttonActionHandler
     }
 
-    func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
+    func setPlaceholder(
+        with placeholder: String? = nil,
+        or placeholderAttributes: [NSAttributedString.Key: Any]? = nil
+    ) {
         if let fieldText = buttonText, !fieldText.isEmpty {
             let color = field?.fieldStyle.textColor
             let font = field?.fieldStyle.font
