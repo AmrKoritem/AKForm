@@ -68,11 +68,11 @@ class FirstViewController: FormViewController {
     }
 
     override var formHeader: UIView? {
-        FormHeader(text: "Join Us")
+        FormHeader(text: "First Screen")
     }
 
     override var formFooter: UIView? {
-        FormFooter(title: "Subscribe your court") { [weak self] _ in
+        FormFooter(title: "Submit") { [weak self] _ in
             guard let self = self else { return }
             guard self.validate() else { return }
             // Do action

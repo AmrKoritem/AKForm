@@ -25,11 +25,11 @@
             </objects>
             <point key="canvasLocation" x="1797.1014492753625" y="83.705357142857139"/>
         </scene>
-        <!--Item-->
+        <!--First-->
         <scene sceneID="eRn-js-Gqn">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cWT-io-Jhd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="arrowshape.zigzag.forward.fill" catalog="system" selectedImage="arrowshape.zigzag.forward.fill" id="7I8-iW-CYY">
+                    <tabBarItem key="tabBarItem" title="First" image="arrowshape.zigzag.forward.fill" catalog="system" selectedImage="arrowshape.zigzag.forward.fill" id="7I8-iW-CYY">
                         <color key="badgeColor" systemColor="tintColor"/>
                     </tabBarItem>
                     <toolbarItems/>
