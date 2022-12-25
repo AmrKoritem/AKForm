@@ -26,8 +26,8 @@ func makeAppTextField(
             textAlignment: .natural
         ),
         fieldStyle: FieldStyle(
-            textColor: .black,
             font: .systemFont(ofSize: 16),
+            textColor: .black,
             textAlignment: .natural,
             iconStyleHandler: iconStyleHandler
         ),
@@ -39,8 +39,8 @@ func makeAppTextField(
         mandatoryStyle: mandatoryStyle
     ) {
             let fieldStyle = FieldStyle(
-                textColor: .black,
                 font: .systemFont(ofSize: 16),
+                textColor: .black,
                 textAlignment: .natural,
                 borderStyle: BorderStyle(color: .blue)
             )
@@ -64,8 +64,8 @@ func makeAppSheetField(
             textAlignment: .natural
         ),
         fieldStyle: FieldStyle(
-            textColor: .black,
             font: .systemFont(ofSize: 16),
+            textColor: .black,
             textAlignment: .natural
         ),
         texts: Field.Texts(
@@ -75,8 +75,8 @@ func makeAppSheetField(
         ),
         onFirstResponderStyle: {
             let fieldStyle = FieldStyle(
-                textColor: .black,
                 font: .systemFont(ofSize: 16),
+                textColor: .black,
                 textAlignment: .natural,
                 borderStyle: BorderStyle(color: .blue)
             )

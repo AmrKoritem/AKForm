@@ -9,7 +9,7 @@ import UIKit
 
 protocol FieldTableViewCellProtocol: UITableViewCell {
     var field: Field? { get }
-    func setPlaceholder(with placeholder: String?, or placeholderAttributes: [NSAttributedString.Key: Any]?)
+    func setPlaceholder(with placeholder: String?, and placeholderAttributes: [NSAttributedString.Key: Any]?)
     func setIcons(with iconStyleHandler: IconStyleHandler?)
     func setStyles(with field: Field)
     func showError(message: String, shouldClearText: Bool)

@@ -39,27 +39,18 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setPlaceholder(
         with placeholder: String? = nil,
-        or placeholderAttributes: [NSAttributedString.Key: Any]? = nil
+        and placeholderAttributes: [NSAttributedString.Key: Any]? = nil
     ) {
-        if let fieldText = buttonText, !fieldText.isEmpty {
-            let color = field?.fieldStyle.textColor
-            let font = field?.fieldStyle.font
-            let attributes = StringAttributes.from(color: color, font: font)
-            button.setAttributedTitle(
-                NSAttributedString(
-                    string: fieldText,
-                    attributes: attributes),
-                for: .normal
-            )
-        } else {
+        guard let fieldText = buttonText, !fieldText.isEmpty else {
+            let placeholder = placeholder ?? field?.texts.placeholder ?? ""
             let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? StringAttributes.defaultPlaceholder
-            button.setAttributedTitle(
-                NSAttributedString(
-                    string: placeholder ?? field?.texts.placeholder ?? "",
-                    attributes: attributes),
-                for: .normal
-            )
+            let attrText = NSAttributedString(string: placeholder, attributes: attributes)
+            button.setAttributedTitle(attrText, for: .normal)
+            return
         }
+        let attributes = field?.fieldStyle.textAttributes
+        let attrText = NSAttributedString(string: fieldText, attributes: attributes)
+        button.setAttributedTitle(attrText, for: .normal)
     }
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
@@ -69,8 +60,8 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     func setStyles(with field: Field) {
         fieldLabel.attributedText = NSAttributedString(string: field.texts.label, attributes: field.labelStyle.attributes)
         fieldLabel.setStyle(with: field.mandatoryStyle)
-        setPlaceholder(with: field.texts.placeholder, or: field.fieldStyle.placeholderAttributes)
-        button.setStyle(with: field.fieldStyle)
+        button.setStyle(with: buttonText, andStyle: field.fieldStyle)
+        setPlaceholder(with: field.texts.placeholder, and: field.fieldStyle.placeholderAttributes)
     }
 
     func showError(message: String, shouldClearText: Bool) {
@@ -81,7 +72,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
-        button.setTitle("", for: .normal)
+        button.setTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .normal)
     }
 

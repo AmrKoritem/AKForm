@@ -37,3 +37,10 @@ extension NSMutableParagraphStyle {
         return self
     }
 }
+
+extension Dictionary where Key == NSAttributedString.Key {
+    var textAlignment: NSTextAlignment? {
+        let paragraphStyle = self[NSAttributedString.Key.paragraphStyle] as? NSMutableParagraphStyle
+        return paragraphStyle?.alignment
+    }
+}

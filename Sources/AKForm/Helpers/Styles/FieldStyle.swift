@@ -11,18 +11,16 @@ public typealias IconStyleHandler = () -> (leading: IconStyle?, trailing: IconSt
 
 /// Used to set text fields ui.
 public struct FieldStyle {
-    let textColor: UIColor
-    let font: UIFont
-    let textAlignment: NSTextAlignment
     let backgroundColor: UIColor
+    let textAttributes: [NSAttributedString.Key: Any]
     let placeholderAttributes: [NSAttributedString.Key: Any]?
     let borderStyle: BorderStyle
     let shadowStyle: ShadowStyle?
     let iconStyleHandler: IconStyleHandler?
 
     public init(
-        textColor: UIColor = Default.Colors.field,
         font: UIFont = Default.Fonts.field,
+        textColor: UIColor = Default.Colors.field,
         textAlignment: NSTextAlignment = .natural,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
         backgroundColor: UIColor = Default.Colors.background,
@@ -30,9 +28,27 @@ public struct FieldStyle {
         shadowStyle: ShadowStyle? = nil,
         iconStyleHandler: IconStyleHandler? = nil
     ) {
-        self.textColor = textColor
-        self.font = font
-        self.textAlignment = textAlignment
+        textAttributes = StringAttributes.from(color: textColor, font: font, textAlignment: textAlignment)
+        self.placeholderAttributes = placeholderAttributes
+        self.backgroundColor = backgroundColor
+        self.borderStyle = borderStyle
+        self.shadowStyle = shadowStyle
+        self.iconStyleHandler = iconStyleHandler
+    }
+
+    public init(
+        textAttributes: [NSAttributedString.Key: Any]? = nil,
+        placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
+        backgroundColor: UIColor = Default.Colors.background,
+        borderStyle: BorderStyle = BorderStyle(),
+        shadowStyle: ShadowStyle? = nil,
+        iconStyleHandler: IconStyleHandler? = nil
+    ) {
+        self.textAttributes = textAttributes ?? StringAttributes.from(
+            color: Default.Colors.field,
+            font: Default.Fonts.field,
+            textAlignment: .natural
+        )
         self.placeholderAttributes = placeholderAttributes
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
@@ -48,6 +64,10 @@ extension NSTextAlignment {
             return .left
         case .right:
             return .right
+        case .natural:
+            let semanticContentAttribute = UIView.appearance().semanticContentAttribute
+            let isLeft = semanticContentAttribute == .forceLeftToRight || semanticContentAttribute == .unspecified
+            return isLeft ? .left : .right
         default:
             return .center
         }

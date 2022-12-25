@@ -53,13 +53,10 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     func setPlaceholder(
         with placeholder: String? = nil,
-        or placeholderAttributes: [NSAttributedString.Key: Any]? = nil
+        and placeholderAttributes: [NSAttributedString.Key: Any]? = nil
     ) {
         let placeholder = placeholder ?? field?.texts.placeholder ?? ""
-        guard let placeholderAttributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes else {
-            textField.placeholder = placeholder
-            return
-        }
+        let placeholderAttributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? StringAttributes.defaultPlaceholder
         textField.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: placeholderAttributes
@@ -97,8 +94,8 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
             attributes: field.labelStyle.attributes
         )
         fieldLabel.setStyle(with: field.mandatoryStyle)
-        setPlaceholder(with: field.texts.placeholder, or: field.fieldStyle.placeholderAttributes)
-        textField.setStyle(with: field.fieldStyle)
+        setPlaceholder(with: field.texts.placeholder, and: field.fieldStyle.placeholderAttributes)
+        textField.setStyle(with: "", andStyle: field.fieldStyle)
         textField.stroked(color: .clear)
         textField.shadowRemoved()
         setIcons(with: field.fieldStyle.iconStyleHandler)

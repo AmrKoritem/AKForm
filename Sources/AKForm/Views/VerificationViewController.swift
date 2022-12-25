@@ -158,7 +158,7 @@ open class VerificationViewController: AKFormViewController {
             textField.heightAnchor.constraint(equalToConstant: fieldHeight)
         ])
         if let fieldStyle = fieldStyle {
-            textField.setStyle(with: fieldStyle)
+            textField.setStyle(with: "", andStyle: fieldStyle)
         }
         return textField
     }
