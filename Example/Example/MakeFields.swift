@@ -53,6 +53,7 @@ func makeAppSheetField(
     contentType: Field.ContentType,
     texts: (labelText: String, placeholderText: String),
     errorMessages: Field.ErrorMessages?,
+    mandatoryStyle: MandatoryStyle = MandatoryStyle(),
     options: [String]
 ) -> SheetField {
     SheetField(
@@ -73,6 +74,7 @@ func makeAppSheetField(
             placeholder: texts.placeholderText,
             errorMessages: errorMessages
         ),
+        mandatoryStyle: mandatoryStyle,
         onFirstResponderStyle: {
             let fieldStyle = FieldStyle(
                 font: .systemFont(ofSize: 16),

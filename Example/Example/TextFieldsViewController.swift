@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  TextFieldsViewController.swift
 //  Example
 //
 //  Created by Amr Koritem on 09/09/2022.
@@ -8,7 +8,7 @@
 import UIKit
 import AKForm
 
-class FirstViewController: FormViewController {
+class TextFieldsViewController: FormViewController {
     override var fields: [Field] {
         [
             makeAppTextField(
@@ -31,7 +31,7 @@ class FirstViewController: FormViewController {
                     empty: "Please enter your email",
                     invalid: "Please enter a valid email address"
                 ),
-                mandatoryStyle: MandatoryStyle(isMandatory: true, position: .start)
+                mandatoryStyle: MandatoryStyle(isMandatory: true, position: .end)
             ),
             makeAppTextField(
                 id: 2,
@@ -42,33 +42,13 @@ class FirstViewController: FormViewController {
                     empty: "Please enter your phone number",
                     invalid: "Please enter a valid phone number"
                 ),
-                mandatoryStyle: MandatoryStyle(isMandatory: true, position: .start)
-            ),
-            makeAppSheetField(
-                id: 3,
-                contentType: Field.ContentType.name,
-                texts: (labelText: "Governorate", placeholderText: "Please enter your governorate"),
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your governorate",
-                    invalid: "Please enter a valid governorate"
-                ),
-                options: ["Cairo", "Alexandria"]
-            ),
-            makeAppTextField(
-                id: 4,
-                contentType: Field.ContentType.address,
-                labelText: "Address",
-                placeholderText: "Please enter your address",
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your address",
-                    invalid: "Please enter a valid address"
-                )
+                mandatoryStyle: MandatoryStyle(isMandatory: false)
             )
         ]
     }
 
     override var formHeader: UIView? {
-        FormHeader(text: "First Screen")
+        FormHeader(text: "Text Fields Screen")
     }
 
     override var formFooter: UIView? {
