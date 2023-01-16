@@ -125,7 +125,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     @objc
     func textFieldChangeDidBegin(_ textField: UITextField) {
-        guard let field = field?.getOnFirstResponderCopy() else { return }
+        guard let field = field?.onFirstResponderCopy else { return }
         setStyles(with: field)
     }
 

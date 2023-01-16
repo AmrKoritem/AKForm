@@ -20,7 +20,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     @IBAction func buttonAction() {
         buttonActionHandler()
-        guard let field = field?.getOnFirstResponderCopy() else { return }
+        guard let field = field?.onFirstResponderCopy else { return }
         setStyles(with: field)
     }
 

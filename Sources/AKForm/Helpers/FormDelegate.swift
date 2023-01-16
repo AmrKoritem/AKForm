@@ -8,7 +8,7 @@
 import UIKit
 
 /// Data source of form screen.
-public protocol FormDataSource {
+public protocol FormDataSource: AnyObject {
     var fields: [Field] { get }
     var dataMap: [Int: Any] { get set }
     func header(for section: Int) -> UIView?
@@ -57,16 +57,19 @@ public extension FormDelegate {
         } ?? [:]
     }
 
+    var isDataValid: Bool {
+        guard !validationStatus.values.contains(.missing),
+              !validationStatus.values.contains(.invalid) else { return false }
+        return true
+    }
+
     /// Returns a boolean that determines if the fields data are valid.
     func validate() -> Bool {
         dataSource?.fields.forEach { field in
             guard dataSource?.dataMap[field.id] == nil else { return }
             dataSource?.dataMap[field.id] = ""
         }
-        let validationStatus = validationStatus
-        guard !validationStatus.values.contains(.missing),
-              !validationStatus.values.contains(.invalid) else { return false }
-        return true
+        return isDataValid
     }
 }
 

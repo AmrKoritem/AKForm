@@ -8,8 +8,10 @@
 import UIKit
 import AKForm
 
-class TextFieldsViewController: FormViewController {
-    override var fields: [Field] {
+class TextFieldsViewController: UIViewController, FormDataSource {
+    var form: AKForm?
+
+    var fields: [Field] {
         [
             makeAppTextField(
                 id: 0,
@@ -47,16 +49,50 @@ class TextFieldsViewController: FormViewController {
         ]
     }
 
-    override var formHeader: UIView? {
+    var formHeader: UIView? {
         FormHeader(text: "Text Fields Screen")
     }
 
-    override var formFooter: UIView? {
+    var formFooter: UIView? {
         FormFooter(title: "Submit") { [weak self] _ in
             guard let self = self else { return }
-            guard self.validate() else { return }
+            guard self.form?.validate() == true else { return }
             // Do action
         }
+    }
+
+    var dataMap: [Int: Any] {
+        get {
+            [:]
+        }
+        set {
+            _ = newValue
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        form = AKForm()
+        guard let form = form else { return }
+        view.addSubview(form)
+        form.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            form.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            form.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            form.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            form.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        ])
+        form.formHeader = formHeader
+        form.formFooter = formFooter
+        form.dataSource = self
+    }
+
+    func header(for section: Int) -> UIView? {
+        nil
+    }
+
+    func footer(for section: Int) -> UIView? {
+        nil
     }
 }
 

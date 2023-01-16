@@ -1,5 +1,5 @@
 //
-//  VerificationViewController.swift
+//  AKVerificationViewController.swift
 //  AKForm
 //
 //  Created by Amr Koritem on 21/11/2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class VerificationViewController: AKFormViewController {
+open class AKVerificationViewController: UIViewController {
     open var header: UIView? {
         defaultHeader
     }
@@ -45,6 +45,8 @@ open class VerificationViewController: AKFormViewController {
         fieldsStack?.arrangedSubviews.compactMap { $0 as? UITextField } ?? []
     }
 
+    public var scrollView: UIScrollView?
+    public var cancelsTouchesInView = false
     public var countDownSeconds = 60
     public var updateTimerHandler: () -> Void = {}
     public private(set) var isTimerRunning = false
@@ -90,12 +92,63 @@ open class VerificationViewController: AKFormViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        setUpKeyboard()
         runTimer()
     }
     
     public func setUI() {
         addScrollView()
         addViews()
+    }
+
+    @objc public func keyboardDidShow(_ notification: Notification) {
+        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
+        scrollView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        scrollView?.isScrollEnabled = true
+    }
+
+    @objc public func keyboardDidHide(_ notification: Notification) {
+        scrollView?.contentInset = .zero
+    }
+
+    @objc public func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func setUpKeyboard() {
+        addKeyboardObservers()
+        hideKeyboardWhenTappedAround()
+    }
+
+    func addKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardDidShow),
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardDidHide),
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil)
+    }
+
+    func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil)
+    }
+
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = cancelsTouchesInView
+        view.addGestureRecognizer(tap)
     }
 
     private func addScrollView() {
@@ -188,14 +241,13 @@ open class VerificationViewController: AKFormViewController {
         )
     }
 
-    @objc
-    private func updateTimer() {
+    @objc private func updateTimer() {
         countDownSeconds -= countDownSeconds <= 0 ? 0:1
         updateTimerHandler()
     }
 }
 
-extension VerificationViewController: UITextFieldDelegate {
+extension AKVerificationViewController: UITextFieldDelegate {
     public func textField(
         _ textField: UITextField,
         shouldChangeCharactersIn range: NSRange,

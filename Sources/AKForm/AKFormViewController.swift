@@ -7,69 +7,77 @@
 
 import UIKit
 
-open class AKFormViewController: UIViewController {
-    open var cancelsTouchesInView: Bool {
-        false
+open class AKFormViewController: UIViewController, FormDataSource {
+    open var isFormTopConstrintToSafeArea: Bool {
+        true
     }
 
-    public var scrollView: UIScrollView?
-
-    deinit {
-        removeKeyboardObservers()
+    open var isFormBottomConstrintToSafeArea: Bool {
+        true
     }
+
+    open var formHeader: UIView? {
+        nil
+    }
+
+    open var formFooter: UIView? {
+        nil
+    }
+
+    public var akform = AKForm()
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        addKeyboardObservers()
-        hideKeyboardWhenTappedAround()
+        configureForm()
     }
 
-    public func addKeyboardObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardDidShow),
-            name: UIResponder.keyboardDidShowNotification,
-            object: nil)
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardDidHide),
-            name: UIResponder.keyboardDidHideNotification,
-            object: nil)
+    public func configureForm() {
+        view.addSubview(akform)
+        akform.translatesAutoresizingMaskIntoConstraints = false
+        let topAnchor = isFormTopConstrintToSafeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor
+        let bottomAnchor = isFormBottomConstrintToSafeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor
+        NSLayoutConstraint.activate([
+            akform.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            akform.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            akform.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            akform.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
+        ])
+        akform.formHeader = formHeader
+        akform.formFooter = formFooter
+        akform.dataSource = self
     }
 
-    public func removeKeyboardObservers() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidShowNotification,
-            object: nil)
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidHideNotification,
-            object: nil)
+    /// Returns a boolean that determines if the fields data are valid.
+    public func validate() -> Bool {
+        let isValid = akform.validate()
+        akform.form?.reloadData()
+        return isValid
     }
 
-    open func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = cancelsTouchesInView
-        view.addGestureRecognizer(tap)
+    public func reloadField(withId id: Int) {
+        guard let index = fields.firstIndex(where: { $0.id == id }) else { return }
+        akform.form?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
 
-    @objc
-    public func keyboardDidShow(_ notification: Notification) {
-        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
-        scrollView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        scrollView?.isScrollEnabled = true
+    // MARK: - FormDataSource
+    open var fields: [Field] {
+        []
     }
 
-    @objc
-    public func keyboardDidHide(_ notification: Notification) {
-        scrollView?.contentInset = .zero
+    open var dataMap: [Int: Any] {
+        get {
+            [:]
+        }
+        set {
+            _ = newValue
+        }
     }
 
-    @objc
-    public func dismissKeyboard() {
-        view.endEditing(true)
+    open func header(for section: Int) -> UIView? {
+        nil
+    }
+
+    open func footer(for section: Int) -> UIView? {
+        nil
     }
 }

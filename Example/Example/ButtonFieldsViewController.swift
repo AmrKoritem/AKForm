@@ -8,7 +8,7 @@
 import UIKit
 import AKForm
 
-class ButtonFieldsViewController: FormViewController {
+class ButtonFieldsViewController: AKFormViewController {
     override var fields: [Field] {
         [
             makeAppSheetField(
