@@ -95,7 +95,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         )
         fieldLabel.setStyle(with: field.mandatoryStyle)
         setPlaceholder(with: field.texts.placeholder, and: field.fieldStyle.placeholderAttributes)
-        textField.setStyle(with: "", andStyle: field.fieldStyle)
+        textField.setStyle(with: textField.text, andStyle: field.fieldStyle)
         textField.stroked(color: .clear)
         textField.shadowRemoved()
         setIcons(with: field.fieldStyle.iconStyleHandler)

@@ -10,6 +10,7 @@ import AKForm
 
 class TextFieldsViewController: UIViewController, FormDataSource {
     var form: AKForm?
+    var savedDataMap: [Int: Any] = [:]
 
     var fields: [Field] {
         [
@@ -63,10 +64,10 @@ class TextFieldsViewController: UIViewController, FormDataSource {
 
     var dataMap: [Int: Any] {
         get {
-            [:]
+            savedDataMap
         }
         set {
-            _ = newValue
+            savedDataMap = newValue
         }
     }
 
