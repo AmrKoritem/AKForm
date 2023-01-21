@@ -7,7 +7,9 @@
 
 import UIKit
 
+/// Determine a sheet option ui attributes.
 public struct OptionStyle {
+    /// Determine selected option ui attributes.
     public enum SelectionStyle {
         case none
         case backgroundColor(color: UIColor)
@@ -25,7 +27,18 @@ public struct OptionStyle {
     let backgroundColor: UIColor
     let separatorStyle: SeparatorStyle
     let selectionStyle: SelectionStyle
-
+    
+    /// Initializer for `OptionStyle`.
+    /// - Parameters:
+    ///   - titleColor: Option title color.
+    ///   - titleFont: Option title font.
+    ///   - titleTextAlignment: Option title text alignment.
+    ///   - subtitleColor: Option subtitle color.
+    ///   - subtitleFont: Option subtitle font.
+    ///   - subtitleTextAlignment: Option subtitle text alignment.
+    ///   - backgroundColor: Option background color.
+    ///   - separatorStyle: Option separator style.
+    ///   - selectionStyle: Option selection style.
     public init(
         titleColor: UIColor = Default.Colors.optionTitle,
         titleFont: UIFont = Default.Fonts.optionTitle,

@@ -13,7 +13,12 @@ extension Field {
         let label: String
         let placeholder: String
         let errorMessages: ErrorMessages
-
+        
+        /// Initializer for `Field.Texts`.
+        /// - Parameters:
+        ///   - label: Field title.
+        ///   - placeholder: Field placeholder.
+        ///   - errorMessages: Field error messages.
         public init(label: String, placeholder: String, errorMessages: ErrorMessages? = nil) {
             self.label = label
             self.placeholder = placeholder

@@ -17,7 +17,17 @@ public struct FieldStyle {
     let borderStyle: BorderStyle
     let shadowStyle: ShadowStyle?
     let iconStyleHandler: IconStyleHandler?
-
+    
+    /// Initializer for `FieldStyle`.
+    /// - Parameters:
+    ///   - font: Field data text font.
+    ///   - textColor: Field data text color.
+    ///   - textAlignment: Field data text alignment.
+    ///   - placeholderAttributes: Field placholder ui attributes.
+    ///   - backgroundColor: Field background color.
+    ///   - borderStyle: Field border style.
+    ///   - shadowStyle: Field shadow style.
+    ///   - iconStyleHandler: Field trailing and leading icons styles.
     public init(
         font: UIFont = Default.Fonts.field,
         textColor: UIColor = Default.Colors.field,
@@ -35,7 +45,15 @@ public struct FieldStyle {
         self.shadowStyle = shadowStyle
         self.iconStyleHandler = iconStyleHandler
     }
-
+    
+    /// Initializer for `FieldStyle`.
+    /// - Parameters:
+    ///   - textAttributes: Field data text ui attributes.
+    ///   - placeholderAttributes: Field placholder ui attributes.
+    ///   - backgroundColor: Field background color.
+    ///   - borderStyle: Field border style.
+    ///   - shadowStyle: Field shadow style.
+    ///   - iconStyleHandler: Field trailing and leading icons styles.
     public init(
         textAttributes: [NSAttributedString.Key: Any]? = nil,
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
