@@ -21,7 +21,7 @@ public class TextField: Field {
     ///   - fieldStyle: Style for the data field.
     ///   - texts: The fixed string texts used for the field such as the field label, placeholder, etc.
     ///   - mandatoryStyle: Determines if the field is mandatory as well as the style used to show the mandatory status of the field.
-    ///   - onFirstResponderStyle: Styles to be used when the field content is being changed.
+    ///   - firstResponderStyle: Styles to be used when the field content is being changed.
     ///   - validationHandler: Custom validation handler for the field data.
     ///   - textFieldObserverHandlers: Handlers for various editting actions on the text field.
     public init(
@@ -32,7 +32,7 @@ public class TextField: Field {
         fieldStyle: FieldStyle,
         texts: Texts,
         mandatoryStyle: MandatoryStyle = MandatoryStyle(),
-        onFirstResponderStyle: OnFirstResponderStyle? = nil,
+        firstResponderStyle: FirstResponderStyle? = nil,
         validationHandler: ValidationHandler? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {
@@ -46,7 +46,7 @@ public class TextField: Field {
             fieldStyle: fieldStyle,
             texts: texts,
             mandatoryStyle: mandatoryStyle,
-            onFirstResponderStyle: onFirstResponderStyle,
+            firstResponderStyle: firstResponderStyle,
             validationHandler: validationHandler
         )
     }

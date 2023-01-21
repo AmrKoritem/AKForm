@@ -26,7 +26,7 @@ public enum FieldType {
 }
 
 /// Styles to be used when the field content is being changed.
-public typealias OnFirstResponderStyle = () -> (
+public typealias FirstResponderStyle = () -> (
     labelStyle: LabelStyle?,
     fieldStyle: FieldStyle?,
     mandatoryStyle: MandatoryStyle?
@@ -45,7 +45,7 @@ public class Field {
     let fieldStyle: FieldStyle
     let texts: Texts
     let mandatoryStyle: MandatoryStyle
-    var onFirstResponderStyle: OnFirstResponderStyle?
+    var firstResponderStyle: FirstResponderStyle?
     var validationHandler: ValidationHandler?
 
     /// A new `Field` object with the `onFirstResponder` styles replacing the field styles.
@@ -55,11 +55,11 @@ public class Field {
             count: count,
             type: type,
             contentType: contentType,
-            labelStyle: onFirstResponderStyle?().labelStyle ?? labelStyle,
-            fieldStyle: onFirstResponderStyle?().fieldStyle ?? fieldStyle,
+            labelStyle: firstResponderStyle?().labelStyle ?? labelStyle,
+            fieldStyle: firstResponderStyle?().fieldStyle ?? fieldStyle,
             texts: texts,
-            mandatoryStyle: onFirstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
-            onFirstResponderStyle: onFirstResponderStyle,
+            mandatoryStyle: firstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
+            firstResponderStyle: firstResponderStyle,
             validationHandler: validationHandler
         )
     }
@@ -73,7 +73,7 @@ public class Field {
         fieldStyle: FieldStyle,
         texts: Texts,
         mandatoryStyle: MandatoryStyle,
-        onFirstResponderStyle: OnFirstResponderStyle?,
+        firstResponderStyle: FirstResponderStyle?,
         validationHandler: ValidationHandler?
     ) {
         self.id = id
@@ -84,7 +84,7 @@ public class Field {
         self.fieldStyle = fieldStyle
         self.texts = texts
         self.mandatoryStyle = mandatoryStyle
-        self.onFirstResponderStyle = onFirstResponderStyle
+        self.firstResponderStyle = firstResponderStyle
         self.validationHandler = validationHandler
     }
     

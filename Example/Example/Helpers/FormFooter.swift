@@ -27,6 +27,7 @@ class FormFooter: UIView {
         let top: CGFloat = 15
         let bottom: CGFloat = 15
         let footer = UIButton(primaryAction: UIAction(title: title ?? "Button", handler: handler))
+        footer.sizeToFit()
         frame = CGRect(origin: .zero, size: CGSize(width: 100, height: top + footer.frame.size.height + bottom))
         backgroundColor = .clear
         addSubview(footer)

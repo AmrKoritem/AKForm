@@ -55,10 +55,11 @@ class TextFieldsViewController: UIViewController, FormDataSource {
     }
 
     var formFooter: UIView? {
-        FormFooter(title: "Submit") { [weak self] _ in
+        FormFooter(title: "Verify") { [weak self] _ in
             guard let self = self else { return }
             guard self.form?.validate() == true else { return }
             // Do action
+            self.navigationController?.pushViewController(VerificationViewController(), animated: true)
         }
     }
 

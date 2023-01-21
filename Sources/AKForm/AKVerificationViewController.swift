@@ -23,6 +23,9 @@ open class AKVerificationViewController: UIViewController {
     open var fieldStyle: FieldStyle? {
         FieldStyle(textAlignment: .center)
     }
+    open var firstResponderFieldStyle: FieldStyle? {
+        FieldStyle(textAlignment: .center)
+    }
     open var fieldHeight: CGFloat {
         65
     }
@@ -31,6 +34,9 @@ open class AKVerificationViewController: UIViewController {
     }
     open var fieldsMinHorizaontalMargin: CGFloat {
         20
+    }
+    open var counterLimitInSeconds: Int {
+        60
     }
 
     public var fieldWidth: CGFloat {
@@ -47,8 +53,8 @@ open class AKVerificationViewController: UIViewController {
 
     public var scrollView: UIScrollView?
     public var cancelsTouchesInView = false
-    public var countDownSeconds = 60
     public var updateTimerHandler: () -> Void = {}
+    public lazy var counter = counterLimitInSeconds
     public private(set) var isTimerRunning = false
 
     lazy var defaultHeader: UIView = {
@@ -99,6 +105,16 @@ open class AKVerificationViewController: UIViewController {
     public func setUI() {
         addScrollView()
         addViews()
+    }
+
+    public func runTimer() {
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: (#selector(updateTimer)),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     @objc public func keyboardDidShow(_ notification: Notification) {
@@ -231,18 +247,9 @@ open class AKVerificationViewController: UIViewController {
         footer.topAnchor.constraint(equalTo: fieldsStack.bottomAnchor).isActive = true
     }
 
-    private func runTimer() {
-        timer = Timer.scheduledTimer(
-            timeInterval: 1,
-            target: self,
-            selector: (#selector(updateTimer)),
-            userInfo: nil,
-            repeats: true
-        )
-    }
-
     @objc private func updateTimer() {
-        countDownSeconds -= countDownSeconds <= 0 ? 0:1
+        guard counter != 0 else { return timer.invalidate() }
+        counter -= counter <= 0 ? 0:1
         updateTimerHandler()
     }
 }
@@ -287,5 +294,17 @@ extension AKVerificationViewController: UITextFieldDelegate {
             textFields[safe: index]?.becomeFirstResponder()
         }
         return true
+    }
+
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        if let fieldStyle = firstResponderFieldStyle {
+            textField.setStyle(with: textField.text, andStyle: fieldStyle)
+        }
+    }
+
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        if let fieldStyle = fieldStyle {
+            textField.setStyle(with: textField.text, andStyle: fieldStyle)
+        }
     }
 }

@@ -65,8 +65,8 @@ public extension FormDelegate {
 
     /// Returns a boolean that determines if the fields data are valid.
     func validate() -> Bool {
-        dataSource?.fields.forEach { field in
-            guard dataSource?.dataMap[field.id] == nil else { return }
+        for field in dataSource?.fields ?? [] {
+            guard dataSource?.dataMap[field.id] == nil else { continue }
             dataSource?.dataMap[field.id] = ""
         }
         return isDataValid

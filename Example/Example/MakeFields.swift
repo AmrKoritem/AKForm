@@ -75,7 +75,7 @@ func makeAppSheetField(
             errorMessages: errorMessages
         ),
         mandatoryStyle: mandatoryStyle,
-        onFirstResponderStyle: {
+        firstResponderStyle: {
             let fieldStyle = FieldStyle(
                 font: .systemFont(ofSize: 16),
                 textColor: .black,

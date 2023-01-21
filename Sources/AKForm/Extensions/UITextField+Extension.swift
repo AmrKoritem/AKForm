@@ -39,6 +39,7 @@ public extension UITextField {
     func setStyle(with text: String?, andStyle fieldStyle: FieldStyle) {
         attributedText = NSAttributedString(string: text ?? "", attributes: fieldStyle.textAttributes)
         backgroundColor = fieldStyle.backgroundColor
+        textAlignment = fieldStyle.textAttributes.textAlignment ?? .natural
         stroked(with: fieldStyle.borderStyle)
         guard let shadowStyle = fieldStyle.shadowStyle else { return }
         shadowed(with: shadowStyle)
