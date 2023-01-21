@@ -31,7 +31,8 @@ class SheetViewController: UIViewController {
     private var topConstraint: NSLayoutConstraint?
 
     private var topSheetConstraintConstant: CGFloat {
-        view.frame.size.height * (1.0 - heightCoefficient)
+        let heightCoefficient = heightCoefficient > 1 ? 1 : heightCoefficient
+        return view.frame.size.height * (1.0 - heightCoefficient)
     }
 
     private lazy var heightCoefficient: CGFloat = sheetField?.sheetStyle.heightCoefficient ?? 0

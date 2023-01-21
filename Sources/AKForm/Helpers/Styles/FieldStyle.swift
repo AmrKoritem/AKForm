@@ -9,7 +9,7 @@ import UIKit
 
 public typealias IconStyleHandler = () -> (leading: IconStyle?, trailing: IconStyle?)
 
-/// Used to set text fields ui.
+/// Used to determine field ui attributes.
 public struct FieldStyle {
     let backgroundColor: UIColor
     let textAttributes: [NSAttributedString.Key: Any]
