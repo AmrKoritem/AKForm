@@ -25,38 +25,64 @@ public enum FieldType {
 //    case picker
 }
 
-public typealias OnFirstResponderStyle = () -> (
+/// Styles to be used when the field content is being changed.
+public typealias FirstResponderStyle = () -> (
     labelStyle: LabelStyle?,
     fieldStyle: FieldStyle?,
     mandatoryStyle: MandatoryStyle?
 )
-public typealias ValidationHandler = (String?) -> String.ValidationStatus
 
 /// Field properties wrapper.
 public class Field {
     let id: Int
     let count: FieldCount
     let type: FieldType
-    let contentType: FieldContentType
+    let contentType: ContentType
     let labelStyle: LabelStyle
     let fieldStyle: FieldStyle
-    let placeholder: String
-    let errorMessages: FieldErrorMessages
+    let texts: Texts
     let mandatoryStyle: MandatoryStyle
-    var onFirstResponderStyle: OnFirstResponderStyle?
+    var firstResponderStyle: FirstResponderStyle?
     var validationHandler: ValidationHandler?
 
+    /// A new `Field` object with the `onFirstResponder` styles replacing the field styles.
+    public var firstResponderCopy: Field {
+        Field(
+            id: id,
+            count: count,
+            type: type,
+            contentType: contentType,
+            labelStyle: firstResponderStyle?().labelStyle ?? labelStyle,
+            fieldStyle: firstResponderStyle?().fieldStyle ?? fieldStyle,
+            texts: texts,
+            mandatoryStyle: firstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
+            firstResponderStyle: firstResponderStyle,
+            validationHandler: validationHandler
+        )
+    }
+    
+    /// Initializer for `Field`.
+    /// - Parameters:
+    ///   - id: Field id.
+    ///   - count: Field data instances count.
+    ///   - type: Field type.
+    ///   - contentType: Field data type.
+    ///   - labelStyle: Field title style.
+    ///   - fieldStyle: Field ui attributes.
+    ///   - texts: Field fixed texts like title, placeholder, etc.
+    ///   - mandatoryStyle: Field mandatory symbol properties.
+    ///   - firstResponderStyle: Field style when it's the first responder.
+    ///   - validationHandler: Field validation action handlers.
     init(
         id: Int,
         count: FieldCount = .uni,
         type: FieldType,
-        contentType: FieldContentType,
+        contentType: ContentType,
         labelStyle: LabelStyle,
         fieldStyle: FieldStyle,
-        placeholder: String,
-        errorMessages: FieldErrorMessages?,
+        texts: Texts,
         mandatoryStyle: MandatoryStyle,
-        onFirstResponderStyle: OnFirstResponderStyle?,
+        firstResponderStyle: FirstResponderStyle?,
         validationHandler: ValidationHandler?
     ) {
         self.id = id
@@ -65,48 +91,27 @@ public class Field {
         self.contentType = contentType
         self.labelStyle = labelStyle
         self.fieldStyle = fieldStyle
-        self.placeholder = placeholder
-        self.errorMessages = errorMessages ?? {
-            switch contentType {
-            case .confirmPassword(_, _):
-                return FieldErrorMessages(
-                    empty: "Please enter your password",
-                    invalid: "Must be the same as the password"
-                )
-            default:
-                return FieldErrorMessages(
-                    empty: Default.Strings.errorMessageEmpty,
-                    invalid: Default.Strings.errorMessageInvalid
-                )
-            }
-        }()
+        self.texts = texts
         self.mandatoryStyle = mandatoryStyle
-        self.onFirstResponderStyle = onFirstResponderStyle
+        self.firstResponderStyle = firstResponderStyle
         self.validationHandler = validationHandler
     }
-
-    public func getOnFirstResponderCopy() -> Field {
-        Field(
-            id: id,
-            count: count,
-            type: type,
-            contentType: contentType,
-            labelStyle: onFirstResponderStyle?().labelStyle ?? labelStyle,
-            fieldStyle: onFirstResponderStyle?().fieldStyle ?? fieldStyle,
-            placeholder: placeholder,
-            errorMessages: errorMessages,
-            mandatoryStyle: onFirstResponderStyle?().mandatoryStyle ?? mandatoryStyle,
-            onFirstResponderStyle: onFirstResponderStyle,
-            validationHandler: validationHandler
-        )
-    }
-
+    
+    /// Determines the validation status of the field considering its mandatory status.
+    /// This method uses the custom validation handler if provided. If not, it uses the default validation handler.
+    /// - Parameter data: Data to be validated.
+    /// - Returns: Validation status.
     public func validate(data: String?) -> String.ValidationStatus {
         guard mandatoryStyle.isMandatory == true || data?.isEmpty == false else { return .valid }
         let validationStatus = validationHandler?(data) ?? contentType.getValidationStatus(for: data) ?? .valid
         return validationStatus
     }
-
+    
+    /// Determines the validation status of the confirm password field considering its mandatory status.
+    /// - Parameters:
+    ///   - confirmPasswordData: Confirm password data to be validated.
+    ///   - passwordData: Password data.
+    /// - Returns: Validation status.
     public func validateConfirmPassword(_ confirmPasswordData: String?, passwordData: String?) -> String.ValidationStatus {
         guard mandatoryStyle.isMandatory == true || confirmPasswordData?.isEmpty == false else { return .valid }
         let validationStatus = validationHandler?(confirmPasswordData) ?? {

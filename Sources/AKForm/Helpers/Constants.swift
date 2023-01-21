@@ -7,37 +7,62 @@
 
 import UIKit
 
+/// Global default values.
 public struct Default {
+    /// Determines if it's mandatory to fill all fields.
     public static var isMandatory: Bool = false
 
+    /// Strings.
     public struct Strings {
+        /// Mandatory symbol.
         public static var mandatorySymbol: String = "*"
+        /// Empty error message.
         public static var errorMessageEmpty: String = "Please enter your data"
+        /// Invalid error message.
         public static var errorMessageInvalid: String = "Please enter a valid entry"
     }
 
+    /// Fonts.
     public struct Fonts {
+        /// system 18
         public static var label: UIFont = .systemFont(ofSize: 18)
+        /// system 16
         public static var field: UIFont = .systemFont(ofSize: 16)
+        /// system 16
         public static var placeholder: UIFont = .systemFont(ofSize: 16)
+        /// system 14
         public static var error: UIFont = .systemFont(ofSize: 14)
+        /// system 18
         public static var optionTitle: UIFont = .systemFont(ofSize: 18)
+        /// system 14
         public static var optionSubtitle: UIFont = .systemFont(ofSize: 14)
+        /// system 18
         public static var mandatory: UIFont = .systemFont(ofSize: 18)
     }
 
+    /// Dimensions.
     public struct Dimensions {
+        /// CGFloat: 1.0
         public static var borderWidth: CGFloat = 1
+        /// CGFloat: 14.0
         public static var cornerRadius: CGFloat = 14
+        /// CGFloat: 1.0
         public static var sheetBorderWidth: CGFloat = 1
+        /// CGFloat: 14.0
         public static var sheetCornerRadius: CGFloat = 14
+        /// CGFloat: 1.0
         public static var separatorStartInset: CGFloat = 1
+        /// CGFloat: 1.0
         public static var separatorThickness: CGFloat = 1
+        /// CGFloat: 1.0
         public static var separatorEndInset: CGFloat = 1
+        /// CGFloat: 8.0
         public static var horizontalPadding: CGFloat = 8
+        /// CGFloat: 18.0
         public static var fieldIconEdgeMargin: CGFloat = 18
     }
 
+    /// Colors.
     public struct Colors {
         /// black
         public static var label: UIColor = .black
@@ -65,24 +90,7 @@ public struct Default {
         public static var optionBackground: UIColor = .clear
         /// light gray
         public static var separator: UIColor = .lightGray
-        /// orangy red
+        /// orangy red -> rgb(235, 87, 87)
         public static var mandatory: UIColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
-    }
-
-    struct StringAttributes {
-        static let label = [
-            NSAttributedString.Key.foregroundColor: Default.Colors.label,
-            NSAttributedString.Key.font: Default.Fonts.label
-        ]
-        static let placeholder = [
-            NSAttributedString.Key.foregroundColor: Default.Colors.placeholder,
-            NSAttributedString.Key.font: Default.Fonts.placeholder
-        ]
-        static func from(color: UIColor?, font: UIFont?) -> [NSAttributedString.Key: Any] {
-            [
-                NSAttributedString.Key.foregroundColor: color ?? Default.Colors.label,
-                NSAttributedString.Key.font: font ?? Default.Fonts.label
-            ]
-        }
     }
 }

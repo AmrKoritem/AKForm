@@ -19,8 +19,8 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     var leadingIconView: UIView?
     var trailingIconView: UIView?
 
-    private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
-    private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
+    private var textFieldEditingHandler: TextFieldEditingHandler = { _ in }
+    private var textFieldEditingDidEndHandler: TextFieldEditingHandler = { _ in }
 
     deinit {
         textField.removeTarget(self, action: #selector(textFieldChangeDidBegin(_:)), for: .editingDidBegin)
@@ -39,8 +39,8 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     func configure(
         field: Field,
         textFieldText: String?,
-        textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
-        textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
+        textFieldEditingHandler: @escaping TextFieldEditingHandler,
+        textFieldEditingDidEndHandler: @escaping TextFieldEditingHandler
     ) {
         self.field = field
         textField.text = textFieldText
@@ -51,12 +51,12 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
     }
 
-    func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
-        let placeholder = placeholder ?? field?.placeholder ?? ""
-        guard let placeholderAttributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes else {
-            textField.placeholder = placeholder
-            return
-        }
+    func setPlaceholder(
+        with placeholder: String? = nil,
+        and placeholderAttributes: [NSAttributedString.Key: Any]? = nil
+    ) {
+        let placeholder = placeholder ?? field?.texts.placeholder ?? ""
+        let placeholderAttributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? StringAttributes.defaultPlaceholder
         textField.attributedPlaceholder = NSAttributedString(
             string: placeholder,
             attributes: placeholderAttributes
@@ -89,9 +89,13 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setStyles(with field: Field) {
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
-        textField.setStyle(with: field.fieldStyle)
+        fieldLabel.attributedText = NSAttributedString(
+            string: field.texts.label,
+            attributes: field.labelStyle.attributes
+        )
+        fieldLabel.setStyle(with: field.mandatoryStyle)
+        setPlaceholder(with: field.texts.placeholder, and: field.fieldStyle.placeholderAttributes)
+        textField.setStyle(with: textField.text, andStyle: field.fieldStyle)
         textField.stroked(color: .clear)
         textField.shadowRemoved()
         setIcons(with: field.fieldStyle.iconStyleHandler)
@@ -121,7 +125,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     @objc
     func textFieldChangeDidBegin(_ textField: UITextField) {
-        guard let field = field?.getOnFirstResponderCopy() else { return }
+        guard let field = field?.firstResponderCopy else { return }
         setStyles(with: field)
     }
 

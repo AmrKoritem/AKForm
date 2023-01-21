@@ -20,7 +20,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     @IBAction func buttonAction() {
         buttonActionHandler()
-        guard let field = field?.getOnFirstResponderCopy() else { return }
+        guard let field = field?.firstResponderCopy else { return }
         setStyles(with: field)
     }
 
@@ -37,26 +37,20 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         self.buttonActionHandler = buttonActionHandler
     }
 
-    func setPlaceholder(with placeholder: String? = nil, or placeholderAttributes: [NSAttributedString.Key: Any]? = nil) {
-        if let fieldText = buttonText, !fieldText.isEmpty {
-            let color = field?.fieldStyle.textColor
-            let font = field?.fieldStyle.font
-            let attributes = Default.StringAttributes.from(color: color, font: font)
-            button.setAttributedTitle(
-                NSAttributedString(
-                    string: fieldText,
-                    attributes: attributes),
-                for: .normal
-            )
-        } else {
-            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? Default.StringAttributes.placeholder
-            button.setAttributedTitle(
-                NSAttributedString(
-                    string: placeholder ?? field?.placeholder ?? "",
-                    attributes: attributes),
-                for: .normal
-            )
+    func setPlaceholder(
+        with placeholder: String? = nil,
+        and placeholderAttributes: [NSAttributedString.Key: Any]? = nil
+    ) {
+        guard let fieldText = buttonText, !fieldText.isEmpty else {
+            let placeholder = placeholder ?? field?.texts.placeholder ?? ""
+            let attributes = placeholderAttributes ?? field?.fieldStyle.placeholderAttributes ?? StringAttributes.defaultPlaceholder
+            let attrText = NSAttributedString(string: placeholder, attributes: attributes)
+            button.setAttributedTitle(attrText, for: .normal)
+            return
         }
+        let attributes = field?.fieldStyle.textAttributes
+        let attrText = NSAttributedString(string: fieldText, attributes: attributes)
+        button.setAttributedTitle(attrText, for: .normal)
     }
 
     func setIcons(with iconStyleHandler: IconStyleHandler? = nil) {
@@ -64,9 +58,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     }
 
     func setStyles(with field: Field) {
-        fieldLabel.setStyle(with: field.labelStyle, mandatoryStyle: field.mandatoryStyle)
-        setPlaceholder(with: field.placeholder, or: field.fieldStyle.placeholderAttributes)
-        button.setStyle(with: field.fieldStyle)
+        fieldLabel.attributedText = NSAttributedString(string: field.texts.label, attributes: field.labelStyle.attributes)
+        fieldLabel.setStyle(with: field.mandatoryStyle)
+        button.setStyle(with: buttonText, andStyle: field.fieldStyle)
+        setPlaceholder(with: field.texts.placeholder, and: field.fieldStyle.placeholderAttributes)
     }
 
     func showError(message: String, shouldClearText: Bool) {
@@ -77,7 +72,7 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
         errorLabel.text = message
         errorLabel.isHidden = false
         guard shouldClearText else { return }
-        button.setTitle("", for: .normal)
+        button.setTitle(nil, for: .normal)
         button.setAttributedTitle(nil, for: .normal)
     }
 

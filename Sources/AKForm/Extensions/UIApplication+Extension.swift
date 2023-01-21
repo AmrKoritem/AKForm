@@ -9,10 +9,7 @@ import UIKit
 
 extension UIApplication {
     static var rootWindow: UIWindow? {
-        guard #available(iOS 13, *) else {
-            return UIApplication.shared.windows.first(where: { $0.isKeyWindow })
-        }
-        return UIApplication.shared.connectedScenes
+        UIApplication.shared.connectedScenes
             .filter { $0.activationState == .foregroundActive }
             .first(where: { $0 is UIWindowScene })
             .flatMap({ $0 as? UIWindowScene })?.windows

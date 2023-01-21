@@ -7,11 +7,17 @@
 
 import UIKit
 
+/// Determine field icon ui attributes.
 public struct IconStyle {
     let icon: UIImage
     let marginToEdge: CGFloat
     let action: (target: Any?, selector: Selector)?
-
+    
+    /// Initializer for `IconStyle`.
+    /// - Parameters:
+    ///   - icon: Icon image.
+    ///   - marginToEdge: Icon margin.
+    ///   - action: Icon tap action.
     public init(
         icon: UIImage,
         marginToEdge: CGFloat = Default.Dimensions.fieldIconEdgeMargin,

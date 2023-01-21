@@ -7,12 +7,17 @@
 
 import UIKit
 
+/// Determine symbol position based on its context.
 public enum SymbolPosition {
+    /// start of context.
     case start
+    /// end of context.
     case end
+    /// end of screen on the line of context.
     case lineEnd(endMargin: CGFloat)
 }
 
+/// Determine style of mandatory symbol.
 public struct MandatoryStyle {
     let isMandatory: Bool
     let symbol: String
@@ -30,7 +35,14 @@ public struct MandatoryStyle {
             ]
         )
     }
-
+    
+    /// Initializer for `MandatoryStyle`.
+    /// - Parameters:
+    ///   - isMandatory: If true, then the symbol should be hidden and validation of data is to be tolerant.
+    ///   - symbol: Symbol used as indicator for the field being mandatory.
+    ///   - color: Symbol color.
+    ///   - font: Symbol font.
+    ///   - position: Symbol position.
     public init(
         isMandatory: Bool = Default.isMandatory,
         symbol: String = Default.Strings.mandatorySymbol,
@@ -45,6 +57,7 @@ public struct MandatoryStyle {
         self.position = position
     }
 
+    /// Adds the symbol to an attributed string.
     public func addSymbol(to text: NSMutableAttributedString) {
         switch position {
         case .start:

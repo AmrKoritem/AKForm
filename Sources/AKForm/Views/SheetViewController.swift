@@ -11,13 +11,13 @@ class SheetViewController: UIViewController {
     var sheetField: SheetField? {
         didSet {
             let textFieldObserverHandlers = sheetField?.sheetStyle.textFieldStyle?.textFieldObserverHandlers
-            textFieldEditingHandler = textFieldObserverHandlers?.editingHandler
+            textFieldEditingInProgressHandler = textFieldObserverHandlers?.editingInProgressHandler
             textFieldEditingDidEndHandler = textFieldObserverHandlers?.editingDidEndHandler
         }
     }
     var selectedOption: SheetOption?
-    var textFieldEditingHandler: TextFieldEditingChangedHandler?
-    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
+    var textFieldEditingInProgressHandler: TextFieldEditingHandler?
+    var textFieldEditingDidEndHandler: TextFieldEditingHandler?
     var viewDidDisappearHandler: () -> Void = {}
     var optionSelectionHandler: (SheetOption?) -> Void = { _ in }
 
@@ -31,7 +31,8 @@ class SheetViewController: UIViewController {
     private var topConstraint: NSLayoutConstraint?
 
     private var topSheetConstraintConstant: CGFloat {
-        view.frame.size.height * (1.0 - heightCoefficient)
+        let heightCoefficient = heightCoefficient > 1 ? 1 : heightCoefficient
+        return view.frame.size.height * (1.0 - heightCoefficient)
     }
 
     private lazy var heightCoefficient: CGFloat = sheetField?.sheetStyle.heightCoefficient ?? 0
@@ -177,8 +178,7 @@ class SheetViewController: UIViewController {
             object: nil)
     }
 
-    @objc
-    func keyboardDidShow(_ notification: Notification) {
+    @objc func keyboardDidShow(_ notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
         sheet?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
@@ -187,30 +187,25 @@ class SheetViewController: UIViewController {
         topConstraint?.constant = view.frame.size.height - keyboardSize.height - sheetHeaderHeight
     }
 
-    @objc
-    func keyboardDidHide(_ notification: Notification) {
+    @objc func keyboardDidHide(_ notification: Notification) {
         sheet?.contentInset = .zero
         topConstraint?.constant = topSheetConstraintConstant
     }
 
-    @objc
-    func textFieldChange(_ textField: UITextField) {
-        textFieldEditingHandler?(textField.text)
+    @objc func textFieldChange(_ textField: UITextField) {
+        textFieldEditingInProgressHandler?(textField.text)
         sheet?.reloadData()
     }
 
-    @objc
-    func textFieldChangeDidEnd(_ textField: UITextField) {
+    @objc func textFieldChangeDidEnd(_ textField: UITextField) {
         textFieldEditingDidEndHandler?(textField.text)
     }
 
-    @objc
-    func returnKeyPressed(_ textField: UITextField) {
+    @objc func returnKeyPressed(_ textField: UITextField) {
         view.endEditing(true)
     }
 
-    @objc
-    func close() {
+    @objc func close() {
         viewDidDisappearHandler()
         dismiss(animated: true)
     }

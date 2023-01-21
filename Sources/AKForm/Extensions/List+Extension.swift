@@ -7,19 +7,25 @@
 
 import UIKit
 
-extension Bundle {
-    static var form: Bundle {
-#if SWIFT_PACKAGE
-        return module
-#else
-        return main
-#endif
-    }
+final class AKFormResources {
+    static let resourceBundle: Bundle = {
+        let candidates = [
+            Bundle.main.resourceURL,
+            Bundle(for: AKFormResources.self).resourceURL,
+        ]
+        let bundleName = "AKForm_AKForm"
+        for candidate in candidates {
+            let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle")
+            guard let bundle = bundlePath.flatMap(Bundle.init(url:)) else { continue }
+            return bundle
+        }
+        return Bundle(for: AKFormResources.self)
+    }()
 }
 
 extension UITableView {
     func registerNib<T: UITableViewCell>(_ tableViewCell: T.Type) {
-        register(UINib(nibName: T.nibName, bundle: .form), forCellReuseIdentifier: T.reuseIdentifier)
+        register(UINib(nibName: T.nibName, bundle: AKFormResources.resourceBundle), forCellReuseIdentifier: T.reuseIdentifier)
     }
 }
 

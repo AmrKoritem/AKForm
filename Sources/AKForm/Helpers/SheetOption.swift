@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Determine sheet option properties.
 public struct SheetOption: Equatable {
     public static func == (lhs: SheetOption, rhs: SheetOption) -> Bool {
         lhs.title == rhs.title
@@ -16,7 +17,13 @@ public struct SheetOption: Equatable {
     let subtitle: String?
     let mainImage: UIImage?
     let secondaryImage: UIImage?
-
+    
+    /// Initializer for `SheetOption`.
+    /// - Parameters:
+    ///   - title: Option title.
+    ///   - subtitle: Option subtitle.
+    ///   - mainImage: Option main image.
+    ///   - secondaryImage: Option secondary image.
     public init(
         title: String,
         subtitle: String? = nil,

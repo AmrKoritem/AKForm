@@ -1,5 +1,5 @@
 //
-//  VerificationViewController.swift
+//  AKVerificationViewController.swift
 //  AKForm
 //
 //  Created by Amr Koritem on 21/11/2022.
@@ -7,20 +7,23 @@
 
 import UIKit
 
-open class VerificationViewController: AKFormViewController {
+open class AKVerificationViewController: UIViewController {
     open var header: UIView? {
         defaultHeader
     }
-    open var headerTitleStyle: LabelStyle? {
-        LabelStyle(attributedText: NSAttributedString(string: "title", attributes: Default.StringAttributes.label))
+    open var headerTitle: (text: String, style: LabelStyle?) {
+        (text: "title", style: LabelStyle(attributes: StringAttributes.defaultLabel))
     }
-    open var headerSubtitleStyle: LabelStyle? {
-        LabelStyle(attributedText: NSAttributedString(string: "subtitle", attributes: Default.StringAttributes.label))
+    open var headerSubtitle: (text: String, style: LabelStyle?) {
+        (text: "subtitle", style: LabelStyle(attributes: StringAttributes.defaultLabel))
     }
     open var footer: UIView? {
         nil
     }
     open var fieldStyle: FieldStyle? {
+        FieldStyle(textAlignment: .center)
+    }
+    open var firstResponderFieldStyle: FieldStyle? {
         FieldStyle(textAlignment: .center)
     }
     open var fieldHeight: CGFloat {
@@ -32,18 +35,26 @@ open class VerificationViewController: AKFormViewController {
     open var fieldsMinHorizaontalMargin: CGFloat {
         20
     }
+    open var counterLimitInSeconds: Int {
+        60
+    }
 
     public var fieldWidth: CGFloat {
         let totalStackSpacings: CGFloat = (fieldsStack?.spacing ?? 0) * CGFloat(max(0, fieldsCount - 1))
         let totalAvailableWidth = view.frame.size.width - fieldsMinHorizaontalMargin * 2 - totalStackSpacings
         return totalAvailableWidth / CGFloat(fieldsCount)
     }
+    public var otp: String {
+        textFields.compactMap { $0.text }.joined()
+    }
     private var textFields: [UITextField] {
         fieldsStack?.arrangedSubviews.compactMap { $0 as? UITextField } ?? []
     }
 
-    public var countDownSeconds = 60
+    public var scrollView: UIScrollView?
+    public var cancelsTouchesInView = false
     public var updateTimerHandler: () -> Void = {}
+    public lazy var counter = counterLimitInSeconds
     public private(set) var isTimerRunning = false
 
     lazy var defaultHeader: UIView = {
@@ -51,9 +62,10 @@ open class VerificationViewController: AKFormViewController {
         wrapper.translatesAutoresizingMaskIntoConstraints = false
         wrapper.backgroundColor = .clear
         let title = UILabel()
-        if let headerTitleStyle = headerTitleStyle {
-            title.setStyle(with: headerTitleStyle)
-        }
+        title.attributedText = NSAttributedString(
+            string: headerTitle.text,
+            attributes: headerTitle.style?.attributes
+        )
         wrapper.addSubview(title)
         title.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -61,9 +73,10 @@ open class VerificationViewController: AKFormViewController {
             title.topAnchor.constraint(equalTo: wrapper.topAnchor, constant: 25)
         ])
         let subtitle = UILabel()
-        if let headerSubtitleStyle = headerSubtitleStyle {
-            subtitle.setStyle(with: headerSubtitleStyle)
-        }
+        subtitle.attributedText = NSAttributedString(
+            string: headerSubtitle.text,
+            attributes: headerSubtitle.style?.attributes
+        )
         wrapper.addSubview(subtitle)
         subtitle.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -85,6 +98,7 @@ open class VerificationViewController: AKFormViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        setUpKeyboard()
         runTimer()
     }
     
@@ -93,10 +107,69 @@ open class VerificationViewController: AKFormViewController {
         addViews()
     }
 
+    public func runTimer() {
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: (#selector(updateTimer)),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+
+    @objc public func keyboardDidShow(_ notification: Notification) {
+        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardSize = keyboardFrame?.cgRectValue else { return }
+        scrollView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        scrollView?.isScrollEnabled = true
+    }
+
+    @objc public func keyboardDidHide(_ notification: Notification) {
+        scrollView?.contentInset = .zero
+    }
+
+    @objc public func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func setUpKeyboard() {
+        addKeyboardObservers()
+        hideKeyboardWhenTappedAround()
+    }
+
+    func addKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardDidShow),
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardDidHide),
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil)
+    }
+
+    func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardDidShowNotification,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil)
+    }
+
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = cancelsTouchesInView
+        view.addGestureRecognizer(tap)
+    }
+
     private func addScrollView() {
         scrollView = UIScrollView()
         guard let scrollView = scrollView else { return }
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.embedWithSafeArea(scrollView)
     }
 
@@ -110,14 +183,12 @@ open class VerificationViewController: AKFormViewController {
     private func addContainer() {
         container = UIView()
         container?.backgroundColor = .clear
-        container?.translatesAutoresizingMaskIntoConstraints = false
         scrollView?.embed(container!)
         container?.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
 
     private func addHeader() {
         guard let header = header else { return }
-        header.translatesAutoresizingMaskIntoConstraints = false
         container?.embedAtTop(header)
     }
 
@@ -156,7 +227,7 @@ open class VerificationViewController: AKFormViewController {
             textField.heightAnchor.constraint(equalToConstant: fieldHeight)
         ])
         if let fieldStyle = fieldStyle {
-            textField.setStyle(with: fieldStyle)
+            textField.setStyle(with: "", andStyle: fieldStyle)
         }
         return textField
     }
@@ -167,7 +238,6 @@ open class VerificationViewController: AKFormViewController {
             fieldsStack?.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
             return
         }
-        footer.translatesAutoresizingMaskIntoConstraints = false
         container.embedAtBottom(footer)
         guard let fieldsStack = fieldsStack else {
             let anchor = header?.bottomAnchor ?? container.topAnchor
@@ -177,24 +247,14 @@ open class VerificationViewController: AKFormViewController {
         footer.topAnchor.constraint(equalTo: fieldsStack.bottomAnchor).isActive = true
     }
 
-    private func runTimer() {
-        timer = Timer.scheduledTimer(
-            timeInterval: 1,
-            target: self,
-            selector: (#selector(updateTimer)),
-            userInfo: nil,
-            repeats: true
-        )
-    }
-
-    @objc
-    private func updateTimer() {
-        countDownSeconds -= countDownSeconds <= 0 ? 0:1
+    @objc private func updateTimer() {
+        guard counter != 0 else { return timer.invalidate() }
+        counter -= counter <= 0 ? 0:1
         updateTimerHandler()
     }
 }
 
-extension VerificationViewController: UITextFieldDelegate {
+extension AKVerificationViewController: UITextFieldDelegate {
     public func textField(
         _ textField: UITextField,
         shouldChangeCharactersIn range: NSRange,
@@ -234,5 +294,17 @@ extension VerificationViewController: UITextFieldDelegate {
             textFields[safe: index]?.becomeFirstResponder()
         }
         return true
+    }
+
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        if let fieldStyle = firstResponderFieldStyle {
+            textField.setStyle(with: textField.text, andStyle: fieldStyle)
+        }
+    }
+
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        if let fieldStyle = fieldStyle {
+            textField.setStyle(with: textField.text, andStyle: fieldStyle)
+        }
     }
 }

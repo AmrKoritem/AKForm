@@ -8,23 +8,35 @@
 import UIKit
 
 /// Data source of form screen.
-public protocol FormDataSource {
+public protocol FormDataSource: AnyObject {
+    /// Form fields.
     var fields: [Field] { get }
+    /// Form data filled by the user.
     var dataMap: [Int: Any] { get set }
+    /// Form header view.
+    /// - Parameter section: Form section.
+    /// - Returns: Header view.
     func header(for section: Int) -> UIView?
+    /// Form footer view.
+    /// - Parameter section: Form section.
+    /// - Returns: footer view.
     func footer(for section: Int) -> UIView?
 }
 
 /// Delegate of form screen.
 public class FormDelegate: NSObject {
     private(set) var dataSource: FormDataSource?
-
-    init(dataSource: FormDataSource?) {
+    
+    /// Initializer for `FormDelegate`.
+    /// - Parameter dataSource: Data source for the delegate.
+    public init(dataSource: FormDataSource?) {
         self.dataSource = dataSource
     }
 }
 
 public extension UITableView {
+    /// Registers all the table view cells corresponding to fields provided to the table view.
+    /// - Parameter fields: Form fields.
     func register(fields: [Field]) {
         fields.forEach { field in
             switch field.type {
@@ -56,6 +68,23 @@ public extension FormDelegate {
             return dict
         } ?? [:]
     }
+    
+    /// Determines if the fields data are valid.
+    var isDataValid: Bool {
+        guard !validationStatus.values.contains(.missing),
+              !validationStatus.values.contains(.invalid) else { return false }
+        return true
+    }
+    
+    /// Fills all nil entries of the fields data with empty space so that it gets validated during the validation process.
+    /// - Returns: Boolean that determines if the fields data are valid.
+    func validate() -> Bool {
+        for field in dataSource?.fields ?? [] {
+            guard dataSource?.dataMap[field.id] == nil else { continue }
+            dataSource?.dataMap[field.id] = ""
+        }
+        return isDataValid
+    }
 }
 
 extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
@@ -72,10 +101,11 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
             cell ?= tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
             let fieldCell = cell as? TextFieldTableViewCell
             let textField = field as? TextField
+            let editingInProgressHandler = textField?.textFieldObserverHandlers?.editingInProgressHandler
             fieldCell?.configure(
                 field: field,
                 textFieldText: data ?? "",
-                textFieldEditingHandler: textField?.textFieldObserverHandlers?.editingHandler ?? { [weak self] text in
+                textFieldEditingHandler: editingInProgressHandler ?? { [weak self] text in
                     guard let text = text else { return }
                     self?.dataSource?.dataMap[field.id] = text
                 },

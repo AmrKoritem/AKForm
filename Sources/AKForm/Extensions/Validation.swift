@@ -11,6 +11,7 @@ extension String {
     enum ValidationRegex: String {
         case name = "^[\u{0600}-\u{065F}\u{066A}-\u{06EF}\u{06FA}-\u{06FF}a-zA-Z0-9 ]{2,}$"
         case password = "^.{8,}$"
+        case phone = "^.{9,}$"
         case email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         case youtubeVideo = """
         ^((?:https?:)?\\/\\/)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))

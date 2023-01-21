@@ -35,24 +35,24 @@ public extension UITextField {
         rightPadding = padding
     }
 
-    /// Set text field attributes using a `FieldStyle` object.
-    func setStyle(with fieldStyle: FieldStyle) {
-        textColor = fieldStyle.textColor
-        font = fieldStyle.font
-        textAlignment = fieldStyle.textAlignment
+    /// Set text field attributes using a text and a `FieldStyle` object.
+    func setStyle(with text: String?, andStyle fieldStyle: FieldStyle) {
+        attributedText = NSAttributedString(string: text ?? "", attributes: fieldStyle.textAttributes)
         backgroundColor = fieldStyle.backgroundColor
+        textAlignment = fieldStyle.textAttributes.textAlignment ?? .natural
         stroked(with: fieldStyle.borderStyle)
         guard let shadowStyle = fieldStyle.shadowStyle else { return }
         shadowed(with: shadowStyle)
     }
 
     func setStyle(with textFieldStyle: SheetStyle.TextFieldStyle) {
-        placeholder = textFieldStyle.placeholder
-        setStyle(with: textFieldStyle.fieldStyle)
+        attributedPlaceholder = NSAttributedString(
+            string: textFieldStyle.placeholder ?? "",
+            attributes: textFieldStyle.fieldStyle.placeholderAttributes)
     }
 
     /// Set text field typing attributes using a `FieldContentType` object.
-    func setTypingAttributes(with contentType: FieldContentType) {
+    func setTypingAttributes(with contentType: Field.ContentType) {
         keyboardType = contentType.keyboardType
         autocapitalizationType = contentType.autocapitalizationType
         autocorrectionType = contentType.autocorrectionType

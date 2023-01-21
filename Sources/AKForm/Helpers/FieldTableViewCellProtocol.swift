@@ -9,7 +9,7 @@ import UIKit
 
 protocol FieldTableViewCellProtocol: UITableViewCell {
     var field: Field? { get }
-    func setPlaceholder(with placeholder: String?, or placeholderAttributes: [NSAttributedString.Key: Any]?)
+    func setPlaceholder(with placeholder: String?, and placeholderAttributes: [NSAttributedString.Key: Any]?)
     func setIcons(with iconStyleHandler: IconStyleHandler?)
     func setStyles(with field: Field)
     func showError(message: String, shouldClearText: Bool)
@@ -18,7 +18,7 @@ protocol FieldTableViewCellProtocol: UITableViewCell {
 
 extension FieldTableViewCellProtocol {
     func showError(for status: String.ValidationStatus) {
-        let errorMessage = field?.errorMessages.message(for: status) ?? ""
+        let errorMessage = field?.texts.errorMessages.message(for: status) ?? ""
         errorMessage.isEmpty ? clearFieldUI() : showError(message: errorMessage)
     }
 

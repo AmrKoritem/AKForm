@@ -7,7 +7,9 @@
 
 import UIKit
 
+/// Used to determine sheet ui attributes.
 public struct SheetStyle {
+    /// Used to determine the close button ui.
     public enum CloseButtonStyle {
         case text(attributedString: NSAttributedString)
         case icon(image: UIImage?, tintColor: UIColor)
@@ -23,7 +25,14 @@ public struct SheetStyle {
     let textFieldStyle: TextFieldStyle?
     let heightCoefficient: CGFloat
     let closeButtonStyle: CloseButtonStyle
-
+    
+    /// Initializer for `SheetStyle`.
+    /// - Parameters:
+    ///   - backgroundColor: Sheet background color.
+    ///   - borderStyle: Sheet border style.
+    ///   - textFieldStyle: Sheet text field style.
+    ///   - heightCoefficient: Sheet height compared to the height of the screen behind it. This coefficient value is between 0.0 and 1.0.
+    ///   - closeButtonStyle: Sheet close button style.
     public init(
         backgroundColor: UIColor = Default.Colors.sheetBackground,
         borderStyle: BorderStyle = BorderStyle(color: Default.Colors.sheetBorder),
