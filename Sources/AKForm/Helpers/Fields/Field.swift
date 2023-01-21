@@ -32,9 +32,6 @@ public typealias FirstResponderStyle = () -> (
     mandatoryStyle: MandatoryStyle?
 )
 
-/// Custom validation handler for the field data.
-public typealias ValidationHandler = (String?) -> String.ValidationStatus
-
 /// Field properties wrapper.
 public class Field {
     let id: Int
@@ -49,7 +46,7 @@ public class Field {
     var validationHandler: ValidationHandler?
 
     /// A new `Field` object with the `onFirstResponder` styles replacing the field styles.
-    public var onFirstResponderCopy: Field {
+    public var firstResponderCopy: Field {
         Field(
             id: id,
             count: count,
@@ -63,7 +60,19 @@ public class Field {
             validationHandler: validationHandler
         )
     }
-
+    
+    /// Initializer for `Field`.
+    /// - Parameters:
+    ///   - id: Field id.
+    ///   - count: Field data instances count.
+    ///   - type: Field type.
+    ///   - contentType: Field data type.
+    ///   - labelStyle: Field title style.
+    ///   - fieldStyle: Field ui attributes.
+    ///   - texts: Field fixed texts like title, placeholder, etc.
+    ///   - mandatoryStyle: Field mandatory symbol properties.
+    ///   - firstResponderStyle: Field style when it's the first responder.
+    ///   - validationHandler: Field validation action handlers.
     init(
         id: Int,
         count: FieldCount = .uni,

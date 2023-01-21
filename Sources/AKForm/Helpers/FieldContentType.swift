@@ -7,16 +7,23 @@
 
 import UIKit
 
-public typealias ContentTypeAttributes = (
-    keyboardType: UIKeyboardType?,
-    autocapitalizationType: UITextAutocapitalizationType?,
-    autocorrectionType: UITextAutocorrectionType?,
-    contentType: UITextContentType?,
-    isSecureTextEntry: Bool?,
-    validationHandler: ((String?) -> String.ValidationStatus)?
-)
-
 extension Field {
+    /// Field keyboard attributes.
+    public typealias KeyboardAttributes = (
+        keyboardType: UIKeyboardType?,
+        autocapitalizationType: UITextAutocapitalizationType?,
+        autocorrectionType: UITextAutocorrectionType?
+    )
+
+    /// Field security attributes.
+    public typealias SecurityAttributes = (
+        contentType: UITextContentType?,
+        isSecureTextEntry: Bool?
+    )
+
+    /// Field validation handler.
+    public typealias ValidationHandler = (String?) -> String.ValidationStatus
+
     /// Supported field content types.
     public enum ContentType {
         case name
@@ -29,7 +36,11 @@ extension Field {
         case address
         case url
         case other
-        case custom(contentTypeAttributes: ContentTypeAttributes)
+        case custom(
+            keyboardAttributes: KeyboardAttributes,
+            securityAttributes: SecurityAttributes,
+            validationHandler: ValidationHandler?
+        )
 
         /// Validation equivalent regex.
         var validationRegex: String.ValidationRegex {
@@ -51,8 +62,8 @@ extension Field {
 
         func getValidationStatus(for text: String?) -> String.ValidationStatus? {
             switch self {
-            case .custom(let contentTypeAttributes):
-                return contentTypeAttributes.validationHandler?(text)
+            case .custom(_, _, let validationHandler):
+                return validationHandler?(text)
             default:
                 return text?.getValidationStatus(for: validationRegex)
             }
@@ -72,8 +83,8 @@ public extension Field.ContentType {
             return .phonePad
         case .url:
             return .URL
-        case .custom(let contentTypeAttributes):
-            return contentTypeAttributes.keyboardType ?? .default
+        case .custom(let keyboardAttributes, _, _):
+            return keyboardAttributes.keyboardType ?? .default
         default:
             return .default
         }
@@ -86,8 +97,8 @@ public extension Field.ContentType {
             return .sentences
         case .name:
             return .words
-        case .custom(let contentTypeAttributes):
-            return contentTypeAttributes.autocapitalizationType ?? .none
+        case .custom(let keyboardAttributes, _, _):
+            return keyboardAttributes.autocapitalizationType ?? .none
         default:
             return .none
         }
@@ -98,8 +109,8 @@ public extension Field.ContentType {
         switch self {
         case .other:
             return .default
-        case .custom(let contentTypeAttributes):
-            return contentTypeAttributes.autocorrectionType ?? .no
+        case .custom(let keyboardAttributes, _, _):
+            return keyboardAttributes.autocorrectionType ?? .no
         default:
             return .no
         }
@@ -118,8 +129,8 @@ public extension Field.ContentType {
             return .fullStreetAddress
         case .url:
             return .URL
-        case .custom(let contentTypeAttributes):
-            return contentTypeAttributes.contentType
+        case .custom(_, let securityAttributes, _):
+            return securityAttributes.contentType
         default:
             return nil
         }
@@ -130,8 +141,8 @@ public extension Field.ContentType {
         switch self {
         case .password(let isSecureTextEntry), .confirmPassword(_, let isSecureTextEntry):
             return isSecureTextEntry ?? true
-        case .custom(let contentTypeAttributes):
-            return contentTypeAttributes.isSecureTextEntry ?? false
+        case .custom(_, let securityAttributes, _):
+            return securityAttributes.isSecureTextEntry ?? false
         default:
             return false
         }

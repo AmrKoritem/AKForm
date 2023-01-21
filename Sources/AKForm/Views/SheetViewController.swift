@@ -11,13 +11,13 @@ class SheetViewController: UIViewController {
     var sheetField: SheetField? {
         didSet {
             let textFieldObserverHandlers = sheetField?.sheetStyle.textFieldStyle?.textFieldObserverHandlers
-            textFieldEditingHandler = textFieldObserverHandlers?.editingHandler
+            textFieldEditingInProgressHandler = textFieldObserverHandlers?.editingInProgressHandler
             textFieldEditingDidEndHandler = textFieldObserverHandlers?.editingDidEndHandler
         }
     }
     var selectedOption: SheetOption?
-    var textFieldEditingHandler: TextFieldEditingChangedHandler?
-    var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler?
+    var textFieldEditingInProgressHandler: TextFieldEditingHandler?
+    var textFieldEditingDidEndHandler: TextFieldEditingHandler?
     var viewDidDisappearHandler: () -> Void = {}
     var optionSelectionHandler: (SheetOption?) -> Void = { _ in }
 
@@ -193,7 +193,7 @@ class SheetViewController: UIViewController {
     }
 
     @objc func textFieldChange(_ textField: UITextField) {
-        textFieldEditingHandler?(textField.text)
+        textFieldEditingInProgressHandler?(textField.text)
         sheet?.reloadData()
     }
 

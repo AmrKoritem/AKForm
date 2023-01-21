@@ -19,8 +19,8 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     var leadingIconView: UIView?
     var trailingIconView: UIView?
 
-    private var textFieldEditingHandler: TextFieldEditingChangedHandler = { _ in }
-    private var textFieldEditingDidEndHandler: TextFieldEditingDidEnddHandler = { _ in }
+    private var textFieldEditingHandler: TextFieldEditingHandler = { _ in }
+    private var textFieldEditingDidEndHandler: TextFieldEditingHandler = { _ in }
 
     deinit {
         textField.removeTarget(self, action: #selector(textFieldChangeDidBegin(_:)), for: .editingDidBegin)
@@ -39,8 +39,8 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     func configure(
         field: Field,
         textFieldText: String?,
-        textFieldEditingHandler: @escaping TextFieldEditingChangedHandler,
-        textFieldEditingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
+        textFieldEditingHandler: @escaping TextFieldEditingHandler,
+        textFieldEditingDidEndHandler: @escaping TextFieldEditingHandler
     ) {
         self.field = field
         textField.text = textFieldText
@@ -125,7 +125,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
 
     @objc
     func textFieldChangeDidBegin(_ textField: UITextField) {
-        guard let field = field?.onFirstResponderCopy else { return }
+        guard let field = field?.firstResponderCopy else { return }
         setStyles(with: field)
     }
 

@@ -52,18 +52,23 @@ public class TextField: Field {
     }
 }
 
-public typealias TextFieldEditingChangedHandler = (_ text: String?) -> Void
-public typealias TextFieldEditingDidEnddHandler = (_ text: String?) -> Void
+/// Handles needed changes when text editting of the text field takes place.
+public typealias TextFieldEditingHandler = (_ text: String?) -> Void
 
+/// Determine handlers to be triggerred when text editting of the text field takes place.
 public struct TextFieldObserverHandlers {
-    let editingHandler: TextFieldEditingChangedHandler
-    let editingDidEndHandler: TextFieldEditingDidEnddHandler
+    let editingInProgressHandler: TextFieldEditingHandler
+    let editingDidEndHandler: TextFieldEditingHandler
     
+    /// Initializer for `TextFieldObserverHandlers`.
+    /// - Parameters:
+    ///   - editingInProgressHandler: Handles changes in progress.
+    ///   - editingDidEndHandler: Handles changes ended.
     public init(
-        editingHandler: @escaping TextFieldEditingChangedHandler,
-        editingDidEndHandler: @escaping TextFieldEditingDidEnddHandler
+        editingInProgressHandler: @escaping TextFieldEditingHandler,
+        editingDidEndHandler: @escaping TextFieldEditingHandler
     ) {
-        self.editingHandler = editingHandler
+        self.editingInProgressHandler = editingInProgressHandler
         self.editingDidEndHandler = editingDidEndHandler
     }
 }
