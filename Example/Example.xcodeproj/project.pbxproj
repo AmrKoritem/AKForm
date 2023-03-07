@@ -20,7 +20,6 @@
 		1D4EE5D728EB63C600EC3885 /* TextFieldsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EE5D328EB63C600EC3885 /* TextFieldsViewController.swift */; };
 		1D9429412956E2AB00744759 /* FormFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D94293F2956E2AA00744759 /* FormFooter.swift */; };
 		1D9429422956E2AB00744759 /* FormHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9429402956E2AA00744759 /* FormHeader.swift */; };
-		1D9429442956E32900744759 /* MakeFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9429432956E32900744759 /* MakeFields.swift */; };
 		1DE23617297896830040B2D0 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE23616297896830040B2D0 /* VerificationViewController.swift */; };
 		2E199C3831C40C95B18C3CD1 /* Pods_ExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4974A9BB6450295A48A4548E /* Pods_ExampleTests.framework */; };
 		7FEA0A4F884F5399109F7C93 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBF5CD9A1ABD78120D39D25 /* Pods_Example.framework */; };
@@ -64,7 +63,6 @@
 		1D4EE5D328EB63C600EC3885 /* TextFieldsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldsViewController.swift; sourceTree = "<group>"; };
 		1D94293F2956E2AA00744759 /* FormFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormFooter.swift; sourceTree = "<group>"; };
 		1D9429402956E2AA00744759 /* FormHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormHeader.swift; sourceTree = "<group>"; };
-		1D9429432956E32900744759 /* MakeFields.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeFields.swift; sourceTree = "<group>"; };
 		1DE23616297896830040B2D0 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		48C0532A86B7597FDA82ADD3 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4974A9BB6450295A48A4548E /* Pods_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +128,6 @@
 			children = (
 				1D5DAF1329590EFD00118A75 /* Helpers */,
 				1D43ECBD28EA8048000259A3 /* SupportFiles */,
-				1D9429432956E32900744759 /* MakeFields.swift */,
 				1D4EE5D328EB63C600EC3885 /* TextFieldsViewController.swift */,
 				1D4EE5D228EB63C600EC3885 /* ButtonFieldsViewController.swift */,
 				1DE23616297896830040B2D0 /* VerificationViewController.swift */,
@@ -440,7 +437,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D9429442956E32900744759 /* MakeFields.swift in Sources */,
 				1D43EC8E28EA7FF4000259A3 /* AppDelegate.swift in Sources */,
 				1D9429422956E2AB00744759 /* FormHeader.swift in Sources */,
 				1D4EE5D428EB63C600EC3885 /* Routing+Extension.swift in Sources */,
