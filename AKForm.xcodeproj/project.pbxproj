@@ -12,6 +12,7 @@
 		1D79C06D291D91E300FBEF78 /* AKForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D79C062291D91E200FBEF78 /* AKForm.framework */; };
 		1D79C072291D91E300FBEF78 /* AKFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D79C071291D91E300FBEF78 /* AKFormTests.swift */; };
 		1D79C073291D91E300FBEF78 /* AKForm.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D79C065291D91E200FBEF78 /* AKForm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1D8A5B6729B71CA40056A8A9 /* ButtonField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A5B6629B71CA40056A8A9 /* ButtonField.swift */; };
 		1D94293C29565DEF00744759 /* StringAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D94293B29565DEF00744759 /* StringAttributes.swift */; };
 		1D94293E29565EF100744759 /* FieldTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D94293D29565EF100744759 /* FieldTexts.swift */; };
 		1DA3323C291D99E7008EA18E /* FormDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA33235291D99E7008EA18E /* FormDelegate.swift */; };
@@ -72,6 +73,7 @@
 		1D79C066291D91E200FBEF78 /* AKForm.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = AKForm.docc; sourceTree = "<group>"; };
 		1D79C06C291D91E300FBEF78 /* AKFormTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AKFormTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D79C071291D91E300FBEF78 /* AKFormTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKFormTests.swift; sourceTree = "<group>"; };
+		1D8A5B6629B71CA40056A8A9 /* ButtonField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonField.swift; sourceTree = "<group>"; };
 		1D94293B29565DEF00744759 /* StringAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringAttributes.swift; sourceTree = "<group>"; };
 		1D94293D29565EF100744759 /* FieldTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTexts.swift; sourceTree = "<group>"; };
 		1DA33235291D99E7008EA18E /* FormDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormDelegate.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				1DA33249291D9E5F008EA18E /* Field.swift */,
 				1DABB0CC2920B5E80051B551 /* TextField.swift */,
 				1DABB0CE2920C20D0051B551 /* SheetField.swift */,
+				1D8A5B6629B71CA40056A8A9 /* ButtonField.swift */,
 			);
 			path = Fields;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				1DABB0D92920ED1B0051B551 /* ButtonFieldTableViewCell.swift in Sources */,
 				1D94293E29565EF100744759 /* FieldTexts.swift in Sources */,
 				1DABB0CD2920B5E90051B551 /* TextField.swift in Sources */,
+				1D8A5B6729B71CA40056A8A9 /* ButtonField.swift in Sources */,
 				1DF77DDD292C4CDD00FF3F1D /* SheetOption.swift in Sources */,
 				1DA33241291D99E8008EA18E /* List+Extension.swift in Sources */,
 				1DABB0DC292106E40051B551 /* UIButton+Extension.swift in Sources */,

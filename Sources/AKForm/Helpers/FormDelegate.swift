@@ -42,7 +42,7 @@ public extension UITableView {
             switch field.type {
             case .text:
                 registerNib(TextFieldTableViewCell.self)
-            case .sheet:
+            case .sheet, .button:
                 registerNib(ButtonFieldTableViewCell.self)
             }
         }
@@ -71,9 +71,7 @@ public extension FormDelegate {
     
     /// Determines if the fields data are valid.
     var isDataValid: Bool {
-        guard !validationStatus.values.contains(.missing),
-              !validationStatus.values.contains(.invalid) else { return false }
-        return true
+        !validationStatus.values.contains(.missing) && !validationStatus.values.contains(.invalid)
     }
     
     /// Fills all nil entries of the fields data with empty space so that it gets validated during the validation process.
@@ -84,6 +82,22 @@ public extension FormDelegate {
             dataSource?.dataMap[field.id] = ""
         }
         return isDataValid
+    }
+}
+
+extension FormDelegate {
+    func validate(
+        cell: FieldTableViewCellProtocol?,
+        for contentType: Field.ContentType,
+        data: String?
+    ) {
+        switch contentType {
+        case .confirmPassword(let passwordFieldId, _):
+            let passwordData = dataSource?.dataMap[passwordFieldId] as? String
+            cell?.validateConfirmPassword(data, passwordData: passwordData)
+        default:
+            cell?.validate(data: data)
+        }
     }
 }
 
@@ -113,14 +127,15 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             )
-        case .sheet:
+        case .sheet, .button:
             cell ?= tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
             let fieldCell = cell as? ButtonFieldTableViewCell
             let sheetField = field as? SheetField
+            let buttonField = field as? ButtonField
             fieldCell?.configure(
                 field: field,
                 fieldText: data ?? "",
-                buttonActionHandler: {
+                buttonActionHandler: buttonField?.actionHandler ?? {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
                     vc.selectedOption = data != nil ? SheetOption(title: data!) : nil
@@ -136,14 +151,7 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                 }
             )
         }
-        let fieldCell = cell as? FieldTableViewCellProtocol
-        switch field.contentType {
-        case .confirmPassword(let passwordFieldId, _):
-            let passwordData = dataSource?.dataMap[passwordFieldId] as? String
-            fieldCell?.validateConfirmPassword(data, passwordData: passwordData)
-        default:
-            fieldCell?.validate(data: data)
-        }
+        validate(cell: cell as? FieldTableViewCellProtocol, for: field.contentType, data: data)
         return cell
     }
 

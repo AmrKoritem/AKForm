@@ -18,6 +18,7 @@ public enum FieldCount: Int {
 public enum FieldType {
     case text
     case sheet
+    case button
     // TODO: - other field types
 //    case dropDown
 //    case filePicker

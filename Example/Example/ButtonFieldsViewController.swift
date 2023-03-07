@@ -49,6 +49,14 @@ class ButtonFieldsViewController: AKFormViewController {
                 ),
                 optionStyle: OptionStyle(separatorStyle: SeparatorStyle(thickness: 0)),
                 options: ["Cairo", "Alexandria"].compactMap { SheetOption(title: $0) }
+            ),
+            ButtonField(
+                id: 2,
+                contentType: .name,
+                texts: Field.Texts(label: "Just Button", placeholder: "Button placeholder"),
+                actionHandler: {
+                    print("AKForm is the best!")
+                }
             )
         ]
     }
