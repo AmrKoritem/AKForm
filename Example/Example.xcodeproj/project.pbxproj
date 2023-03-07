@@ -18,6 +18,10 @@
 		1D4EE5D428EB63C600EC3885 /* Routing+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EE5D028EB63C600EC3885 /* Routing+Extension.swift */; };
 		1D4EE5D628EB63C600EC3885 /* ButtonFieldsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EE5D228EB63C600EC3885 /* ButtonFieldsViewController.swift */; };
 		1D4EE5D728EB63C600EC3885 /* TextFieldsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4EE5D328EB63C600EC3885 /* TextFieldsViewController.swift */; };
+		1D8A5B6B29B75D690056A8A9 /* CustomFieldsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A5B6A29B75D690056A8A9 /* CustomFieldsViewController.swift */; };
+		1D8A5B6E29B760430056A8A9 /* SelectValueTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D8A5B6C29B760430056A8A9 /* SelectValueTableViewCell.xib */; };
+		1D8A5B6F29B760430056A8A9 /* SelectValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A5B6D29B760430056A8A9 /* SelectValueTableViewCell.swift */; };
+		1D8A5B7129B764850056A8A9 /* TitleSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A5B7029B764850056A8A9 /* TitleSubtitleTableViewCell.swift */; };
 		1D9429412956E2AB00744759 /* FormFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D94293F2956E2AA00744759 /* FormFooter.swift */; };
 		1D9429422956E2AB00744759 /* FormHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9429402956E2AA00744759 /* FormHeader.swift */; };
 		1DE23617297896830040B2D0 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE23616297896830040B2D0 /* VerificationViewController.swift */; };
@@ -61,6 +65,10 @@
 		1D4EE5D028EB63C600EC3885 /* Routing+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Routing+Extension.swift"; sourceTree = "<group>"; };
 		1D4EE5D228EB63C600EC3885 /* ButtonFieldsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonFieldsViewController.swift; sourceTree = "<group>"; };
 		1D4EE5D328EB63C600EC3885 /* TextFieldsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldsViewController.swift; sourceTree = "<group>"; };
+		1D8A5B6A29B75D690056A8A9 /* CustomFieldsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFieldsViewController.swift; sourceTree = "<group>"; };
+		1D8A5B6C29B760430056A8A9 /* SelectValueTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectValueTableViewCell.xib; sourceTree = "<group>"; };
+		1D8A5B6D29B760430056A8A9 /* SelectValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectValueTableViewCell.swift; sourceTree = "<group>"; };
+		1D8A5B7029B764850056A8A9 /* TitleSubtitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSubtitleTableViewCell.swift; sourceTree = "<group>"; };
 		1D94293F2956E2AA00744759 /* FormFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormFooter.swift; sourceTree = "<group>"; };
 		1D9429402956E2AA00744759 /* FormHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormHeader.swift; sourceTree = "<group>"; };
 		1DE23616297896830040B2D0 /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +138,7 @@
 				1D43ECBD28EA8048000259A3 /* SupportFiles */,
 				1D4EE5D328EB63C600EC3885 /* TextFieldsViewController.swift */,
 				1D4EE5D228EB63C600EC3885 /* ButtonFieldsViewController.swift */,
+				1D8A5B6A29B75D690056A8A9 /* CustomFieldsViewController.swift */,
 				1DE23616297896830040B2D0 /* VerificationViewController.swift */,
 				1D43EC9328EA7FF4000259A3 /* Main.storyboard */,
 				1D43EC9628EA7FF8000259A3 /* Assets.xcassets */,
@@ -168,6 +177,9 @@
 		1D5DAF1329590EFD00118A75 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1D8A5B7029B764850056A8A9 /* TitleSubtitleTableViewCell.swift */,
+				1D8A5B6D29B760430056A8A9 /* SelectValueTableViewCell.swift */,
+				1D8A5B6C29B760430056A8A9 /* SelectValueTableViewCell.xib */,
 				1D94293F2956E2AA00744759 /* FormFooter.swift */,
 				1D9429402956E2AA00744759 /* FormHeader.swift */,
 				1D4EE5D028EB63C600EC3885 /* Routing+Extension.swift */,
@@ -308,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D43EC9A28EA7FF9000259A3 /* LaunchScreen.storyboard in Resources */,
+				1D8A5B6E29B760430056A8A9 /* SelectValueTableViewCell.xib in Resources */,
 				1D43EC9728EA7FF8000259A3 /* Assets.xcassets in Resources */,
 				1D43EC9528EA7FF4000259A3 /* Main.storyboard in Resources */,
 			);
@@ -445,6 +458,9 @@
 				1DE23617297896830040B2D0 /* VerificationViewController.swift in Sources */,
 				1D4EE5D728EB63C600EC3885 /* TextFieldsViewController.swift in Sources */,
 				1D4EE5D628EB63C600EC3885 /* ButtonFieldsViewController.swift in Sources */,
+				1D8A5B6B29B75D690056A8A9 /* CustomFieldsViewController.swift in Sources */,
+				1D8A5B7129B764850056A8A9 /* TitleSubtitleTableViewCell.swift in Sources */,
+				1D8A5B6F29B760430056A8A9 /* SelectValueTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
