@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 07/03/2023.
 //
 
-import UIKit
+import Foundation
 
 /// `ButtonField` properties wrapper.
 /// Use this class when you want a field that contains a cell wide button.

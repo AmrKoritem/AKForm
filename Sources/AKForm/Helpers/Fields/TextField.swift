@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 13/11/2022.
 //
 
-import UIKit
+import Foundation
 
 /// `TextField` properties wrapper.
 /// Use this class when you want a text field cell.

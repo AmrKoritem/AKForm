@@ -44,6 +44,9 @@ public extension UITableView {
                 registerNib(TextFieldTableViewCell.self)
             case .sheet, .button:
                 registerNib(ButtonFieldTableViewCell.self)
+            case .custom:
+                let cField = field as? CustomField
+                cField?.delegate?.register(to: self)
             }
         }
     }
@@ -150,9 +153,44 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
+        case .custom:
+            let cField = field as? CustomField
+            cell ?= cField?.delegate?.cellView(of: tableView, atIndexPath: indexPath, withId: field.id)
         }
-        validate(cell: cell as? FieldTableViewCellProtocol, for: field.contentType, data: data)
+        if let cell = cell as? FieldTableViewCellProtocol {
+            validate(cell: cell, for: field.contentType, data: data)
+        }
         return cell
+    }
+
+    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableView.automaticDimension }
+        switch field.type {
+        case .custom:
+            let cField = field as? CustomField
+            return cField?.delegate?.cellEstimatedHeight(
+                of: tableView,
+                atIndexPath: indexPath,
+                withId: field.id
+            ) ?? UITableView.automaticDimension
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableView.automaticDimension }
+        switch field.type {
+        case .custom:
+            let cField = field as? CustomField
+            return cField?.delegate?.cellHeight(
+                of: tableView,
+                atIndexPath: indexPath,
+                withId: field.id
+            ) ?? UITableView.automaticDimension
+        default:
+            return UITableView.automaticDimension
+        }
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

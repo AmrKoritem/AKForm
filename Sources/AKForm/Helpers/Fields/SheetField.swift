@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 13/11/2022.
 //
 
-import UIKit
+import Foundation
 
 /// `SheetField` properties wrapper.
 /// Use this class when you want a field which presents a new screen with options to choose from.
