@@ -42,8 +42,11 @@ public extension UITableView {
             switch field.type {
             case .text:
                 registerNib(TextFieldTableViewCell.self)
-            case .sheet:
+            case .sheet, .button:
                 registerNib(ButtonFieldTableViewCell.self)
+            case .custom:
+                let cField = field as? CustomField
+                cField?.delegate?.register(to: self)
             }
         }
     }
@@ -71,9 +74,7 @@ public extension FormDelegate {
     
     /// Determines if the fields data are valid.
     var isDataValid: Bool {
-        guard !validationStatus.values.contains(.missing),
-              !validationStatus.values.contains(.invalid) else { return false }
-        return true
+        !validationStatus.values.contains(.missing) && !validationStatus.values.contains(.invalid)
     }
     
     /// Fills all nil entries of the fields data with empty space so that it gets validated during the validation process.
@@ -84,6 +85,22 @@ public extension FormDelegate {
             dataSource?.dataMap[field.id] = ""
         }
         return isDataValid
+    }
+}
+
+extension FormDelegate {
+    func validate(
+        cell: FieldTableViewCellProtocol?,
+        for contentType: Field.ContentType,
+        data: String?
+    ) {
+        switch contentType {
+        case .confirmPassword(let passwordFieldId, _):
+            let passwordData = dataSource?.dataMap[passwordFieldId] as? String
+            cell?.validateConfirmPassword(data, passwordData: passwordData)
+        default:
+            cell?.validate(data: data)
+        }
     }
 }
 
@@ -113,14 +130,15 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             )
-        case .sheet:
+        case .sheet, .button:
             cell ?= tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
             let fieldCell = cell as? ButtonFieldTableViewCell
             let sheetField = field as? SheetField
+            let buttonField = field as? ButtonField
             fieldCell?.configure(
                 field: field,
                 fieldText: data ?? "",
-                buttonActionHandler: {
+                buttonActionHandler: buttonField?.actionHandler ?? {
                     let vc = SheetViewController()
                     vc.sheetField = sheetField
                     vc.selectedOption = data != nil ? SheetOption(title: data!) : nil
@@ -135,16 +153,44 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
                     UIApplication.topViewController()?.present(vc, animated: true)
                 }
             )
+        case .custom:
+            let cField = field as? CustomField
+            cell ?= cField?.delegate?.cellView(of: tableView, atIndexPath: indexPath, withId: field.id)
         }
-        let fieldCell = cell as? FieldTableViewCellProtocol
-        switch field.contentType {
-        case .confirmPassword(let passwordFieldId, _):
-            let passwordData = dataSource?.dataMap[passwordFieldId] as? String
-            fieldCell?.validateConfirmPassword(data, passwordData: passwordData)
-        default:
-            fieldCell?.validate(data: data)
+        if let cell = cell as? FieldTableViewCellProtocol {
+            validate(cell: cell, for: field.contentType, data: data)
         }
         return cell
+    }
+
+    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableView.automaticDimension }
+        switch field.type {
+        case .custom:
+            let cField = field as? CustomField
+            return cField?.delegate?.cellEstimatedHeight(
+                of: tableView,
+                atIndexPath: indexPath,
+                withId: field.id
+            ) ?? UITableView.automaticDimension
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableView.automaticDimension }
+        switch field.type {
+        case .custom:
+            let cField = field as? CustomField
+            return cField?.delegate?.cellHeight(
+                of: tableView,
+                atIndexPath: indexPath,
+                withId: field.id
+            ) ?? UITableView.automaticDimension
+        default:
+            return UITableView.automaticDimension
+        }
     }
 
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

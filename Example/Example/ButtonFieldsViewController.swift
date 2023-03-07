@@ -11,26 +11,52 @@ import AKForm
 class ButtonFieldsViewController: AKFormViewController {
     override var fields: [Field] {
         [
-            makeAppSheetField(
+            SheetField(
                 id: 0,
-                contentType: Field.ContentType.name,
-                texts: (labelText: "Country", placeholderText: "Please enter your country"),
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your country",
-                    invalid: "Please enter a valid country"
+                contentType: .name,
+                texts: Field.Texts(
+                    label: "Country",
+                    placeholder: "Please enter your country",
+                    errorMessages: Field.ErrorMessages(
+                        empty: "Please enter your country",
+                        invalid: "Please enter a valid country"
+                    )
                 ),
                 mandatoryStyle: MandatoryStyle(isMandatory: true, position: .start),
-                options: ["Egypt", "Palestine"]
-            ),
-            makeAppSheetField(
-                id: 1,
-                contentType: Field.ContentType.name,
-                texts: (labelText: "Governorate", placeholderText: "Please enter your governorate"),
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your governorate",
-                    invalid: "Please enter a valid governorate"
+                sheetStyle: SheetStyle(
+                    borderStyle: BorderStyle(color: .clear, cornerRadius: 0),
+                    heightCoefficient: 1,
+                    closeButtonStyle: .icon(image: UIImage(systemName: "xmark"), tintColor: .blue)
                 ),
-                options: ["Cairo", "Alexandria"]
+                optionStyle: OptionStyle(separatorStyle: SeparatorStyle(thickness: 0)),
+                options: ["Egypt", "Palestine"].compactMap { SheetOption(title: $0) }
+            ),
+            SheetField(
+                id: 1,
+                contentType: .name,
+                texts: Field.Texts(
+                    label: "Governorate",
+                    placeholder: "Please enter your governorate",
+                    errorMessages: Field.ErrorMessages(
+                        empty: "Please enter your governorate",
+                        invalid: "Please enter a valid governorate"
+                    )
+                ),
+                sheetStyle: SheetStyle(
+                    borderStyle: BorderStyle(color: .clear, cornerRadius: 0),
+                    heightCoefficient: 1,
+                    closeButtonStyle: .icon(image: UIImage(systemName: "xmark"), tintColor: .blue)
+                ),
+                optionStyle: OptionStyle(separatorStyle: SeparatorStyle(thickness: 0)),
+                options: ["Cairo", "Alexandria"].compactMap { SheetOption(title: $0) }
+            ),
+            ButtonField(
+                id: 2,
+                contentType: .name,
+                texts: Field.Texts(label: "Just Button", placeholder: "Button placeholder"),
+                actionHandler: {
+                    print("AKForm is the best!")
+                }
             )
         ]
     }

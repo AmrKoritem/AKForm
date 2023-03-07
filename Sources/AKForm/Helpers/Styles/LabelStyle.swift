@@ -14,7 +14,11 @@ public struct LabelStyle {
     /// Initializer for `LabelStyle`.
     /// - Parameter attributes: Label text ui attributes.
     public init(attributes: [NSAttributedString.Key: Any]) {
-        self.attributes = attributes
+        self.attributes = attributes.isEmpty ? StringAttributes.from(
+            color: Default.Colors.label,
+            font: Default.Fonts.label,
+            textAlignment: .natural
+        ) : attributes
     }
     
     /// Initializer for `LabelStyle`.

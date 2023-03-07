@@ -38,6 +38,7 @@ public extension UITextField {
     /// Set text field attributes using a text and a `FieldStyle` object.
     func setStyle(with text: String?, andStyle fieldStyle: FieldStyle) {
         attributedText = NSAttributedString(string: text ?? "", attributes: fieldStyle.textAttributes)
+        textColor = fieldStyle.textAttributes[.foregroundColor] as? UIColor
         backgroundColor = fieldStyle.backgroundColor
         textAlignment = fieldStyle.textAttributes.textAlignment ?? .natural
         stroked(with: fieldStyle.borderStyle)

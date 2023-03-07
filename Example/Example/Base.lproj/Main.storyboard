@@ -59,11 +59,12 @@
                     <connections>
                         <segue destination="cWT-io-Jhd" kind="relationship" relationship="viewControllers" id="r1u-M9-FSI"/>
                         <segue destination="eNd-YZ-Txi" kind="relationship" relationship="viewControllers" id="JUg-PX-lqA"/>
+                        <segue destination="T6s-Lb-6QF" kind="relationship" relationship="viewControllers" id="uoW-rH-MhW"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pzx-c3-55K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-28" y="542"/>
+            <point key="canvasLocation" x="-207" y="1002"/>
         </scene>
         <!--Button Fields-->
         <scene sceneID="D1B-Qu-dgB">
@@ -83,9 +84,26 @@
             </objects>
             <point key="canvasLocation" x="887" y="1002"/>
         </scene>
+        <!--Custom-->
+        <scene sceneID="BqC-0t-xDR">
+            <objects>
+                <viewController id="T6s-Lb-6QF" customClass="CustomFieldsViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Bf9-Ir-5B0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="93T-RL-zWY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Custom" image="cursorarrow.click" catalog="system" id="IZK-8o-NZd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SY1-md-Iz9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="887" y="1886"/>
+        </scene>
     </scenes>
     <resources>
         <image name="arrowshape.zigzag.forward.fill" catalog="system" width="128" height="93"/>
+        <image name="cursorarrow.click" catalog="system" width="128" height="124"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

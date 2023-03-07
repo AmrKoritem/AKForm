@@ -1,20 +1,18 @@
 //
-//  SheetField.swift
+//  ButtonField.swift
 //  AKForm
 //
-//  Created by Amr Koritem on 13/11/2022.
+//  Created by Amr Koritem on 07/03/2023.
 //
 
 import Foundation
 
-/// `SheetField` properties wrapper.
-/// Use this class when you want a field which presents a new screen with options to choose from.
-public class SheetField: Field {
-    let sheetStyle: SheetStyle
-    let optionStyle: OptionStyle
-    let options: [SheetOption]
+/// `ButtonField` properties wrapper.
+/// Use this class when you want a field that contains a cell wide button.
+public class ButtonField: Field {
+    let actionHandler: () -> Void
 
-    /// Initializer for `SheetField`.
+    /// Initializer for `ButtonField`.
     /// - Parameters:
     ///   - id: Determines the id of the field.
     ///   - count: Determines if the cell will have single or double fields.
@@ -25,9 +23,7 @@ public class SheetField: Field {
     ///   - mandatoryStyle: Determines if the field is mandatory as well as the style used to show the mandatory status of the field.
     ///   - firstResponderStyle: Styles to be used when the field content is being changed.
     ///   - validationHandler: Custom validation handler for the field data.
-    ///   - sheetStyle: Style for the sheet that will be shown when the field is selected.
-    ///   - optionStyle: Style for the option cell in the sheet.
-    ///   - options: List of all the options shown in the sheet.
+    ///   - actionHandler: Custom button action.
     public init(
         id: Int,
         count: FieldCount = .uni,
@@ -38,13 +34,9 @@ public class SheetField: Field {
         mandatoryStyle: MandatoryStyle = MandatoryStyle(),
         firstResponderStyle: FirstResponderStyle? = Default.firstResponderStyle,
         validationHandler: ValidationHandler? = nil,
-        sheetStyle: SheetStyle = SheetStyle(),
-        optionStyle: OptionStyle = OptionStyle(),
-        options: [SheetOption]
+        actionHandler: @escaping () -> Void
     ) {
-        self.sheetStyle = sheetStyle
-        self.optionStyle = optionStyle
-        self.options = options
+        self.actionHandler = actionHandler
         super.init(
             id: id,
             count: count,

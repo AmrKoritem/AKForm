@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 10/11/2022.
 //
 
-import UIKit
+import Foundation
 
 /// Supported field count.
 public enum FieldCount: Int {
@@ -18,6 +18,8 @@ public enum FieldCount: Int {
 public enum FieldType {
     case text
     case sheet
+    case button
+    case custom
     // TODO: - other field types
 //    case dropDown
 //    case filePicker
@@ -75,14 +77,14 @@ public class Field {
     ///   - validationHandler: Field validation action handlers.
     init(
         id: Int,
-        count: FieldCount = .uni,
+        count: FieldCount,
         type: FieldType,
         contentType: ContentType,
-        labelStyle: LabelStyle,
-        fieldStyle: FieldStyle,
+        labelStyle: LabelStyle = LabelStyle(),
+        fieldStyle: FieldStyle = FieldStyle(),
         texts: Texts,
-        mandatoryStyle: MandatoryStyle,
-        firstResponderStyle: FirstResponderStyle?,
+        mandatoryStyle: MandatoryStyle = MandatoryStyle(),
+        firstResponderStyle: FirstResponderStyle? = Default.firstResponderStyle,
         validationHandler: ValidationHandler?
     ) {
         self.id = id
@@ -128,7 +130,7 @@ public class Field {
 }
 
 public extension Collection where Iterator.Element == Field {
-    /// Returns an array of elements with the specified id.
+    /// Returns the first field with the specified id.
     func first(withId id: Int) -> Element? {
         filter { $0.id == id }.first
     }

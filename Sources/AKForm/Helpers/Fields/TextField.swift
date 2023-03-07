@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 13/11/2022.
 //
 
-import UIKit
+import Foundation
 
 /// `TextField` properties wrapper.
 /// Use this class when you want a text field cell.
@@ -28,11 +28,11 @@ public class TextField: Field {
         id: Int,
         count: FieldCount = .uni,
         contentType: Field.ContentType,
-        labelStyle: LabelStyle,
-        fieldStyle: FieldStyle,
+        labelStyle: LabelStyle = LabelStyle(),
+        fieldStyle: FieldStyle = FieldStyle(),
         texts: Texts,
         mandatoryStyle: MandatoryStyle = MandatoryStyle(),
-        firstResponderStyle: FirstResponderStyle? = nil,
+        firstResponderStyle: FirstResponderStyle? = Default.firstResponderStyle,
         validationHandler: ValidationHandler? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {

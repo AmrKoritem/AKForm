@@ -14,36 +14,42 @@ class TextFieldsViewController: UIViewController, FormDataSource {
 
     var fields: [Field] {
         [
-            makeAppTextField(
+            TextField(
                 id: 0,
-                contentType: Field.ContentType.name,
-                labelText: "Name",
-                placeholderText: "Please enter your name",
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your name",
-                    invalid: "Please enter a valid name"
+                contentType: .name,
+                texts: Field.Texts(
+                    label: "Name",
+                    placeholder: "Please enter your name",
+                    errorMessages: Field.ErrorMessages(
+                        empty: "Please enter your name",
+                        invalid: "Please enter a valid name"
+                    )
                 ),
                 mandatoryStyle: MandatoryStyle(isMandatory: true, position: .start)
             ),
-            makeAppTextField(
+            TextField(
                 id: 1,
-                contentType: Field.ContentType.email,
-                labelText: "Email",
-                placeholderText: "Please enter your email",
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your email",
-                    invalid: "Please enter a valid email address"
+                contentType: .email,
+                texts: Field.Texts(
+                    label: "Email",
+                    placeholder: "Please enter your email",
+                    errorMessages: Field.ErrorMessages(
+                        empty: "Please enter your email",
+                        invalid: "Please enter a valid email address"
+                    )
                 ),
                 mandatoryStyle: MandatoryStyle(isMandatory: true, position: .end)
             ),
-            makeAppTextField(
+            TextField(
                 id: 2,
-                contentType: Field.ContentType.phone,
-                labelText: "Phone number",
-                placeholderText: "Please enter your phone number",
-                errorMessages: Field.ErrorMessages(
-                    empty: "Please enter your phone number",
-                    invalid: "Please enter a valid phone number"
+                contentType: .phone,
+                texts: Field.Texts(
+                    label: "Phone number",
+                    placeholder: "Please enter your phone number",
+                    errorMessages: Field.ErrorMessages(
+                        empty: "Please enter your phone number",
+                        invalid: "Please enter a valid phone number"
+                    )
                 ),
                 mandatoryStyle: MandatoryStyle(isMandatory: false)
             )
