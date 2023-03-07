@@ -55,18 +55,18 @@ public struct FieldStyle {
     ///   - shadowStyle: Field shadow style.
     ///   - iconStyleHandler: Field trailing and leading icons styles.
     public init(
-        textAttributes: [NSAttributedString.Key: Any]? = nil,
+        textAttributes: [NSAttributedString.Key: Any],
         placeholderAttributes: [NSAttributedString.Key: Any]? = nil,
         backgroundColor: UIColor = Default.Colors.background,
         borderStyle: BorderStyle = BorderStyle(),
         shadowStyle: ShadowStyle? = nil,
         iconStyleHandler: IconStyleHandler? = nil
     ) {
-        self.textAttributes = textAttributes ?? StringAttributes.from(
+        self.textAttributes = textAttributes.isEmpty ? StringAttributes.from(
             color: Default.Colors.field,
             font: Default.Fonts.field,
             textAlignment: .natural
-        )
+        ) : textAttributes
         self.placeholderAttributes = placeholderAttributes
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle

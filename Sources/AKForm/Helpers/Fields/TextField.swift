@@ -28,11 +28,11 @@ public class TextField: Field {
         id: Int,
         count: FieldCount = .uni,
         contentType: Field.ContentType,
-        labelStyle: LabelStyle,
-        fieldStyle: FieldStyle,
+        labelStyle: LabelStyle = LabelStyle(),
+        fieldStyle: FieldStyle = FieldStyle(),
         texts: Texts,
         mandatoryStyle: MandatoryStyle = MandatoryStyle(),
-        firstResponderStyle: FirstResponderStyle? = nil,
+        firstResponderStyle: FirstResponderStyle? = Default.firstResponderStyle,
         validationHandler: ValidationHandler? = nil,
         textFieldObserverHandlers: TextFieldObserverHandlers? = nil
     ) {

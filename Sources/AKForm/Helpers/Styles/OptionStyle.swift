@@ -48,7 +48,7 @@ public struct OptionStyle {
         subtitleTextAlignment: NSTextAlignment = .natural,
         backgroundColor: UIColor = Default.Colors.optionBackground,
         separatorStyle: SeparatorStyle = SeparatorStyle(),
-        selectionStyle: SelectionStyle = .none
+        selectionStyle: SelectionStyle = Default.optionSelectionStyle
     ) {
         self.titleColor = titleColor
         self.titleFont = titleFont

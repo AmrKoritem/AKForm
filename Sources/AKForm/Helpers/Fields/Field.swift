@@ -75,7 +75,7 @@ public class Field {
     ///   - validationHandler: Field validation action handlers.
     init(
         id: Int,
-        count: FieldCount = .uni,
+        count: FieldCount,
         type: FieldType,
         contentType: ContentType,
         labelStyle: LabelStyle,

@@ -11,6 +11,10 @@ import UIKit
 public struct Default {
     /// Determines if it's mandatory to fill all fields.
     public static var isMandatory: Bool = false
+    /// Determines the selection style of sheet options.
+    public static var optionSelectionStyle = OptionStyle.SelectionStyle.none
+    /// Determines the selection style of fields.
+    public static var firstResponderStyle: FirstResponderStyle?
 
     /// Strings.
     public struct Strings {
