@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SheetViewController: UIViewController {
+final class SheetViewController: UIViewController {
     var sheetField: SheetField? {
         didSet {
             let textFieldObserverHandlers = sheetField?.sheetStyle.textFieldStyle?.textFieldObserverHandlers
@@ -149,7 +149,7 @@ class SheetViewController: UIViewController {
     }
 
     func dismissWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(close))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }

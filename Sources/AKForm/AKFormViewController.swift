@@ -26,6 +26,13 @@ open class AKFormViewController: UIViewController, FormDataSource {
 
     public var akform = AKForm()
 
+    var quickFormDataSource: QuickFormDataSource?
+
+    public convenience init(quickDataSource: QuickFormDataSource?) {
+        self.init()
+        quickFormDataSource = quickDataSource
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         configureForm()
@@ -42,8 +49,8 @@ open class AKFormViewController: UIViewController, FormDataSource {
             akform.topAnchor.constraint(equalTo: topAnchor, constant: 0),
             akform.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
         ])
-        akform.formHeader = formHeader
-        akform.formFooter = formFooter
+        akform.formHeader = quickFormDataSource?.header ?? formHeader
+        akform.formFooter = quickFormDataSource?.footer ?? formFooter
         akform.dataSource = self
     }
 
@@ -61,15 +68,15 @@ open class AKFormViewController: UIViewController, FormDataSource {
 
     // MARK: - FormDataSource
     open var fields: [Field] {
-        []
+        quickFormDataSource?.fields ?? []
     }
 
     open var dataMap: [Int: Any] {
         get {
-            [:]
+            quickFormDataSource?.dataMap ?? [:]
         }
         set {
-            _ = newValue
+            quickFormDataSource?.dataMap = newValue
         }
     }
 
