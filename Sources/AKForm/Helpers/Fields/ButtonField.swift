@@ -62,7 +62,10 @@ public class ButtonField: Field {
         fieldCell?.configure(
             field: self,
             fieldText: dataGetter() ?? "",
-            buttonActionHandler: actionHandler
+            buttonActionHandler: { [weak self] in
+                tableView.reloadCellsOfType(ButtonFieldTableViewCell.self, except: [indexPath])
+                self?.actionHandler()
+            }
         )
         return cell ?? UITableViewCell()
     }
