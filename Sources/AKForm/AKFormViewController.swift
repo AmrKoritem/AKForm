@@ -33,6 +33,21 @@ open class AKFormViewController: UIViewController, FormDataSource {
         quickFormDataSource = quickDataSource
     }
 
+    public convenience init(
+        fields: [Field],
+        initialDataMap: [Int: Any] = [:],
+        header: UIView? = nil,
+        footer: UIView? = nil
+    ) {
+        self.init()
+        quickFormDataSource = QuickFormDataSource(
+            fields: fields,
+            initialDataMap: initialDataMap,
+            header: header,
+            footer: footer
+        )
+    }
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         configureForm()
