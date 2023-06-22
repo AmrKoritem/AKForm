@@ -9,6 +9,7 @@ target 'Example' do
 
   # Pods for Example
   pod 'AKForm', :path => '../'
+  pod 'AKHelpers', :git => 'https://github.com/AmrKoritem/AKHelpers.git', :branch => 'develop'
 
   target 'ExampleTests' do
     inherit! :search_paths

@@ -7,6 +7,7 @@
 
 import UIKit
 import AKForm
+import AKHelpers
 
 class ButtonFieldsViewController: AKFormViewController {
     override var fields: [Field] {
@@ -54,8 +55,50 @@ class ButtonFieldsViewController: AKFormViewController {
                 id: 2,
                 contentType: .name,
                 texts: Field.Texts(label: "Just Button", placeholder: "Button placeholder"),
-                actionHandler: {
-                    print("AKForm is the best!")
+                actionHandler: { [weak self] in
+                    let dataSource = QuickFormDataSource(
+                        fields: [TextField(
+                            id: 1,
+                            contentType: .email,
+                            texts: Field.Texts(
+                                label: "Email",
+                                placeholder: "Please enter your email"
+                            )
+                        )],
+                        footer: FormFooter(title: "Dismiss") { [weak self] _ in
+                            self?.dismiss(animated: true)
+                        }
+                    )
+                    let vc = AKFormViewController(quickDataSource: dataSource)
+                    vc.view.backgroundColor = .white
+                    self?.presentAsSheet(
+                        viewController: vc,
+                        height: 450
+                    )
+                }
+            ),
+            ButtonField(
+                id: 3,
+                contentType: .name,
+                texts: Field.Texts(label: "Another Button", placeholder: "Button placeholder"),
+                actionHandler: { [weak self] in
+                    let vc = AKFormViewController(
+                        fields: [TextField(
+                            id: 1,
+                            contentType: .email,
+                            texts: Field.Texts(
+                                label: "Name",
+                                placeholder: "Please enter your name"
+                            )
+                        )],
+                        footer: FormFooter(title: "Dismiss") { [weak self] _ in
+                            self?.dismiss(animated: true)
+                        })
+                    vc.view.backgroundColor = .white
+                    self?.presentAsSheet(
+                        viewController: vc,
+                        height: 450
+                    )
                 }
             )
         ]
