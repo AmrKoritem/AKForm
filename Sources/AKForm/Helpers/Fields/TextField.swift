@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 13/11/2022.
 //
 
-import Foundation
+import UIKit
 
 /// `TextField` properties wrapper.
 /// Use this class when you want a text field cell.
@@ -49,6 +49,29 @@ public class TextField: Field {
             firstResponderStyle: firstResponderStyle,
             validationHandler: validationHandler
         )
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath,
+        dataSetter: @escaping (String?) -> Void,
+        dataGetter: @escaping () -> String?
+    ) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
+        let fieldCell = cell as? TextFieldTableViewCell
+        let editingInProgressHandler = textFieldObserverHandlers?.editingInProgressHandler
+        fieldCell?.configure(
+            field: self,
+            textFieldText: dataGetter() ?? "",
+            textFieldEditingHandler: editingInProgressHandler ?? { text in
+                guard let text = text else { return }
+                dataSetter(text)
+            },
+            textFieldEditingDidEndHandler: textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        )
+        return cell ?? UITableViewCell()
     }
 }
 

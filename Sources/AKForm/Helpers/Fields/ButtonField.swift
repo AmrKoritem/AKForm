@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 07/03/2023.
 //
 
-import Foundation
+import UIKit
 
 /// `ButtonField` properties wrapper.
 /// Use this class when you want a field that contains a cell wide button.
@@ -49,5 +49,21 @@ public class ButtonField: Field {
             firstResponderStyle: firstResponderStyle,
             validationHandler: validationHandler
         )
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath,
+        dataSetter: @escaping (String?) -> Void,
+        dataGetter: @escaping () -> String?
+    ) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
+        let fieldCell = cell as? ButtonFieldTableViewCell
+        fieldCell?.configure(
+            field: self,
+            fieldText: dataGetter() ?? "",
+            buttonActionHandler: actionHandler
+        )
+        return cell ?? UITableViewCell()
     }
 }
