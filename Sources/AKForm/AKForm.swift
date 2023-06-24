@@ -28,7 +28,8 @@ public class AKForm: UIView, FormDataSource {
     }
     public lazy var formDelegate = FormDelegate(dataSource: self)
 
-    var snapshotView: UIView?
+    /// Set this property to use a different view for snapshot security than the rest of your app.
+    public var snapshotView: UIView?
 
     deinit {
         removeKeyboardObservers()
@@ -141,6 +142,10 @@ public class AKForm: UIView, FormDataSource {
     }
 
     @objc public func willResignActive(_ notification: Notification) {
+        if let snapshotView = snapshotView {
+            embed(snapshotView)
+            return
+        }
         guard let snapshotView = Default.security.snapshotView else { return }
         self.snapshotView = snapshotView.exactCopy
         embed(self.snapshotView!)
