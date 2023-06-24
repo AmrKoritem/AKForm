@@ -11,7 +11,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var textFieldView: UIView!
     @IBOutlet weak var textFieldStack: UIStackView!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textField: AKTextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
 

@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  Default.swift
 //  AKForm
 //
 //  Created by Amr Koritem on 14/11/2022.
@@ -15,6 +15,8 @@ public struct Default {
     public static var optionSelectionStyle = OptionStyle.SelectionStyle.none
     /// Determines the selection style of fields.
     public static var firstResponderStyle: FirstResponderStyle?
+    /// Use it to secure all your forms. Only AK views will be affected by the non-nil options of this property.
+    public static var security = Security()
 
     /// Strings.
     public struct Strings {
