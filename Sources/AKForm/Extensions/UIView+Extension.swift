@@ -8,6 +8,15 @@
 import UIKit
 
 extension UIView {
+    var exactCopy: UIView? {
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
+            return try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIView
+        } catch {
+            return nil
+        }
+    }
+
     /// Strokes the view with the given line width and color.
     ///  - Returns: The view.
     @discardableResult func stroked(with borderWidth: CGFloat = 1.0, color borderColor: UIColor) -> Self {

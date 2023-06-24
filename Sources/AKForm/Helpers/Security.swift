@@ -10,6 +10,7 @@ import UIKit
 /// Used to determine the wanted level of security. Security options with nil value will not be activated.
 public struct Security {
     public var pasteboard: UIPasteboard?
+    public var snapshotView: UIView?
 
     public init(pasteboard: UIPasteboard? = nil) {
         self.pasteboard = pasteboard

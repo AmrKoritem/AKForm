@@ -28,6 +28,8 @@ public class AKForm: UIView, FormDataSource {
     }
     public lazy var formDelegate = FormDelegate(dataSource: self)
 
+    var snapshotView: UIView?
+
     deinit {
         removeKeyboardObservers()
     }
@@ -62,6 +64,17 @@ public class AKForm: UIView, FormDataSource {
             selector: #selector(keyboardDidHide),
             name: UIResponder.keyboardDidHideNotification,
             object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(willResignActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
+
     }
 
     func removeKeyboardObservers() {
@@ -73,10 +86,18 @@ public class AKForm: UIView, FormDataSource {
             self,
             name: UIResponder.keyboardDidHideNotification,
             object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.willResignActiveNotification,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil)
     }
 
     func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = cancelsTouchesInView
         addGestureRecognizer(tap)
     }
@@ -117,6 +138,17 @@ public class AKForm: UIView, FormDataSource {
 
     @objc public func keyboardDidHide(_ notification: Notification) {
         form?.contentInset = .zero
+    }
+
+    @objc public func willResignActive(_ notification: Notification) {
+        guard let snapshotView = Default.security.snapshotView else { return }
+        self.snapshotView = snapshotView.exactCopy
+        embed(self.snapshotView!)
+    }
+
+    @objc public func didBecomeActive(_ notification: Notification) {
+        guard let snapshotView = snapshotView else { return }
+        snapshotView.removeFromSuperview()
     }
 
     @objc public func dismissKeyboard() {
