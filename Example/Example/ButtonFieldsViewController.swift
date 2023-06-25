@@ -115,4 +115,11 @@ class ButtonFieldsViewController: AKFormViewController {
             // Do action
         }
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let snapshotView = UIView(frame: .zero)
+        snapshotView.backgroundColor = .yellow
+        akform.snapshotView = snapshotView
+    }
 }

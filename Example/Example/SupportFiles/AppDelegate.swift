@@ -11,6 +11,10 @@ import AKForm
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let snapshotView = UIView(frame: .zero)
+        snapshotView.backgroundColor = .red
+        Default.security.pasteboard = UIPasteboard(name: UIPasteboard.Name("SecurePasteboard"), create: true)
+        Default.security.snapshotView = snapshotView
         Default.Fonts.label = .systemFont(ofSize: 16)
         Default.Colors.label = .black
         Default.Fonts.field = .systemFont(ofSize: 16)
