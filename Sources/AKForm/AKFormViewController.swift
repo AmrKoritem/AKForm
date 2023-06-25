@@ -72,13 +72,13 @@ open class AKFormViewController: UIViewController, FormDataSource {
     /// Returns a boolean that determines if the fields data are valid.
     public func validate() -> Bool {
         let isValid = akform.validate()
-        akform.form?.reloadData()
+        akform.formTableView?.reloadData()
         return isValid
     }
 
     public func reloadField(withId id: Int) {
         guard let index = fields.firstIndex(where: { $0.id == id }) else { return }
-        akform.form?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        akform.formTableView?.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
     }
 
     // MARK: - FormDataSource
