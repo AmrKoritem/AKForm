@@ -9,7 +9,7 @@ import UIKit
 
 public class AKTextField: UITextField {
     public override func copy(_ sender: Any?) {
-        guard let securePasteboard = Default.security.pasteboard, let range = selectedTextRange else {
+        guard let securePasteboard = Default.Security.pasteboard, let range = selectedTextRange else {
             super.copy(sender)
             return
         }
@@ -17,7 +17,7 @@ public class AKTextField: UITextField {
     }
 
     public override func cut(_ sender: Any?) {
-        guard let securePasteboard = Default.security.pasteboard,
+        guard let securePasteboard = Default.Security.pasteboard,
               let range = selectedTextRange,
               let position = selectedTextPosition else {
             super.cut(sender)
@@ -29,7 +29,7 @@ public class AKTextField: UITextField {
     }
 
     public override func paste(_ sender: Any?) {
-        guard let securePasteboard = Default.security.pasteboard else {
+        guard let securePasteboard = Default.Security.pasteboard else {
             super.paste(sender)
             return
         }

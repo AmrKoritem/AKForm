@@ -156,7 +156,7 @@ public class AKForm: UIView, FormDataSource {
             embed(snapshotView)
             return
         }
-        guard let snapshotView = Default.security.snapshotView else { return }
+        guard let snapshotView = Default.Security.snapshotView else { return }
         self.snapshotView = snapshotView.exactCopy
         embed(self.snapshotView!)
     }
