@@ -110,55 +110,19 @@ extension FormDelegate: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        guard let field = dataSource?.fields[safe: indexPath.row] else { return cell }
-        let data = dataSource?.dataMap[field.id] as? String
-        switch field.type {
-        case .text:
-            cell ?= tableView.dequeueReusableCell(withIdentifier: TextFieldTableViewCell.reuseIdentifier)
-            let fieldCell = cell as? TextFieldTableViewCell
-            let textField = field as? TextField
-            let editingInProgressHandler = textField?.textFieldObserverHandlers?.editingInProgressHandler
-            fieldCell?.configure(
-                field: field,
-                textFieldText: data ?? "",
-                textFieldEditingHandler: editingInProgressHandler ?? { [weak self] text in
-                    guard let text = text else { return }
-                    self?.dataSource?.dataMap[field.id] = text
-                },
-                textFieldEditingDidEndHandler: textField?.textFieldObserverHandlers?.editingDidEndHandler ?? { _ in
-                    tableView.reloadRows(at: [indexPath], with: .automatic)
-                }
-            )
-        case .sheet, .button:
-            cell ?= tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
-            let fieldCell = cell as? ButtonFieldTableViewCell
-            let sheetField = field as? SheetField
-            let buttonField = field as? ButtonField
-            fieldCell?.configure(
-                field: field,
-                fieldText: data ?? "",
-                buttonActionHandler: buttonField?.actionHandler ?? {
-                    let vc = SheetViewController()
-                    vc.sheetField = sheetField
-                    vc.selectedOption = data != nil ? SheetOption(title: data!) : nil
-                    vc.modalPresentationStyle = .overCurrentContext
-                    vc.optionSelectionHandler = { [weak self, weak tableView] option in
-                        self?.dataSource?.dataMap[field.id] = option?.title
-                        tableView?.reloadRows(at: [indexPath], with: .automatic)
-                    }
-                    vc.viewDidDisappearHandler = { [weak fieldCell] in
-                        fieldCell?.setStyles(with: field)
-                    }
-                    UIApplication.topViewController()?.present(vc, animated: true)
-                }
-            )
-        case .custom:
-            let cField = field as? CustomField
-            cell ?= cField?.delegate?.cellView(of: tableView, atIndexPath: indexPath, withId: field.id)
+        guard let field = dataSource?.fields[safe: indexPath.row] else { return UITableViewCell() }
+        let dataGetter = { [weak dataSource] in
+            return dataSource?.dataMap[field.id] as? String
         }
+        let cell = field.tableView(
+            tableView,
+            cellForRowAt: indexPath,
+            dataSetter: { [weak dataSource] data in
+                dataSource?.dataMap[field.id] = data
+            },
+            dataGetter: dataGetter)
         if let cell = cell as? FieldTableViewCellProtocol {
-            validate(cell: cell, for: field.contentType, data: data)
+            validate(cell: cell, for: field.contentType, data: dataGetter())
         }
         return cell
     }

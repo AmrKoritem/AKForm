@@ -27,6 +27,15 @@ extension UITableView {
     func registerNib<T: UITableViewCell>(_ tableViewCell: T.Type) {
         register(UINib(nibName: T.nibName, bundle: AKFormResources.resourceBundle), forCellReuseIdentifier: T.reuseIdentifier)
     }
+
+    func reloadCellsOfType<T: UITableViewCell>(_ tableViewCell: T.Type, except exceptions: [IndexPath] = []) {
+        visibleCells.forEach { cell in
+            guard let indexPath = indexPath(for: cell),
+                  !exceptions.contains(indexPath),
+                  cell is T else { return }
+            reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
 }
 
 extension UIView {

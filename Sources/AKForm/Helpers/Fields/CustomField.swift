@@ -43,4 +43,13 @@ public class CustomField: Field {
             validationHandler: nil
         )
     }
+
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath,
+        dataSetter: @escaping (String?) -> Void,
+        dataGetter: @escaping () -> String?
+    ) -> UITableViewCell {
+        return delegate?.cellView(of: tableView, atIndexPath: indexPath, withId: id) ?? UITableViewCell()
+    }
 }

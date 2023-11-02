@@ -9,10 +9,10 @@ AKForm is a form generator for swift projects.<br>
 
 ## Installation
 
-Currently, you can only install AKForm using [swift package manager](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app) as well.
+As the library is still under development, you can only install AKForm using [swift package manager](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 ```swift
 dependencies: [
-    .package(url: "https://github.com/AmrKoritem/AKForm.git", .upToNextMajor(from: "0.6.0"))
+    .package(url: "https://github.com/AmrKoritem/AKForm.git", .upToNextMajor(from: "0.7.0"))
 ]
 ```
 

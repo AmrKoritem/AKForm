@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 10/11/2022.
 //
 
-import Foundation
+import UIKit
 
 /// Supported field count.
 public enum FieldCount: Int {
@@ -97,6 +97,15 @@ public class Field {
         self.mandatoryStyle = mandatoryStyle
         self.firstResponderStyle = firstResponderStyle
         self.validationHandler = validationHandler
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath,
+        dataSetter: @escaping (String?) -> Void,
+        dataGetter: @escaping () -> String?
+    ) -> UITableViewCell {
+        return UITableViewCell()
     }
     
     /// Determines the validation status of the field considering its mandatory status.

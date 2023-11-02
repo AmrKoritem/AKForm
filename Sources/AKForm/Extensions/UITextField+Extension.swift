@@ -8,6 +8,13 @@
 import UIKit
 
 public extension UITextField {
+    var selectedTextPosition: Range<String.Index>? {
+        guard let text = text, let range = selectedTextRange else { return nil }
+        let startIndex = offset(from: beginningOfDocument, to: range.start)
+        let endIndex = offset(from: beginningOfDocument, to: range.end)
+        return Range(NSRange(location: startIndex, length: endIndex - startIndex), in: text)
+    }
+
     var leftPadding: CGFloat {
         get {
             leftView?.frame.size.width ?? 0

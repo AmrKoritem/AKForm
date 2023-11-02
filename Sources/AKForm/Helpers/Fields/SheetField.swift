@@ -5,7 +5,7 @@
 //  Created by Amr Koritem on 13/11/2022.
 //
 
-import Foundation
+import UIKit
 
 /// `SheetField` properties wrapper.
 /// Use this class when you want a field which presents a new screen with options to choose from.
@@ -57,5 +57,35 @@ public class SheetField: Field {
             firstResponderStyle: firstResponderStyle,
             validationHandler: validationHandler
         )
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath,
+        dataSetter: @escaping (String?) -> Void,
+        dataGetter: @escaping () -> String?
+    ) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ButtonFieldTableViewCell.reuseIdentifier)
+        let fieldCell = cell as? ButtonFieldTableViewCell
+        fieldCell?.configure(
+            field: self,
+            fieldText: dataGetter() ?? "",
+            buttonActionHandler: { [weak self] in
+                let vc = SheetViewController()
+                vc.sheetField = self
+                vc.selectedOption = dataGetter() != nil ? SheetOption(title: dataGetter()!) : nil
+                vc.modalPresentationStyle = .overCurrentContext
+                vc.optionSelectionHandler = { [weak tableView] option in
+                    dataSetter(option?.title)
+                    tableView?.reloadRows(at: [indexPath], with: .automatic)
+                }
+                vc.viewDidDisappearHandler = { [weak fieldCell, weak self] in
+                    guard let self = self else { return }
+                    fieldCell?.setStyles(with: self)
+                }
+                UIApplication.topViewController()?.present(vc, animated: true)
+            }
+        )
+        return cell ?? UITableViewCell()
     }
 }

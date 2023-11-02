@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D1F2E0F2A470F79008FC2E8 /* AKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1F2E0E2A470F79008FC2E8 /* AKTextField.swift */; };
+		1D231EAD29C7AD42003F10BF /* QuickFormDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D231EAC29C7AD42003F10BF /* QuickFormDataSource.swift */; };
 		1D4567C0297604DA005BF1CF /* AKVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4567BF297604DA005BF1CF /* AKVerificationViewController.swift */; };
 		1D79C067291D91E200FBEF78 /* AKForm.docc in Sources */ = {isa = PBXBuildFile; fileRef = 1D79C066291D91E200FBEF78 /* AKForm.docc */; };
 		1D79C06D291D91E300FBEF78 /* AKForm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D79C062291D91E200FBEF78 /* AKForm.framework */; };
@@ -44,7 +46,7 @@
 		1DABB0E429215C890051B551 /* OptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E229215C890051B551 /* OptionTableViewCell.swift */; };
 		1DABB0E529215C890051B551 /* OptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DABB0E329215C890051B551 /* OptionTableViewCell.xib */; };
 		1DABB0E729217AA60051B551 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E629217AA60051B551 /* UIView+Extension.swift */; };
-		1DABB0E92921F7C70051B551 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E82921F7C70051B551 /* Constants.swift */; };
+		1DABB0E92921F7C70051B551 /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0E82921F7C70051B551 /* Default.swift */; };
 		1DABB0FA29262E6C0051B551 /* MandatoryStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */; };
 		1DF77DCC2927C81C00FF3F1D /* SheetStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF77DCB2927C81C00FF3F1D /* SheetStyle.swift */; };
 		1DF77DCE29288C7B00FF3F1D /* IconStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF77DCD29288C7B00FF3F1D /* IconStyle.swift */; };
@@ -68,6 +70,8 @@
 /* Begin PBXFileReference section */
 		113495FC36A3DE6CF80DBF0C /* Pods_AKForm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AKForm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1693CA11E1DDE18DDE1E5076 /* Pods_AKForm_AKFormTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AKForm_AKFormTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D1F2E0E2A470F79008FC2E8 /* AKTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKTextField.swift; sourceTree = "<group>"; };
+		1D231EAC29C7AD42003F10BF /* QuickFormDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickFormDataSource.swift; sourceTree = "<group>"; };
 		1D4567BF297604DA005BF1CF /* AKVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKVerificationViewController.swift; sourceTree = "<group>"; };
 		1D79C062291D91E200FBEF78 /* AKForm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AKForm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D79C065291D91E200FBEF78 /* AKForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AKForm.h; sourceTree = "<group>"; };
@@ -106,7 +110,7 @@
 		1DABB0E229215C890051B551 /* OptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionTableViewCell.swift; sourceTree = "<group>"; };
 		1DABB0E329215C890051B551 /* OptionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OptionTableViewCell.xib; sourceTree = "<group>"; };
 		1DABB0E629217AA60051B551 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		1DABB0E82921F7C70051B551 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1DABB0E82921F7C70051B551 /* Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
 		1DABB0F929262E6C0051B551 /* MandatoryStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandatoryStyle.swift; sourceTree = "<group>"; };
 		1DF77DCB2927C81C00FF3F1D /* SheetStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStyle.swift; sourceTree = "<group>"; };
 		1DF77DCD29288C7B00FF3F1D /* IconStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconStyle.swift; sourceTree = "<group>"; };
@@ -202,8 +206,9 @@
 		1DA33234291D99E7008EA18E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				1DABB0E82921F7C70051B551 /* Constants.swift */,
+				1DABB0E82921F7C70051B551 /* Default.swift */,
 				1DA33235291D99E7008EA18E /* FormDelegate.swift */,
+				1D231EAC29C7AD42003F10BF /* QuickFormDataSource.swift */,
 				1DABB0C52920B1710051B551 /* FieldErrorMessages.swift */,
 				1DABB0C72920B1E40051B551 /* FieldContentType.swift */,
 				1DABB0CA2920B5640051B551 /* FieldTableViewCellProtocol.swift */,
@@ -243,6 +248,7 @@
 		1DA3324E291ED184008EA18E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D1F2E0E2A470F79008FC2E8 /* AKTextField.swift */,
 				1DABB0DD29210C290051B551 /* SheetViewController.swift */,
 				1DABB0E129215C680051B551 /* OptionTableViewCell */,
 				1DABB0D62920ECEB0051B551 /* ButtonFieldTableViewCell */,
@@ -487,7 +493,8 @@
 				1DABB0C62920B1710051B551 /* FieldErrorMessages.swift in Sources */,
 				1DABB0CF2920C20D0051B551 /* SheetField.swift in Sources */,
 				1DA3324C291ECCA6008EA18E /* UI+Extension.swift in Sources */,
-				1DABB0E92921F7C70051B551 /* Constants.swift in Sources */,
+				1D1F2E0F2A470F79008FC2E8 /* AKTextField.swift in Sources */,
+				1DABB0E92921F7C70051B551 /* Default.swift in Sources */,
 				1DF77DDB292C4A8500FF3F1D /* AKFormViewController.swift in Sources */,
 				1D4567C0297604DA005BF1CF /* AKVerificationViewController.swift in Sources */,
 				1DABB0D12920C5130051B551 /* BorderStyle.swift in Sources */,
@@ -512,6 +519,7 @@
 				1D8A5B6929B751FA0056A8A9 /* CustomField.swift in Sources */,
 				1D8A5B6729B71CA40056A8A9 /* ButtonField.swift in Sources */,
 				1DF77DDD292C4CDD00FF3F1D /* SheetOption.swift in Sources */,
+				1D231EAD29C7AD42003F10BF /* QuickFormDataSource.swift in Sources */,
 				1DA33241291D99E8008EA18E /* List+Extension.swift in Sources */,
 				1DABB0DC292106E40051B551 /* UIButton+Extension.swift in Sources */,
 				1DABB0E029210F970051B551 /* UIApplication+Extension.swift in Sources */,
