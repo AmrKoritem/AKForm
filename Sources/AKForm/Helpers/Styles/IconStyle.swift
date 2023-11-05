@@ -20,7 +20,7 @@ public struct IconStyle {
     ///   - action: Icon tap action.
     public init(
         icon: (image: UIImage, tint: UIColor?),
-        marginToEdge: CGFloat = Default.Dimensions.fieldIconEdgeMargin,
+        marginToEdge: CGFloat = Default.Dimensions.iconToEdge,
         action: (target: Any?, selector: Selector)? = nil
     ) {
         self.icon = icon

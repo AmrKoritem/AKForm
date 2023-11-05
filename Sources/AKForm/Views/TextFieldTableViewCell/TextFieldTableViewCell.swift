@@ -44,7 +44,7 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     ) {
         self.field = field
         textField.text = textFieldText
-        textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
+        textField.setHorizontalPadding(to: field.fieldStyle.placeholderLeading)
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler

@@ -93,7 +93,7 @@ final class SheetViewController: UIViewController {
         let textFieldHeight: CGFloat = 50
         guard let textFieldStyle = sheetField?.sheetStyle.textFieldStyle else { return nil }
         let textField = UITextField(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: textFieldHeight)))
-        textField.setHorizontalPadding(to: Default.Dimensions.horizontalPadding)
+        textField.setHorizontalPadding(to: 8)
         textField.setStyle(with: textFieldStyle)
         textField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingChanged)
         textField.addTarget(self, action: #selector(textFieldChangeDidEnd(_:)), for: .editingDidEnd)

@@ -16,6 +16,7 @@ public struct FieldStyle {
     let placeholderAttributes: [NSAttributedString.Key: Any]?
     let borderStyle: BorderStyle
     let shadowStyle: ShadowStyle?
+    let placeholderLeading: CGFloat
     let iconStyleHandler: IconStyleHandler?
     
     /// Initializer for `FieldStyle`.
@@ -36,6 +37,7 @@ public struct FieldStyle {
         backgroundColor: UIColor = Default.Colors.background,
         borderStyle: BorderStyle = BorderStyle(),
         shadowStyle: ShadowStyle? = nil,
+        placeholderLeading: CGFloat = Default.Dimensions.placeholderLeading,
         iconStyleHandler: IconStyleHandler? = nil
     ) {
         textAttributes = StringAttributes.from(color: textColor, font: font, textAlignment: textAlignment)
@@ -43,6 +45,7 @@ public struct FieldStyle {
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
         self.shadowStyle = shadowStyle
+        self.placeholderLeading = placeholderLeading
         self.iconStyleHandler = iconStyleHandler
     }
     
@@ -60,6 +63,7 @@ public struct FieldStyle {
         backgroundColor: UIColor = Default.Colors.background,
         borderStyle: BorderStyle = BorderStyle(),
         shadowStyle: ShadowStyle? = nil,
+        placeholderLeading: CGFloat = Default.Dimensions.placeholderLeading,
         iconStyleHandler: IconStyleHandler? = nil
     ) {
         self.textAttributes = textAttributes.isEmpty ? StringAttributes.from(
@@ -71,6 +75,7 @@ public struct FieldStyle {
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
         self.shadowStyle = shadowStyle
+        self.placeholderLeading = placeholderLeading
         self.iconStyleHandler = iconStyleHandler
     }
 }

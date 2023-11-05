@@ -46,8 +46,8 @@ public struct MandatoryStyle {
     public init(
         isMandatory: Bool = Default.isMandatory,
         symbol: String = Default.Strings.mandatorySymbol,
-        color: UIColor = Default.Colors.mandatory,
-        font: UIFont = Default.Fonts.mandatory,
+        color: UIColor = Default.Colors.mandatorySymbol,
+        font: UIFont = Default.Fonts.mandatorySymbol,
         position: SymbolPosition = .end
     ) {
         self.isMandatory = isMandatory

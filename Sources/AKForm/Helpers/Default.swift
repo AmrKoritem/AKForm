@@ -49,7 +49,7 @@ public struct Default {
         /// system 14
         public static var optionSubtitle: UIFont = .systemFont(ofSize: 14)
         /// system 18
-        public static var mandatory: UIFont = .systemFont(ofSize: 18)
+        public static var mandatorySymbol: UIFont = .systemFont(ofSize: 18)
     }
 
     /// Dimensions.
@@ -68,10 +68,10 @@ public struct Default {
         public static var separatorThickness: CGFloat = 1
         /// CGFloat: 1.0
         public static var separatorEndInset: CGFloat = 1
-        /// CGFloat: 8.0
-        public static var horizontalPadding: CGFloat = 8
-        /// CGFloat: 18.0
-        public static var fieldIconEdgeMargin: CGFloat = 18
+        /// Distance between the placeholder and its leading component (can be icon or edge of the field view). This property applies to the field text as well.
+        public static var placeholderLeading: CGFloat = 8
+        /// Horizontal space between the field icon and the edge of the field view. This property has no effect if the field doesn't have an icon.
+        public static var iconToEdge: CGFloat = 18
     }
 
     /// Colors.
@@ -103,6 +103,6 @@ public struct Default {
         /// light gray
         public static var separator: UIColor = .lightGray
         /// orangy red -> rgb(235, 87, 87)
-        public static var mandatory: UIColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
+        public static var mandatorySymbol: UIColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
     }
 }
