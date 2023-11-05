@@ -11,7 +11,9 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var fieldLabel: UILabel!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var labelToFieldVerticalConstraint: NSLayoutConstraint!
     @IBOutlet weak var fieldHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fieldToErrorLabelVerticalConstraint: NSLayoutConstraint!
 
     var field: Field?
     var buttonText: String?
@@ -31,10 +33,16 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     ) {
         self.field = field
         buttonText = fieldText
-        button.titleEdgeInsets.left = field.fieldStyle.placeholderLeading
-        button.titleEdgeInsets.right = field.fieldStyle.placeholderLeading
+        setDimenions()
         clearFieldUI()
         self.buttonActionHandler = buttonActionHandler
+    }
+    
+    func setDimenions() {
+        guard let field = field else { return }
+        button.titleEdgeInsets.left = field.fieldStyle.dimensions.placeholderLeading
+        button.titleEdgeInsets.right = field.fieldStyle.dimensions.placeholderLeading
+        labelToFieldVerticalConstraint.constant = field.fieldStyle.dimensions.labelToField
     }
 
     func setPlaceholder(

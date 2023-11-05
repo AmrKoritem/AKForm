@@ -13,7 +13,9 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     @IBOutlet weak var textFieldStack: UIStackView!
     @IBOutlet weak var textField: AKTextField!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var labelToFieldVerticalConstraint: NSLayoutConstraint!
     @IBOutlet weak var textFieldHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fieldToErrorLabelVerticalConstraint: NSLayoutConstraint!
 
     var field: Field?
     var leadingIconView: UIView?
@@ -44,11 +46,17 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     ) {
         self.field = field
         textField.text = textFieldText
-        textField.setHorizontalPadding(to: field.fieldStyle.placeholderLeading)
+        setDimenions()
         clearFieldUI()
         textField.setTypingAttributes(with: field.contentType)
         self.textFieldEditingHandler = textFieldEditingHandler
         self.textFieldEditingDidEndHandler = textFieldEditingDidEndHandler
+    }
+    
+    func setDimenions() {
+        guard let field = field else { return }
+        textField.setHorizontalPadding(to: field.fieldStyle.dimensions.placeholderLeading)
+        labelToFieldVerticalConstraint.constant = field.fieldStyle.dimensions.labelToField
     }
 
     func setPlaceholder(

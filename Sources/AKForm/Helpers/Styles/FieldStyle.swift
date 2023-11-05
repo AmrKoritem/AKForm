@@ -11,12 +11,25 @@ public typealias IconStyleHandler = () -> (leading: IconStyle?, trailing: IconSt
 
 /// Used to determine field ui attributes.
 public struct FieldStyle {
+    public struct Dimensions {
+        let labelToField: CGFloat
+        let placeholderLeading: CGFloat
+        
+        public init(
+            labelToField: CGFloat = Default.Dimensions.labelToField,
+            placeholderLeading: CGFloat = Default.Dimensions.placeholderLeading
+        ) {
+            self.labelToField = labelToField
+            self.placeholderLeading = placeholderLeading
+        }
+    }
+    
     let backgroundColor: UIColor
     let textAttributes: [NSAttributedString.Key: Any]
     let placeholderAttributes: [NSAttributedString.Key: Any]?
     let borderStyle: BorderStyle
     let shadowStyle: ShadowStyle?
-    let placeholderLeading: CGFloat
+    let dimensions: Dimensions
     let iconStyleHandler: IconStyleHandler?
     
     /// Initializer for `FieldStyle`.
@@ -28,6 +41,7 @@ public struct FieldStyle {
     ///   - backgroundColor: Field background color.
     ///   - borderStyle: Field border style.
     ///   - shadowStyle: Field shadow style.
+    ///   - dimensions: Field margins & spaces.
     ///   - iconStyleHandler: Field trailing and leading icons styles.
     public init(
         font: UIFont = Default.Fonts.field,
@@ -37,7 +51,7 @@ public struct FieldStyle {
         backgroundColor: UIColor = Default.Colors.background,
         borderStyle: BorderStyle = BorderStyle(),
         shadowStyle: ShadowStyle? = nil,
-        placeholderLeading: CGFloat = Default.Dimensions.placeholderLeading,
+        dimensions: Dimensions = Dimensions(),
         iconStyleHandler: IconStyleHandler? = nil
     ) {
         textAttributes = StringAttributes.from(color: textColor, font: font, textAlignment: textAlignment)
@@ -45,7 +59,7 @@ public struct FieldStyle {
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
         self.shadowStyle = shadowStyle
-        self.placeholderLeading = placeholderLeading
+        self.dimensions = dimensions
         self.iconStyleHandler = iconStyleHandler
     }
     
@@ -56,6 +70,7 @@ public struct FieldStyle {
     ///   - backgroundColor: Field background color.
     ///   - borderStyle: Field border style.
     ///   - shadowStyle: Field shadow style.
+    ///   - dimensions: Field margins & spaces.
     ///   - iconStyleHandler: Field trailing and leading icons styles.
     public init(
         textAttributes: [NSAttributedString.Key: Any],
@@ -63,7 +78,7 @@ public struct FieldStyle {
         backgroundColor: UIColor = Default.Colors.background,
         borderStyle: BorderStyle = BorderStyle(),
         shadowStyle: ShadowStyle? = nil,
-        placeholderLeading: CGFloat = Default.Dimensions.placeholderLeading,
+        dimensions: Dimensions = Dimensions(),
         iconStyleHandler: IconStyleHandler? = nil
     ) {
         self.textAttributes = textAttributes.isEmpty ? StringAttributes.from(
@@ -75,7 +90,7 @@ public struct FieldStyle {
         self.backgroundColor = backgroundColor
         self.borderStyle = borderStyle
         self.shadowStyle = shadowStyle
-        self.placeholderLeading = placeholderLeading
+        self.dimensions = dimensions
         self.iconStyleHandler = iconStyleHandler
     }
 }
