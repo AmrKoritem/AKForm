@@ -40,9 +40,10 @@ class ButtonFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     
     func setDimenions() {
         guard let field = field else { return }
+        labelToFieldVerticalConstraint.constant = field.fieldStyle.dimensions.labelToField
+        fieldHeightConstraint.constant = field.fieldStyle.dimensions.fieldHeight
         button.titleEdgeInsets.left = field.fieldStyle.dimensions.placeholderLeading
         button.titleEdgeInsets.right = field.fieldStyle.dimensions.placeholderLeading
-        labelToFieldVerticalConstraint.constant = field.fieldStyle.dimensions.labelToField
     }
 
     func setPlaceholder(

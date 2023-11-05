@@ -55,8 +55,9 @@ class TextFieldTableViewCell: UITableViewCell, FieldTableViewCellProtocol {
     
     func setDimenions() {
         guard let field = field else { return }
-        textField.setHorizontalPadding(to: field.fieldStyle.dimensions.placeholderLeading)
         labelToFieldVerticalConstraint.constant = field.fieldStyle.dimensions.labelToField
+        textFieldHeightConstraint.constant = field.fieldStyle.dimensions.fieldHeight
+        textField.setHorizontalPadding(to: field.fieldStyle.dimensions.placeholderLeading)
     }
 
     func setPlaceholder(

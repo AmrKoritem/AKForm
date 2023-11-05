@@ -70,6 +70,8 @@ public struct Default {
         public static var separatorEndInset: CGFloat = 1
         /// Vertical space between the field label and the field itself.
         public static var labelToField: CGFloat = 8
+        /// Height of the field view.
+        public static var fieldHeight: CGFloat = 8
         /// Distance between the placeholder and its leading component (can be icon or edge of the field view). This property applies to the field text as well.
         public static var placeholderLeading: CGFloat = 8
         /// Horizontal space between the field icon and the edge of the field view. This property has no effect if the field doesn't have an icon.

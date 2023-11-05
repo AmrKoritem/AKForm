@@ -13,13 +13,16 @@ public typealias IconStyleHandler = () -> (leading: IconStyle?, trailing: IconSt
 public struct FieldStyle {
     public struct Dimensions {
         let labelToField: CGFloat
+        let fieldHeight: CGFloat
         let placeholderLeading: CGFloat
         
         public init(
             labelToField: CGFloat = Default.Dimensions.labelToField,
+            fieldHeight: CGFloat = Default.Dimensions.fieldHeight,
             placeholderLeading: CGFloat = Default.Dimensions.placeholderLeading
         ) {
             self.labelToField = labelToField
+            self.fieldHeight = fieldHeight
             self.placeholderLeading = placeholderLeading
         }
     }
